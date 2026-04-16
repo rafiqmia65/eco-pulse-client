@@ -1,5 +1,9 @@
+import React from 'react'
 
-
-export default function Home() {
-  return <>echo pulse app</>;
+const Home = () => {
+  return (
+    <div>Home</div>
+  )
 }
+
+export default Home

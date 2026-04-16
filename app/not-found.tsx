@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4">
       <div className="max-w-md w-full text-center border border-border bg-card rounded-2xl p-8 shadow-custom">
@@ -32,4 +32,6 @@ export default function NotFound() {
       </div>
     </div>
   );
-}
+};
+
+export default NotFound;
