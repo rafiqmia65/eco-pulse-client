@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import "./globals.css";
+import CustomButton from "@/components/shared/CustomButton/CustomButton";
 
 const NotFound = () => {
   return (
@@ -16,19 +17,14 @@ const NotFound = () => {
         </p>
 
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href="/"
-            className="px-5 py-2 rounded bg-primary text-primary-foreground hover:opacity-90 transition"
-          >
-            Go Home
-          </Link>
+          <CustomButton>
+            <Link href="/">Go Home</Link>
+          </CustomButton>
 
-          <button
-            onClick={() => window.history.back()}
-            className="px-5 py-2 rounded border border-border hover:bg-accent transition"
-          >
+          <CustomButton className="bg-transparent text-foreground border border-border hover:bg-accent">
+            <span onClick={() => window.history.back()}>Go Back</span>
             Go Back
-          </button>
+          </CustomButton>
         </div>
       </div>
     </div>
