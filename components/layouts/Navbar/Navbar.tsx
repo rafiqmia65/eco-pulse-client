@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
-import CustomButton from "@/components/shared/CustomButton/CustomButton";
+import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 
 const navLinks = [
   { href: "/", label: "Home" },

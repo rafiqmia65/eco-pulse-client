@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import "./globals.css";
-import CustomButton from "@/components/shared/CustomButton/CustomButton";
+import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 
 const NotFound = () => {
   return (

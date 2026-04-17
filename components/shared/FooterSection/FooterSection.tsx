@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Section from "@/components/shared/Section/Section";
+import Section from "@/components/shared/reusableComponents/Section";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 
 const FooterSection = () => {
