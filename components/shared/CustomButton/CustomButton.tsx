@@ -1,31 +1,40 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { cn } from "@/lib/utils";
+
+type Variant = "primary" | "outline" | "ghost";
 
 interface CustomButtonProps {
   children: React.ReactNode;
+  variant?: Variant;
   className?: string;
+  onClick?: () => void;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ children, className }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({
+  children,
+  variant = "primary",
+  className,
+  ...props
+}) => {
   return (
     <Button
-      className={`
-    bg-primary 
-    text-primary-foreground 
+      className={cn(
+        "transition-all duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed",
 
-    hover:bg-primary/90 
+        // Variants
+        variant === "primary" &&
+          "bg-primary text-primary-foreground hover:bg-primary/90",
 
-    transition-all duration-200 
-    cursor-pointer
+        variant === "outline" &&
+          "border border-border bg-transparent text-foreground hover:bg-accent",
 
-    focus-visible:ring-2 
-    focus-visible:ring-primary/50
+        variant === "ghost" &&
+          "bg-transparent text-muted-foreground hover:bg-accent hover:text-foreground",
 
-    disabled:opacity-50 
-    disabled:cursor-not-allowed
-
-    ${className || ""}
-  `}
+        className,
+      )}
+      {...props}
     >
       {children}
     </Button>

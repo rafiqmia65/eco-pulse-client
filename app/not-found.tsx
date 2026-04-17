@@ -21,8 +21,7 @@ const NotFound = () => {
             <Link href="/">Go Home</Link>
           </CustomButton>
 
-          <CustomButton className="bg-transparent text-foreground border border-border hover:bg-accent">
-            <span onClick={() => window.history.back()}>Go Back</span>
+          <CustomButton onClick={() => window.history.back()} variant="outline">
             Go Back
           </CustomButton>
         </div>

@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
+import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
+import CustomButton from "@/components/shared/CustomButton/CustomButton";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,14 +22,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/eco-pulse.png"
-              alt="EcoSpark Hub Logo"
-              width={160}
-              height={40}
-            />
-          </Link>
+          <BrandLogo />
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-6">
@@ -45,21 +39,17 @@ export default function Navbar() {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-3">
-            <ModeToggle />
+            <div className="hidden md:flex items-center gap-3">
+              <ModeToggle />
 
-            <Link
-              href="/login"
-              className="text-sm text-muted-foreground hover:text-primary"
-            >
-              Login
-            </Link>
+              <Link href="/login">
+                <CustomButton variant="ghost">Login</CustomButton>
+              </Link>
 
-            <Link
-              href="/register"
-              className="px-4 py-2 rounded- bg-primary text-primary-foreground text-sm hover:opacity-90 transition"
-            >
-              Register
-            </Link>
+              <Link href="/register">
+                <CustomButton>Register</CustomButton>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Button */}
