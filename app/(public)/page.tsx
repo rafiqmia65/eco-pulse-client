@@ -1,8 +1,11 @@
-import React from "react";
+import Hero from "@/components/modules/public/Home/Hero";
 
 const Home = async () => {
-  await new Promise((r) => setTimeout(r, 5000));
-  return <div>Home</div>;
+  return (
+    <>
+      <Hero />
+    </>
+  );
 };
 
 export default Home;

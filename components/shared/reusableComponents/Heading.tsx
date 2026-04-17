@@ -8,6 +8,7 @@ interface HeadingProps {
   subtitle?: string;
   variant?: Variant;
   className?: string;
+  highlight?: string;
 }
 
 const Heading: React.FC<HeadingProps> = ({
@@ -15,6 +16,7 @@ const Heading: React.FC<HeadingProps> = ({
   subtitle,
   variant = "h2",
   className,
+  highlight,
 }) => {
   const styles = {
     h1: "text-4xl md:text-5xl font-bold",
@@ -23,9 +25,25 @@ const Heading: React.FC<HeadingProps> = ({
     h4: "text-xl font-medium",
   };
 
+  const renderTitle = () => {
+    if (!highlight) return title;
+
+    const parts = title.split(highlight);
+
+    return (
+      <>
+        {parts[0]}
+        <span className="text-primary">{highlight}</span>
+        {parts[1]}
+      </>
+    );
+  };
+
   return (
     <div className={cn("space-y-2", className)}>
-      <h2 className={cn(styles[variant], "text-foreground")}>{title}</h2>
+      <h1 className={cn(styles[variant], "text-foreground")}>
+        {renderTitle()}
+      </h1>
 
       {subtitle && (
         <p className="text-muted-foreground text-sm max-w-xl">{subtitle}</p>
