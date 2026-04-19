@@ -1,4 +1,4 @@
-import { getTrendingIdeas } from "@/services/auth/home/home.services";
+import { getTrendingIdeas } from "@/services/home/home.services";
 import TrendingIdeas from "./TrendingIdeas/TrendingIdeas";
 
 const TrendingIdeasSection = async () => {

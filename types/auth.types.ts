@@ -1,6 +1,6 @@
 import { RoleType } from "@/constants/roles";
 
-export type AuthUser = {
+export interface AuthUser {
   id: string;
   name: string;
   email: string;
@@ -9,5 +9,12 @@ export type AuthUser = {
   image?: string | null;
   emailVerified: boolean;
   createdAt: string;
-  updateAt: string;
+  updatedAt: string;
+}
+
+export type RegisterPayload = {
+  name: string;
+  email: string;
+  password: string;
+  image?: string;
 };
