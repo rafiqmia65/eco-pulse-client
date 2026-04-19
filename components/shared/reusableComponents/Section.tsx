@@ -16,16 +16,17 @@ const Section: React.FC<SectionProps> = ({
     <section
       className={cn(
         "w-full py-10 md:py-14",
-        "container mx-auto px-4 sm:px-6 lg:px-8",
 
+        // FULL WIDTH BACKGROUND AREA
         variant === "default" && "bg-background",
         variant === "muted" && "bg-muted/30",
-        variant === "card" && "bg-card rounded-xl shadow-sm",
+        variant === "card" && "bg-card",
 
         className,
       )}
     >
-      {children}
+      {/* CENTERED CONTENT WRAPPER */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
     </section>
   );
 };

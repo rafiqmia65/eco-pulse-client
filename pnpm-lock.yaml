@@ -11,6 +11,12 @@ importers:
       '@t3-oss/env-nextjs':
         specifier: ^0.13.11
         version: 0.13.11(typescript@5.9.3)(zod@4.3.6)
+      '@tanstack/react-query':
+        specifier: ^5.99.1
+        version: 5.99.1(react@19.2.4)
+      '@tanstack/react-query-next-experimental':
+        specifier: ^5.99.1
+        version: 5.99.1(@tanstack/react-query@5.99.1(react@19.2.4))(next@16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       axios:
         specifier: ^1.15.0
         version: 1.15.0
@@ -1431,6 +1437,21 @@ packages:
 
   '@tailwindcss/postcss@4.2.2':
     resolution: {integrity: sha512-n4goKQbW8RVXIbNKRB/45LzyUqN451deQK0nzIeauVEqjlI49slUlgKYJM2QyUzap/PcpnS7kzSUmPb1sCRvYQ==}
+
+  '@tanstack/query-core@5.99.1':
+    resolution: {integrity: sha512-5E8xwxyWvr22yt7zvzP3KOZ5TUElOdVA45NP3/Ao1m9mvc9i18NLTDe9m3M00BH2DR5J20cv7xckMPlhKNs+vQ==}
+
+  '@tanstack/react-query-next-experimental@5.99.1':
+    resolution: {integrity: sha512-1Q91s5b69awYzSpgOdQNE0l02VVwxhLEGSZDGW4IvE5n6ezWbgnpnBysnzyay/vJ3xqT/jJgLGv6UxEF0FZdmQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.99.1
+      next: ^13 || ^14 || ^15 || ^16
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.99.1':
+    resolution: {integrity: sha512-akg5GdwW70lvJvCqVHZ7tizGyc+TATjUzKX9RuF1xknhEe/1leofXk7YLYbrbRsuhNbHJBAayaQUMvvOFZ5L5g==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@ts-morph/common@0.27.0':
     resolution: {integrity: sha512-Wf29UqxWDpc+i61k3oIOzcUfQt79PIT9y/MWfAGlrkjg6lBC1hwDECLXPVJAhWjiGbfBCxZd65F/LIZF3+jeJQ==}
@@ -5206,6 +5227,19 @@ snapshots:
       '@tailwindcss/oxide': 4.2.2
       postcss: 8.5.8
       tailwindcss: 4.2.2
+
+  '@tanstack/query-core@5.99.1': {}
+
+  '@tanstack/react-query-next-experimental@5.99.1(@tanstack/react-query@5.99.1(react@19.2.4))(next@16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)':
+    dependencies:
+      '@tanstack/react-query': 5.99.1(react@19.2.4)
+      next: 16.2.2(@babel/core@7.29.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.4
+
+  '@tanstack/react-query@5.99.1(react@19.2.4)':
+    dependencies:
+      '@tanstack/query-core': 5.99.1
+      react: 19.2.4
 
   '@ts-morph/common@0.27.0':
     dependencies:
