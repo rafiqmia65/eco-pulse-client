@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "outline" | "ghost";
 
-interface CustomButtonProps {
+interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: Variant;
   className?: string;

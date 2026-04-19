@@ -6,7 +6,7 @@ import { Mail, Phone, Leaf, Copyright } from "lucide-react";
 const FooterSection = () => {
   return (
     <footer className="border-t border-border">
-      <Section>
+      <Section variant="muted">
         {/* Top */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Brand */}
