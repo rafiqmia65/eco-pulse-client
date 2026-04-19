@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { ThumbsUp, MessageCircle, Lock, ThumbsDown } from "lucide-react";
@@ -25,8 +23,11 @@ const LatestIdeas = ({ ideas }: { ideas: IIdea[] }) => {
         <h2 className="text-3xl md:text-4xl font-bold text-foreground">
           Latest Ideas
         </h2>
-        <p className="text-muted-foreground mt-2 text-sm">
-          Explore real sustainability innovations from our community
+        <p className="text-muted-foreground mt-2 text-sm max-w-2xl mx-auto leading-relaxed">
+          Explore a curated collection of innovative sustainability ideas
+          contributed by developers, thinkers, and creators. Each idea focuses
+          on solving real-world environmental problems through technology,
+          creativity, and community-driven impact.
         </p>
       </div>
 
@@ -39,7 +40,7 @@ const LatestIdeas = ({ ideas }: { ideas: IIdea[] }) => {
           return (
             <div
               key={idea.id}
-              className="bg-card border border-border rounded-2xl overflow-hidden shadow-custom hover:shadow-lg transition flex flex-col"
+              className="bg-card border border-border overflow-hidden shadow-custom hover:shadow-lg transition flex flex-col"
             >
               {/* IMAGE */}
               <div className="relative">
@@ -52,13 +53,13 @@ const LatestIdeas = ({ ideas }: { ideas: IIdea[] }) => {
                 />
 
                 {idea.isPaid && (
-                  <span className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs px-2 py-1 rounded">
+                  <span className="absolute top-3 right-3 bg-primary text-primary-foreground text-xs px-2 py-1">
                     Premium
                   </span>
                 )}
 
                 {idea.isLocked && (
-                  <span className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                  <span className="absolute top-3 left-3 bg-black/70 text-white text-xs px-2 py-1 flex items-center gap-1">
                     <Lock size={12} /> Locked
                   </span>
                 )}
@@ -78,14 +79,14 @@ const LatestIdeas = ({ ideas }: { ideas: IIdea[] }) => {
 
                 {/* META */}
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span className="bg-muted px-2 py-1 rounded">
+                  <span className="bg-muted px-2 py-1">
                     {idea.category.name}
                   </span>
                   <span>{idea.author.name}</span>
                 </div>
 
                 {/* SOLUTION */}
-                <div className="bg-muted/40 border border-border rounded-lg p-3 text-xs text-muted-foreground">
+                <div className="bg-muted/40 border border-border p-3 text-xs text-muted-foreground">
                   <span className="font-medium text-foreground">
                     Solution: {idea.solution}
                   </span>
