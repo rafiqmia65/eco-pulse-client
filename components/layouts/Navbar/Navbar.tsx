@@ -1,96 +1,113 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
+import Image from "next/image";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
+import { getUserInfo } from "@/services/auth/auth.services";
+import { LogOut } from "lucide-react";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/ideas", label: "Ideas" },
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/about", label: "About Us" },
-  { href: "/blog", label: "Blog" },
-];
+export default async function Navbar() {
+  const user = await getUserInfo();
 
-export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const getInitial = (name?: string) =>
+    name?.trim()?.charAt(0).toUpperCase() || "U";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+          {/* LOGO */}
           <BrandLogo />
 
-          {/* Desktop Nav */}
+          {/* NAV LINKS */}
           <nav className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
+            <Link
+              href="/"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              Home
+            </Link>
+
+            <Link
+              href="/ideas"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              Ideas
+            </Link>
+
+            <Link
+              href="/about"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              About
+            </Link>
+
+            <Link
+              href="/blog"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              Blog
+            </Link>
+
+            {/* DASHBOARD → LAST */}
+            {user && (
               <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-primary transition"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right Side */}
-          <div className="hidden md:flex items-center gap-3">
-            <div className="hidden md:flex items-center gap-3">
-              <ModeToggle />
-
-              <Link href="/login">
-                <CustomButton variant="ghost">Login</CustomButton>
-              </Link>
-
-              <Link href="/register">
-                <CustomButton>Register</CustomButton>
-              </Link>
-            </div>
-          </div>
-
-          {/* Mobile Button */}
-          <button
-            className="md:hidden text-foreground"
-            onClick={() => setOpen(!open)}
-          >
-            ☰
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {open && (
-          <div className="md:hidden pb-4 flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
+                href="/dashboard"
                 className="text-sm text-muted-foreground hover:text-primary"
               >
-                {link.label}
+                Dashboard
               </Link>
-            ))}
+            )}
+          </nav>
 
-            <div className="flex items-center gap-3 pt-3">
-              <ModeToggle />
+          {/* RIGHT SIDE */}
+          <div className="flex items-center gap-3">
+            <ModeToggle />
 
-              <Link href="/login" className="text-sm">
-                Login
-              </Link>
+            {/* AUTH */}
+            {user ? (
+              <div className="flex items-center gap-3">
+                {/* USER IMAGE ONLY */}
+                <div className="w-9 h-9 rounded-full overflow-hidden border">
+                  {user.image ? (
+                    <Image
+                      src={user.image}
+                      alt="profile"
+                      width={36}
+                      height={36}
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-primary text-white text-sm font-bold">
+                      {getInitial(user.name)}
+                    </div>
+                  )}
+                </div>
 
-              <Link
-                href="/register"
-                className="px-3 py-2 rounded bg-primary text-primary-foreground text-sm"
-              >
-                Register
-              </Link>
-            </div>
+                {/* LOGOUT */}
+                <form action="/api/auth/logout" method="post">
+                  <CustomButton
+                    variant="ghost"
+                    className="flex items-center gap-2"
+                  >
+                    <LogOut size={16} />
+                    Logout
+                  </CustomButton>
+                </form>
+              </div>
+            ) : (
+              <>
+                <Link href="/login">
+                  <CustomButton variant="ghost">Login</CustomButton>
+                </Link>
+
+                <Link href="/register">
+                  <CustomButton>Register</CustomButton>
+                </Link>
+              </>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </header>
   );

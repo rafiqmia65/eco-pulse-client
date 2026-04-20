@@ -52,31 +52,35 @@ export async function getNewTokensWithRefreshToken(
 export async function getUserInfo() {
   try {
     const cookieStore = await cookies();
+
     const accessToken = cookieStore.get("accessToken")?.value;
-    const sessionToken = cookieStore.get("better-auth.session_token")?.value;
+    const refreshToken = cookieStore.get("refreshToken")?.value;
+    const session = cookieStore.get("better-auth.session_token")?.value;
 
-    if (!accessToken) {
-      return null;
-    }
+    if (!accessToken) return null;
 
-    const res = await fetch(`${BASE_API_URL}/auth/me`, {
+    const cookieHeader = [
+      `accessToken=${accessToken}`,
+      refreshToken ? `refreshToken=${refreshToken}` : "",
+      session ? `better-auth.session_token=${session}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+
+    const res = await fetch(`${BASE_API_URL}/api/v1/auth/me`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        Cookie: `accessToken=${accessToken}; better-auth.session_token=${sessionToken}`,
+        Cookie: cookieHeader,
       },
+      cache: "no-store",
     });
 
-    if (!res.ok) {
-      console.error("Failed to fetch user info:", res.status, res.statusText);
-      return null;
-    }
+    if (!res.ok) return null;
 
-    const { data } = await res.json();
-
-    return data;
-  } catch (error) {
-    console.error("Error fetching user info:", error);
+    const result = await res.json();
+    return result.data;
+  } catch (err) {
+    console.error("getUserInfo error:", err);
     return null;
   }
 }
