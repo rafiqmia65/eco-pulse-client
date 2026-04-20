@@ -7,7 +7,7 @@ import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
 
-import { registerUser } from "@/app/(public)/(auth)/register/_actions";
+import { registerUser } from "@/app/(public)/register/_actions";
 import { registerSchema, RegisterFormValues } from "@/zod/auth.validation";
 import { uploadImage } from "@/lib/upload/uploadImage";
 

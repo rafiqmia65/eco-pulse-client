@@ -51,6 +51,7 @@ const axiosInstance = async () => {
   const instance = axios.create({
     baseURL: API_BASE_URL,
     timeout: 30000,
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
       Cookie: cookieHeader,

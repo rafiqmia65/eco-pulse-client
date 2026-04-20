@@ -18,3 +18,31 @@ export type RegisterPayload = {
   password: string;
   image?: string;
 };
+export type LoginPayload = {
+  email: string;
+  password: string;
+};
+
+export interface LoginResponse {
+  success: boolean;
+  message: string;
+  data: {
+    token: string;
+    accessToken: string;
+    refreshToken: string;
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      role: RoleType;
+      status: string;
+      emailVerified: boolean;
+      image: string | null;
+      createdAt: string;
+      updatedAt: string;
+      needPasswordChange: boolean;
+      isDeleted: boolean;
+      deletedAt: string | null;
+    };
+  };
+}
