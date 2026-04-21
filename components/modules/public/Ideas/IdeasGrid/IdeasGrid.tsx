@@ -16,7 +16,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-import { Filter, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 
 export default function IdeasGrid() {
@@ -255,37 +255,51 @@ export default function IdeasGrid() {
           )}
 
           {/* ================= PAGINATION ================= */}
-          <div className="flex justify-center gap-2 pt-6 flex-wrap">
+          <div className="flex justify-center items-center gap-2 pt-6 flex-wrap">
+            {/* PREV */}
             <button
               disabled={meta?.page === 1}
               onClick={() => updateQuery("page", String((meta?.page || 1) - 1))}
-              className="px-3 py-1 border rounded disabled:opacity-40"
+              className="flex items-center gap-1 px-3 py-1.5 border rounded-lg text-sm 
+    hover:bg-muted transition-all duration-200 
+    disabled:opacity-40 disabled:cursor-not-allowed"
             >
+              <ChevronLeft size={14} />
               Prev
             </button>
 
+            {/* PAGE NUMBERS */}
             {generatePages().map((p, i) =>
               p === "..." ? (
-                <span key={i}>...</span>
+                <span key={i} className="px-2 text-muted-foreground">
+                  ...
+                </span>
               ) : (
                 <button
                   key={i}
                   onClick={() => updateQuery("page", String(p))}
-                  className={`px-3 py-1 border rounded ${
-                    meta?.page === p ? "bg-primary text-white" : ""
-                  }`}
+                  className={`px-3 py-1.5 border rounded-lg text-sm transition-all duration-200
+        ${
+          meta?.page === p
+            ? "bg-primary text-primary-foreground border-primary shadow-md ring-2 ring-primary/40 scale-105"
+            : "hover:bg-muted"
+        }`}
                 >
                   {p}
                 </button>
               ),
             )}
 
+            {/* NEXT */}
             <button
               disabled={meta?.page === meta?.totalPages}
               onClick={() => updateQuery("page", String((meta?.page || 1) + 1))}
-              className="px-3 py-1 border rounded disabled:opacity-40"
+              className="flex items-center gap-1 px-3 py-1.5 border rounded-lg text-sm 
+    hover:bg-muted transition-all duration-200 
+    disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Next
+              <ChevronRight size={14} />
             </button>
           </div>
         </div>
