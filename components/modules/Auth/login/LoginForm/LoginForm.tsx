@@ -9,7 +9,7 @@ import { loginSchema, LoginFormValues } from "@/zod/auth.validation";
 import AppField from "@/components/shared/form/AppField";
 import AppPasswordField from "@/components/shared/form/AppPasswordField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
-import { loginAction } from "@/app/(public)/login/_actions";
+import { loginAction } from "@/app/(PublicLayout)/(Auth)/login/_actions";
 
 const LoginForm = () => {
   const router = useRouter();

@@ -7,13 +7,13 @@ import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
 
-import { registerUser } from "@/app/(public)/register/_actions";
 import { registerSchema, RegisterFormValues } from "@/zod/auth.validation";
 import { uploadImage } from "@/lib/upload/uploadImage";
 
 import AppField from "@/components/shared/form/AppField";
 import AppPasswordField from "@/components/shared/form/AppPasswordField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
+import { registerUser } from "@/app/(PublicLayout)/(Auth)/register/_actions";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -43,7 +43,7 @@ const RegisterForm = () => {
           return;
         }
 
-        toast.success("Account created successfully 🎉");
+        toast.success("Account created successfully");
 
         form.reset();
         setPreview(null);

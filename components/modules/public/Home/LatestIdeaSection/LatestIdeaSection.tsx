@@ -1,4 +1,4 @@
-import { getLatestIdeas } from "@/services/home/home.services";
+import { getLatestIdeas } from "@/services/public/home.services";
 import LatestIdeas from "./LatestIdeas/LatestIdeas";
 
 const LatestIdeaSection = async () => {
