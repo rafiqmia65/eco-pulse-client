@@ -1,4 +1,4 @@
-import { Idea } from "@/types/ideas.types";
+import { Idea } from "@/types/public/ideas.types";
 import { ThumbsUp, ThumbsDown, MessageCircle, Lock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

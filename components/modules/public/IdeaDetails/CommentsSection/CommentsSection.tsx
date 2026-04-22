@@ -1,50 +1,112 @@
-import { IComment, ICommentsMeta } from "@/types/public/ideaDetails.types";
+"use client";
+
+import { useState, useRef } from "react";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+
 import CommentItem from "./CommentItem/CommentItem";
 import CommentForm from "./CommentForm/CommentForm";
 import Section from "@/components/shared/reusableComponents/Section";
-import CommentPaginationClient from "./CommentPagination/CommentPaginationClient";
+import Pagination from "@/components/shared/Pagination/Pagination";
+import { Skeleton } from "@/components/ui/skeleton";
+
+import { fetchIdeaCommentsById } from "@/app/(PublicLayout)/ideas/[id]/_actions";
+import { IComment } from "@/types/public/ideaDetails.types";
+import { RoleType } from "@/constants/roles";
+
+interface CommentsSectionProps {
+  ideaId: string;
+  currentUserId?: string;
+  currentUserRole?: RoleType;
+}
 
 export default function CommentsSection({
   ideaId,
-  comments,
-  meta,
-}: {
-  ideaId: string;
-  comments: IComment[];
-  meta: ICommentsMeta;
-}) {
+  currentUserId,
+  currentUserRole,
+}: CommentsSectionProps) {
+  const [page, setPage] = useState(1);
+  const [replyTo, setReplyTo] = useState<string | null>(null);
+
+  const formRef = useRef<HTMLTextAreaElement>(null);
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["idea-comments", ideaId, page],
+    queryFn: () => fetchIdeaCommentsById(ideaId, page),
+    placeholderData: keepPreviousData,
+  });
+
+  const comments: IComment[] = data?.data?.comments ?? [];
+  const meta = data?.data?.commentsMeta;
+
+  const handleReply = (id: string) => {
+    setReplyTo((prev) => (prev === id ? null : id));
+
+    setTimeout(() => {
+      formRef.current?.focus();
+    }, 100);
+  };
+
   return (
     <Section variant="muted">
       <div className="space-y-6">
         {/* HEADER */}
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between">
           <h3 className="text-lg font-semibold">Discussion</h3>
           <span className="text-xs text-muted-foreground">
-            {meta.total} comments
+            {meta?.total ?? 0} comments
           </span>
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          {/* FORM */}
-          <div className="lg:col-span-1 lg:sticky lg:top-24">
-            <CommentForm ideaId={ideaId} />
+        {/* LOADING */}
+        {isFetching && !isLoading && (
+          <p className="text-sm text-muted-foreground">Updating...</p>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* FIXED STICKY */}
+          <div className="lg:col-span-1">
+            <div className="lg:sticky lg:top-24">
+              <CommentForm
+                ideaId={ideaId}
+                replyTo={replyTo}
+                inputRef={formRef}
+                clearReply={() => setReplyTo(null)}
+              />
+            </div>
           </div>
 
           {/* COMMENTS */}
           <div className="lg:col-span-2 space-y-4">
-            {comments.length === 0 ? (
-              <div className="p-6 text-sm text-muted-foreground border rounded-xl bg-card">
-                No comments yet. Be the first to start discussion.
+            {isLoading ? (
+              <div className="space-y-4">
+                <Skeleton className="h-20 w-full" />
+                <Skeleton className="h-20 w-full" />
+                <Skeleton className="h-20 w-full" />
               </div>
+            ) : comments.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No comments yet. Be the first to share your thoughts!</p>
             ) : (
-              comments.map((comment) => (
-                <CommentItem key={comment.id} comment={comment} />
-              ))
+              <div className="space-y-4">
+                {comments.map((c) => (
+                  <CommentItem
+                    key={c.id}
+                    ideaId={ideaId}
+                    comment={c}
+                    onReply={handleReply}
+                    currentUserId={currentUserId}
+                    currentUserRole={currentUserRole}
+                  />
+                ))}
+              </div>
             )}
 
-            {/* CLIENT PAGINATION */}
-            <CommentPaginationClient meta={meta} />
+            {/* PAGINATION */}
+            {meta && meta.totalPages > 1 && (
+              <Pagination
+                meta={{ page, totalPages: meta.totalPages }}
+                onPageChange={(newPage) => setPage(newPage)}
+              />
+            )}
           </div>
         </div>
       </div>

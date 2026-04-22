@@ -16,8 +16,9 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-import { ChevronLeft, ChevronRight, Filter, X } from "lucide-react";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
+import { Filter, X } from "lucide-react";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 export default function IdeasGrid() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function IdeasGrid() {
 
   const [open, setOpen] = useState(false);
 
-  // ================= ALL PARAMS (SAFE + COMPLETE) =================
+  // ================= PARAMS =================
   const params = useMemo(() => {
     return {
       searchTerm: searchParams.get("searchTerm") || "",
@@ -33,7 +34,7 @@ export default function IdeasGrid() {
       isPaid: searchParams.get("isPaid") || "",
       sortBy: searchParams.get("sortBy") || "latest",
       page: Number(searchParams.get("page") || 1),
-      limit: 9,
+      limit: 10,
     };
   }, [searchParams]);
 
@@ -46,13 +47,13 @@ export default function IdeasGrid() {
   const [search, setSearch] = useState(params.searchTerm);
   const [debouncedSearch, setDebouncedSearch] = useState(params.searchTerm);
 
-  // debounce search
+  // ================= SEARCH DEBOUNCE =================
   useEffect(() => {
     const delay = setTimeout(() => setDebouncedSearch(search), 500);
     return () => clearTimeout(delay);
   }, [search]);
 
-  // update query helper
+  // ================= FIXED QUERY UPDATE =================
   const updateQuery = useCallback(
     (key: string, value: string) => {
       const newParams = new URLSearchParams(searchParams.toString());
@@ -60,7 +61,10 @@ export default function IdeasGrid() {
       if (!value) newParams.delete(key);
       else newParams.set(key, value);
 
-      newParams.set("page", "1");
+      // FIX: pagination click  page reset
+      if (key !== "page") {
+        newParams.set("page", "1");
+      }
 
       router.replace(`/ideas?${newParams.toString()}`, {
         scroll: false,
@@ -69,48 +73,19 @@ export default function IdeasGrid() {
     [router, searchParams],
   );
 
-  // sync search
+  // ================= SYNC SEARCH =================
   useEffect(() => {
     if (debouncedSearch !== params.searchTerm) {
       updateQuery("searchTerm", debouncedSearch);
     }
   }, [debouncedSearch, params.searchTerm, updateQuery]);
 
-  // reset filters
+  // ================= RESET =================
   const resetFilters = () => {
     setSearch("");
     setDebouncedSearch("");
     router.replace("/ideas", { scroll: false });
     setOpen(false);
-  };
-
-  // pagination
-  const generatePages = () => {
-    const total = meta?.totalPages || 1;
-    const current = meta?.page || 1;
-    const pages: (number | string)[] = [];
-
-    if (total <= 5) {
-      for (let i = 1; i <= total; i++) pages.push(i);
-    } else {
-      pages.push(1);
-
-      if (current > 3) pages.push("...");
-
-      for (
-        let i = Math.max(2, current - 1);
-        i <= Math.min(total - 1, current + 1);
-        i++
-      ) {
-        pages.push(i);
-      }
-
-      if (current < total - 2) pages.push("...");
-
-      pages.push(total);
-    }
-
-    return pages;
   };
 
   const IdeaCardSkeleton = () => (
@@ -140,7 +115,7 @@ export default function IdeasGrid() {
       )}
 
       <div className="flex flex-col lg:flex-row gap-6 items-start">
-        {/* ================= SIDEBAR ================= */}
+        {/* ================= SIDEBAR (UNCHANGED UI) ================= */}
         <div
           className={`
             fixed lg:static top-0 left-0 h-full lg:h-auto
@@ -254,54 +229,13 @@ export default function IdeasGrid() {
             </div>
           )}
 
-          {/* ================= PAGINATION ================= */}
-          <div className="flex justify-center items-center gap-2 pt-6 flex-wrap">
-            {/* PREV */}
-            <button
-              disabled={meta?.page === 1}
-              onClick={() => updateQuery("page", String((meta?.page || 1) - 1))}
-              className="flex items-center gap-1 px-3 py-1.5 border rounded-lg text-sm 
-    hover:bg-muted transition-all duration-200 
-    disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft size={14} />
-              Prev
-            </button>
-
-            {/* PAGE NUMBERS */}
-            {generatePages().map((p, i) =>
-              p === "..." ? (
-                <span key={i} className="px-2 text-muted-foreground">
-                  ...
-                </span>
-              ) : (
-                <button
-                  key={i}
-                  onClick={() => updateQuery("page", String(p))}
-                  className={`px-3 py-1.5 border rounded-lg text-sm transition-all duration-200
-        ${
-          meta?.page === p
-            ? "bg-primary text-primary-foreground border-primary shadow-md ring-2 ring-primary/40 scale-105"
-            : "hover:bg-muted"
-        }`}
-                >
-                  {p}
-                </button>
-              ),
-            )}
-
-            {/* NEXT */}
-            <button
-              disabled={meta?.page === meta?.totalPages}
-              onClick={() => updateQuery("page", String((meta?.page || 1) + 1))}
-              className="flex items-center gap-1 px-3 py-1.5 border rounded-lg text-sm 
-    hover:bg-muted transition-all duration-200 
-    disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Next
-              <ChevronRight size={14} />
-            </button>
-          </div>
+          {/* ================= PAGINATION (ORIGINAL UI) ================= */}
+          {meta && (
+            <Pagination
+              meta={meta}
+              onPageChange={(page) => updateQuery("page", String(page))}
+            />
+          )}
         </div>
       </div>
     </div>

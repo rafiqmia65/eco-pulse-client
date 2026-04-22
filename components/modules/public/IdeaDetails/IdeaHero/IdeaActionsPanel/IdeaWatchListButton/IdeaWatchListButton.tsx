@@ -31,21 +31,16 @@ export default function IdeaWatchListButton({
 
     const prevState = isInWatchList;
 
-    // ================= OPTIMISTIC UPDATE =================
     setIsInWatchList(!prevState);
+    setCount((prev) => (prevState ? prev - 1 : prev + 1));
 
-    setCount((prev: number) => (prevState ? prev - 1 : prev + 1));
-
-    // ================= SERVER SYNC =================
     startTransition(async () => {
       try {
         const res = await toggleWatchListAction(idea.id);
-
         toast.success(res?.message || "Watchlist updated");
       } catch (error: any) {
         toast.error(error?.message || "Watchlist failed");
 
-        // ================= ROLLBACK =================
         setIsInWatchList(prevState);
         setCount(idea.watchListCount ?? 0);
       }
@@ -59,8 +54,8 @@ export default function IdeaWatchListButton({
       className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl border transition
         ${
           isInWatchList
-            ? "bg-yellow-100 text-yellow-600 border-yellow-400"
-            : "hover:bg-muted"
+            ? "bg-accent text-foreground border-border"
+            : "hover:bg-muted text-foreground"
         }
         ${disabled ? "opacity-50 cursor-not-allowed" : ""}
       `}

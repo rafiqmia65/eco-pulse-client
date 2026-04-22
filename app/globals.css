@@ -192,10 +192,34 @@
   html {
     @apply font-sans;
   }
+  button,
+  a {
+    @apply cursor-pointer;
+  }
 }
 
 @layer utilities {
   .shadow-custom {
     box-shadow: 0 2px 8px var(--shad);
+  }
+
+  /* Custom Scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: color-mix(in srgb, var(--primary) 5%, transparent);
+    border-radius: 10px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--primary) 30%, transparent);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--primary) 50%, transparent);
+    border: 2px solid transparent;
+    background-clip: content-box;
   }
 }

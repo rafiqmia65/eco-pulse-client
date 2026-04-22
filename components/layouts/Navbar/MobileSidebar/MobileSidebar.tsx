@@ -7,8 +7,10 @@ import { X } from "lucide-react";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 import LogOutButton from "@/components/shared/LogOutButton/LogOutButton";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
-import { AuthUser } from "@/types/auth.types";
+
 import { getDefaultDashboardRoute } from "@/lib/authUtils";
+import { usePathname } from "next/navigation";
+import { AuthUser } from "@/types/public/auth.types";
 
 export default function MobileSidebar({
   open,
@@ -21,6 +23,7 @@ export default function MobileSidebar({
   user: AuthUser | null;
   navLinks: { href: string; label: string }[];
 }) {
+  const pathname = usePathname();
   const getInitial = (name?: string) =>
     name?.trim()?.charAt(0).toUpperCase() || "U";
 
@@ -68,23 +71,35 @@ export default function MobileSidebar({
         </div>
 
         {/* NAV LINKS */}
-        <nav className="flex-1 overflow-y-auto px-4 py-5 space-y-4 bg-background">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={onClose}
-              className="block text-base text-muted-foreground hover:text-primary transition"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav className="flex-1 overflow-y-auto px-4 py-5 space-y-2 bg-background">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={onClose}
+                className={`block px-4 py-2 text-base rounded-lg transition-all ${
+                  isActive
+                    ? "text-primary font-semibold bg-primary/10 border-l-4 border-primary"
+                    : "text-muted-foreground hover:text-primary hover:bg-muted"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
 
           {user && (
             <Link
               href={getDefaultDashboardRoute(user.role)}
               onClick={onClose}
-              className="block text-base text-muted-foreground hover:text-primary transition"
+              className={`block px-4 py-2 text-base rounded-lg transition-all ${
+                pathname.includes("/dashboard")
+                  ? "text-primary font-semibold bg-primary/10 border-l-4 border-primary"
+                  : "text-muted-foreground hover:text-primary hover:bg-muted"
+              }`}
             >
               Dashboard
             </Link>

@@ -12,7 +12,7 @@ import {
   Star,
 } from "lucide-react";
 
-import { IIdea } from "@/types/home.types";
+import { IIdea } from "@/types/public/home.types";
 import Section from "@/components/shared/reusableComponents/Section";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 

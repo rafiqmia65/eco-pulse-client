@@ -22,8 +22,8 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
 
   const voteDisabled = !canVote(idea.accessLevel) || isOwnerAdmin;
 
-  const isUpvoted = currentVote === 1;
-  const isDownvoted = currentVote === -1;
+  const isUpvoted = !voteDisabled && currentVote === 1;
+  const isDownvoted = !voteDisabled && currentVote === -1;
 
   const voteScore = upvotes - downvotes;
 
@@ -32,7 +32,6 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
 
     const prevVote = currentVote;
 
-    // ================= OPTIMISTIC UPDATE =================
     if (prevVote === value) {
       setCurrentVote(null);
 
@@ -50,16 +49,13 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
       }
     }
 
-    // ================= SERVER CALL =================
     startTransition(async () => {
       try {
         const res = await toggleVoteAction(idea.id, value);
-
         toast.success(res?.message || "Vote updated");
       } catch (error: any) {
         toast.error(error?.message || "Vote failed");
 
-        // rollback
         setUpvotes(idea.upvotes);
         setDownvotes(idea.downvotes);
         setCurrentVote(idea.currentUserVote);
@@ -68,52 +64,59 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
   };
 
   return (
-    <div className="bg-card border border-border shadow-custom rounded-2xl p-5 flex flex-col gap-5">
-      {/* ================= STATS ================= */}
+    <div className="space-y-4">
+      {/* STATS */}
       <div className="grid grid-cols-3 gap-3 text-sm">
         {/* UP */}
         <div
-          className={`rounded-xl px-3 py-2 flex items-center justify-between border transition
-          ${isUpvoted ? "bg-green-100 border-green-300" : "bg-muted"}`}
+          className={`rounded-xl px-3 py-2 flex justify-between border transition
+          ${
+            isUpvoted
+              ? "bg-muted text-foreground border-border"
+              : voteDisabled
+                ? "bg-muted opacity-60"
+                : "bg-card hover:bg-muted"
+          }`}
         >
-          <ThumbsUp
-            size={16}
-            className={isUpvoted ? "text-green-600" : "text-muted-foreground"}
-          />
+          <ThumbsUp size={16} />
           <span>{upvotes}</span>
         </div>
 
         {/* DOWN */}
         <div
-          className={`rounded-xl px-3 py-2 flex items-center justify-between border transition
-          ${isDownvoted ? "bg-red-100 border-red-300" : "bg-muted"}`}
+          className={`rounded-xl px-3 py-2 flex justify-between border transition
+          ${
+            isDownvoted
+              ? "bg-muted text-foreground border-border"
+              : voteDisabled
+                ? "bg-muted opacity-60"
+                : "bg-card hover:bg-muted"
+          }`}
         >
-          <ThumbsDown
-            size={16}
-            className={isDownvoted ? "text-red-600" : "text-muted-foreground"}
-          />
+          <ThumbsDown size={16} />
           <span>{downvotes}</span>
         </div>
 
         {/* SCORE */}
-        <div className="bg-muted rounded-xl px-3 py-2 flex items-center justify-between">
+        <div className="bg-muted rounded-xl px-3 py-2 flex justify-between text-foreground">
           <Users size={16} />
           <span>{voteScore}</span>
         </div>
       </div>
 
-      {/* ================= ACTIONS ================= */}
+      {/* ACTIONS */}
       <div className="space-y-2">
         <button
           disabled={voteDisabled}
           onClick={() => handleVote(1)}
-          className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl border transition
+          className={`w-full py-2 rounded-xl border flex items-center justify-center gap-2 transition
           ${
             isUpvoted
-              ? "bg-green-100 text-green-600 border-green-400"
-              : "hover:bg-muted"
-          }
-          ${voteDisabled && "opacity-50 cursor-not-allowed"}`}
+              ? "bg-muted text-foreground border-border"
+              : voteDisabled
+                ? "bg-muted text-muted-foreground cursor-not-allowed"
+                : "hover:bg-muted"
+          }`}
         >
           <ThumbsUp size={16} />
           {isUpvoted ? "Upvoted" : "Upvote"}
@@ -122,13 +125,14 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
         <button
           disabled={voteDisabled}
           onClick={() => handleVote(-1)}
-          className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl border transition
+          className={`w-full py-2 rounded-xl border flex items-center justify-center gap-2 transition
           ${
             isDownvoted
-              ? "bg-red-100 text-red-600 border-red-400"
-              : "hover:bg-muted"
-          }
-          ${voteDisabled && "opacity-50 cursor-not-allowed"}`}
+              ? "bg-muted text-foreground border-border"
+              : voteDisabled
+                ? "bg-muted text-muted-foreground cursor-not-allowed"
+                : "hover:bg-muted"
+          }`}
         >
           <ThumbsDown size={16} />
           {isDownvoted ? "Downvoted" : "Downvote"}

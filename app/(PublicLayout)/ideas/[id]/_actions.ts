@@ -1,42 +1,53 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { httpClient } from "@/lib/axios/httpClient";
-import { IIdeaAccessResponse } from "@/types/public/ideaDetails.types";
+import {
+  IIdeaAccessData,
+  IComment,
+  ICommentsMeta,
+} from "@/types/public/ideaDetails.types";
 
 export const fetchIdeaById = async (id: string) => {
-  try {
-    const res = await httpClient.get<IIdeaAccessResponse>(
-      `/api/v1/ideas/access/${id}`,
-    );
-
-    console.log(res);
-
-    return res; // already ApiResponse
-  } catch (error: any) {
-    console.error("Fetch Idea Error:", error?.response?.data || error.message);
-    return null;
-  }
+  return await httpClient.get<IIdeaAccessData>(`/api/v1/ideas/access/${id}`);
 };
 
 export const toggleVoteAction = async (ideaId: string, value: 1 | -1) => {
-  try {
-    const res = await httpClient.post(`/api/v1/votes/${ideaId}`, {
-      value,
-    });
-
-    return res;
-  } catch (error: any) {
-    throw new Error(error?.response?.data?.message || "Vote failed");
-  }
+  return await httpClient.post(`/api/v1/votes/${ideaId}`, {
+    value,
+  });
 };
 
 export const toggleWatchListAction = async (ideaId: string) => {
-  try {
-    const res = await httpClient.post(`/api/v1/watchlist/toggle/${ideaId}`, {});
+  return await httpClient.post(`/api/v1/watchlist/toggle/${ideaId}`, {});
+};
 
-    return res;
-  } catch (error: any) {
-    throw new Error(error?.response?.data?.message || "Watchlist failed");
-  }
+export const fetchIdeaCommentsById = async (id: string, page: number = 1) => {
+  return await httpClient.get<{
+    comments: IComment[];
+    commentsMeta: ICommentsMeta;
+  }>(`/api/v1/comments/${id}`, {
+    params: { page, limit: 5 },
+  });
+};
+
+export const createCommentAction = async (
+  ideaId: string,
+  payload: { content: string; parentId?: string },
+) => {
+  return await httpClient.post(`/api/v1/comments/${ideaId}`, payload);
+};
+
+export const updateCommentAction = async (
+  commentId: string,
+  payload: { content: string },
+) => {
+  return await httpClient.patch(`/api/v1/comments/${commentId}`, payload);
+};
+
+export const deleteCommentAction = async (commentId: string) => {
+  return await httpClient.delete(`/api/v1/comments/${commentId}`);
+};
+
+export const restoreCommentAction = async (commentId: string) => {
+  return await httpClient.patch(`/api/v1/comments/restore/${commentId}`, {});
 };

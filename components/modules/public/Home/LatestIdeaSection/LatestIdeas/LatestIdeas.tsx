@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ThumbsUp, MessageCircle, Lock, ThumbsDown } from "lucide-react";
-import { IIdea } from "@/types/home.types";
+import { IIdea } from "@/types/public/home.types";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 import Section from "@/components/shared/reusableComponents/Section";
 

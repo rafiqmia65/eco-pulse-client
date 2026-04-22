@@ -7,7 +7,6 @@ export default async function IdeaDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  console.log("ID FROM URL:", id);
 
   const res = await fetchIdeaById(id);
 

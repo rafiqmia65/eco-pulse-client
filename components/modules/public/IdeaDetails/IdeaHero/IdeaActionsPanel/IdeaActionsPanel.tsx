@@ -1,47 +1,52 @@
-
-
 import { ShoppingCart } from "lucide-react";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import { canPurchase, isOwnerOrAdmin } from "@/lib/access-utils";
+
 import IdeaVoteActions from "./IdeaVoteActions/IdeaVoteActions";
 import IdeaWatchListButton from "./IdeaWatchListButton/IdeaWatchListButton";
+import { getAccessMeta } from "./getAccessMeta/getAccessMeta";
 
 export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
   const isOwnerAdmin = isOwnerOrAdmin(idea.accessLevel);
-
   const purchaseDisabled = !canPurchase(idea.accessLevel) || isOwnerAdmin;
+
+  const accessMeta = getAccessMeta(idea.accessLevel);
 
   return (
     <div className="bg-card border border-border shadow-custom rounded-2xl p-5 flex flex-col gap-5">
+      {/* ACCESS BADGE */}
+      <div className="flex justify-between items-center">
+        <span
+          className={`text-xs px-3 py-1 rounded-full font-medium bg-muted text-foreground`}
+        >
+          {accessMeta.label}
+        </span>
+      </div>
+
       {/* HEADER */}
       <div>
-        <h2 className="text-xl font-semibold">{idea.title}</h2>
+        <h2 className="text-xl font-semibold text-foreground">{idea.title}</h2>
 
         <div className="text-muted-foreground mt-2 space-y-1">
           <p>
-            <span className="text-foreground font-medium">Author:</span>{" "}
+            <span className="font-medium text-foreground">Author:</span>{" "}
             {idea.author.name}
           </p>
           <p>
-            <span className="text-foreground font-medium">Category:</span>{" "}
+            <span className="font-medium text-foreground">Category:</span>{" "}
             {idea.category.name}
           </p>
         </div>
       </div>
 
       <IdeaVoteActions idea={idea} />
-
-      {/* ACTIONS */}
-      <div className="space-y-2">
-        {/* BOOKMARK */}
-        <IdeaWatchListButton idea={idea} />
-      </div>
+      <IdeaWatchListButton idea={idea} />
 
       {/* PURCHASE */}
-      <div className="pt-3 border-t space-y-2">
+      <div className="pt-3 border-t border-border space-y-2">
         <button
           disabled={purchaseDisabled}
-          className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-medium transition
+          className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition
           ${
             purchaseDisabled
               ? "bg-muted text-muted-foreground cursor-not-allowed"

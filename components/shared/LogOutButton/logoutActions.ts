@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 import { cookies } from "next/headers";
@@ -20,14 +21,13 @@ export async function logoutAction() {
       },
     });
   } catch (error) {
-    console.error("Logout failed:", error);
   }
 
-  // ❗ Frontend cookie clear (extra safe)
+  // Frontend cookie clear (extra safe)
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
   cookieStore.delete("better-auth.session_token");
 
-  // 🔥 redirect after logout
+  // redirect after logout
   redirect("/login");
 }

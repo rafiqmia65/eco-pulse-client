@@ -1,9 +1,12 @@
-import { AuthUser } from "@/types/auth.types";
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 import LogOutButton from "@/components/shared/LogOutButton/LogOutButton";
 import { getDefaultDashboardRoute } from "@/lib/authUtils";
+import { usePathname } from "next/navigation";
+import { AuthUser } from "@/types/public/auth.types";
 
 export default function DesktopNav({
   user,
@@ -12,26 +15,39 @@ export default function DesktopNav({
   user: AuthUser | null;
   navLinks: { href: string; label: string }[];
 }) {
+  const pathname = usePathname();
   const getInitial = (name?: string) => name?.charAt(0).toUpperCase() || "U";
 
   return (
     <div className="hidden md:flex flex-1 items-center justify-between ml-10">
       {/* CENTER NAV */}
       <nav className="flex items-center gap-6 mx-auto">
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="text-sm text-muted-foreground hover:text-primary transition"
-          >
-            {link.label}
-          </Link>
-        ))}
+        {navLinks.map((link) => {
+          const isActive = pathname === link.href;
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-sm transition font-medium ${
+                isActive
+                  ? "text-primary border-b-2 border-primary"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
 
         {user && (
           <Link
             href={getDefaultDashboardRoute(user.role)}
-            className="text-sm text-muted-foreground hover:text-primary"
+            className={`text-sm transition font-medium ${
+              pathname.includes("/dashboard")
+                ? "text-primary border-b-2 border-primary"
+                : "text-muted-foreground hover:text-primary"
+            }`}
           >
             Dashboard
           </Link>
