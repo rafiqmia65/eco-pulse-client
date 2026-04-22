@@ -28,6 +28,9 @@ export interface IIdeaAccessData {
 
   createdAt: string;
 
+  isInWatchList?: boolean;
+  watchListCount?: number;
+
   solution: string;
   isLocked: boolean;
   accessLevel:

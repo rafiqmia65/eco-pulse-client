@@ -1,14 +1,14 @@
-"use client";
 
-import { Bookmark, ShoppingCart } from "lucide-react";
+
+import { ShoppingCart } from "lucide-react";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import { canPurchase, isOwnerOrAdmin } from "@/lib/access-utils";
 import IdeaVoteActions from "./IdeaVoteActions/IdeaVoteActions";
+import IdeaWatchListButton from "./IdeaWatchListButton/IdeaWatchListButton";
 
 export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
   const isOwnerAdmin = isOwnerOrAdmin(idea.accessLevel);
 
-  const actionDisabled = isOwnerAdmin;
   const purchaseDisabled = !canPurchase(idea.accessLevel) || isOwnerAdmin;
 
   return (
@@ -34,14 +34,7 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
       {/* ACTIONS */}
       <div className="space-y-2">
         {/* BOOKMARK */}
-        <button
-          disabled={actionDisabled}
-          className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl border transition
-          hover:bg-muted
-          ${actionDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
-        >
-          <Bookmark size={16} /> Watchlist
-        </button>
+        <IdeaWatchListButton idea={idea} />
       </div>
 
       {/* PURCHASE */}

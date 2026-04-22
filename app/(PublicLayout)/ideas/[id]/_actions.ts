@@ -30,3 +30,13 @@ export const toggleVoteAction = async (ideaId: string, value: 1 | -1) => {
     throw new Error(error?.response?.data?.message || "Vote failed");
   }
 };
+
+export const toggleWatchListAction = async (ideaId: string) => {
+  try {
+    const res = await httpClient.post(`/api/v1/watchlist/toggle/${ideaId}`, {});
+
+    return res;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || "Watchlist failed");
+  }
+};
