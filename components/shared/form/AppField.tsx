@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import type { AnyFieldApi } from "@tanstack/react-form";
 import CustomInput from "../reusableComponents/CustomInput";
+import CustomTextarea from "../reusableComponents/CustomTextArea";
+
 
 type InputType =
   | "text"
@@ -24,6 +26,9 @@ interface AppFieldProps {
   prepend?: React.ReactNode;
   append?: React.ReactNode;
   description?: string;
+  textarea?: boolean;
+  rows?: number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const getErrorMessage = (err: unknown): string => {
@@ -44,6 +49,9 @@ const AppField: React.FC<AppFieldProps> = ({
   prepend,
   append,
   description,
+  textarea = false,
+  rows = 4,
+  onChange,
 }) => {
   const meta = field.state.meta;
 
@@ -75,22 +83,41 @@ const AppField: React.FC<AppFieldProps> = ({
           </div>
         )}
 
-        <CustomInput
-          id={field.name}
-          name={field.name}
-          type={type}
-          value={field.state.value}
-          placeholder={placeholder}
-          disabled={disabled}
-          onBlur={field.handleBlur}
-          onChange={(e) => field.handleChange(e.target.value)}
-          aria-invalid={!!error}
-          className={cn(
-            prepend && "pl-10",
-            append && "pr-10",
-            error && "border-red-500 focus-visible:ring-red-500/30",
-          )}
-        />
+        {textarea ? (
+          <CustomTextarea
+            id={field.name}
+            name={field.name}
+            value={field.state.value}
+            placeholder={placeholder}
+            disabled={disabled}
+            onBlur={field.handleBlur}
+            onChange={onChange || ((e) => field.handleChange(e.target.value))}
+            aria-invalid={!!error}
+            rows={rows}
+            className={cn(
+              prepend && "pl-10",
+              append && "pr-10",
+              error && "border-red-500 focus-visible:ring-red-500/30",
+            )}
+          />
+        ) : (
+          <CustomInput
+            id={field.name}
+            name={field.name}
+            type={type}
+            value={field.state.value}
+            placeholder={placeholder}
+            disabled={disabled}
+            onBlur={field.handleBlur}
+            onChange={onChange || ((e) => field.handleChange(e.target.value))}
+            aria-invalid={!!error}
+            className={cn(
+              prepend && "pl-10",
+              append && "pr-10",
+              error && "border-red-500 focus-visible:ring-red-500/30",
+            )}
+          />
+        )}
 
         {append && (
           <div className="absolute right-3 inset-y-0 flex items-center">
