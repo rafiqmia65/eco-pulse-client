@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/themeProvider";
-import Navbar from "@/components/layouts/Navbar/Navbar";
-import FooterSection from "@/components/shared/FooterSection/FooterSection";
+
 import QueryProviders from "@/providers/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -42,9 +41,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
             {children}
-            <FooterSection />
           </ThemeProvider>
         </QueryProviders>
       </body>

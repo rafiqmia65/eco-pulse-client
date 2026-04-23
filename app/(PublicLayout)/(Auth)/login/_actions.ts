@@ -5,7 +5,7 @@ import { httpClient } from "@/lib/axios/httpClient";
 import { setTokenInCookies } from "@/lib/tokenUtils";
 
 import { loginSchema } from "@/zod/auth.validation";
-import { LoginPayload, LoginResponse } from "@/types/auth.types";
+import { LoginPayload, LoginResponse } from "@/types/public/auth.types";
 
 export const loginAction = async (payload: LoginPayload) => {
   const parsed = loginSchema.safeParse(payload);

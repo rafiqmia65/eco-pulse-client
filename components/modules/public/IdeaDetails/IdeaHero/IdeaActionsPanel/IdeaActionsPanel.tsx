@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import { canPurchase, isOwnerOrAdmin } from "@/lib/access-utils";
@@ -5,8 +8,10 @@ import { canPurchase, isOwnerOrAdmin } from "@/lib/access-utils";
 import IdeaVoteActions from "./IdeaVoteActions/IdeaVoteActions";
 import IdeaWatchListButton from "./IdeaWatchListButton/IdeaWatchListButton";
 import { getAccessMeta } from "./getAccessMeta/getAccessMeta";
+import PurchaseModal from "../../PurchaseModal";
 
 export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
   const isOwnerAdmin = isOwnerOrAdmin(idea.accessLevel);
   const purchaseDisabled = !canPurchase(idea.accessLevel) || isOwnerAdmin;
 
@@ -45,6 +50,7 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
       {/* PURCHASE */}
       <div className="pt-3 border-t border-border space-y-2">
         <button
+          onClick={() => setIsPurchaseModalOpen(true)}
           disabled={purchaseDisabled}
           className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition
           ${
@@ -61,6 +67,12 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
           {idea.isPaid ? `Price: $${idea.price}` : "Free Idea"}
         </p>
       </div>
+
+      <PurchaseModal
+        idea={idea}
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+      />
     </div>
   );
 }

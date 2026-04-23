@@ -1,5 +1,5 @@
 import { getUserInfo } from "@/services/auth/auth.services";
-import { AuthUser } from "@/types/auth.types";
+import { AuthUser } from "@/types/public/auth.types";
 import NavbarClient from "./NavbarClient";
 
 const navLinks = [

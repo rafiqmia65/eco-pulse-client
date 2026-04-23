@@ -1,16 +1,68 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import confetti from "canvas-confetti";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import IdeaHero from "./IdeaHero/IdeaHero";
 import IdeaContent from "./IdeaContent/IdeaContent";
 import CommentsSection from "./CommentsSection/CommentsSection";
-import { getUserInfo } from "@/services/auth/auth.services";
 
-export default async function IdeaDetails({ idea }: { idea?: IIdeaAccessData }) {
-  if (!idea) return <p className="p-10">Idea not found</p>;
+import { RoleType } from "@/constants/roles";
 
-  const user = await getUserInfo();
+export default function IdeaDetails({ 
+  idea, 
+  currentUserId, 
+  currentUserRole 
+}: { 
+  idea?: IIdeaAccessData;
+  currentUserId?: string;
+  currentUserRole?: RoleType;
+}) {
+  const searchParams = useSearchParams();
+  const isSuccess = searchParams.get("success") === "true";
+  const isCanceled = searchParams.get("canceled") === "true";
+
+  useEffect(() => {
+    if (isSuccess) {
+      // Trigger Confetti
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+
+      const interval: any = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+      }, 250);
+
+      toast.success("Payment Successful!", {
+        description: "You now have full access to this idea's strategic content.",
+        duration: 5000,
+      });
+    }
+
+    if (isCanceled) {
+      toast.error("Payment Canceled", {
+        description: "The purchase process was not completed.",
+      });
+    }
+  }, [isSuccess, isCanceled]);
+
+  if (!idea) return <p className="p-10 text-center">Idea not found</p>;
 
   return (
-    <div>
+    <div className="relative">
       {/* HERO SECTION */}
       <IdeaHero idea={idea} />
 
@@ -19,8 +71,8 @@ export default async function IdeaDetails({ idea }: { idea?: IIdeaAccessData }) 
 
       <CommentsSection
         ideaId={idea.id}
-        currentUserId={user?.id}
-        currentUserRole={user?.role}
+        currentUserId={currentUserId}
+        currentUserRole={currentUserRole}
       />
     </div>
   );

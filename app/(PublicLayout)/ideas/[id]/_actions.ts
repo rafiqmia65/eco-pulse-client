@@ -51,3 +51,10 @@ export const deleteCommentAction = async (commentId: string) => {
 export const restoreCommentAction = async (commentId: string) => {
   return await httpClient.patch(`/api/v1/comments/restore/${commentId}`, {});
 };
+
+export const createIdeaPurchaseAction = async (ideaId: string) => {
+  return await httpClient.post<{ checkoutUrl: string }>(
+    `/api/v1/payments/idea/${ideaId}`,
+    {},
+  );
+};
