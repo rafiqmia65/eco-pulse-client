@@ -19,3 +19,11 @@ export const getMyIdeas = async (params: IQueryParams) => {
     params,
   });
 };
+
+export const submitIdea = async (id: string) => {
+  return await httpClient.patch<{
+    success: boolean;
+    message: string;
+    data: IIdea;
+  }>(`/api/v1/ideas/${id}/submit`, {});
+};

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   MoreVertical,
@@ -6,8 +7,12 @@ import {
   Eye,
   Calendar,
   Layers,
+  Send,
+  Loader2,
 } from "lucide-react";
 import { IIdea } from "@/types/memberTypes/myAllIdeas.types";
+import { useSubmitIdea } from "@/app/(DashboardLayout)/dashboard/my-ideas/_actions";
+import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +38,27 @@ const statusStyles = {
 };
 
 const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
+  const { mutate: submitIdea, isPending: isSubmitting } = useSubmitIdea();
+  const [submittingId, setSubmittingId] = React.useState<string | null>(null);
+
+  const handleSubmit = (id: string) => {
+    setSubmittingId(id);
+    submitIdea(id, {
+      onSuccess: () => {
+        toast.success("Idea submitted for review successfully");
+        setSubmittingId(null);
+      },
+      onError: (error: any) => {
+        toast.error(
+          error?.response?.data?.message ||
+            error?.message ||
+            "Failed to submit idea",
+        );
+        setSubmittingId(null);
+      },
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="bg-card border rounded-2xl overflow-hidden shadow-sm">
@@ -136,6 +162,20 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
               </td>
               <td className="p-4 text-right">
                 <div className="flex items-center justify-end gap-2">
+                  {idea.status === "DRAFT" && (
+                    <button
+                      onClick={() => handleSubmit(idea.id as string)}
+                      disabled={isSubmitting && submittingId === idea.id}
+                      className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {isSubmitting && submittingId === idea.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <Send className="w-3.5 h-3.5" />
+                      )}
+                      <span>Publish</span>
+                    </button>
+                  )}
                   <Link
                     href={`/ideas/${idea.slug || idea.id}`}
                     className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-muted rounded-lg transition-colors border"
@@ -152,8 +192,22 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="end"
-                      className="w-40 rounded-xl"
+                      className="w-48 rounded-xl"
                     >
+                      {idea.status === "DRAFT" && (
+                        <DropdownMenuItem
+                          onClick={() => handleSubmit(idea.id as string)}
+                          disabled={isSubmitting && submittingId === idea.id}
+                          className="gap-2 cursor-pointer rounded-lg text-primary focus:text-primary font-semibold"
+                        >
+                          {isSubmitting && submittingId === idea.id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Send className="w-4 h-4" />
+                          )}{" "}
+                          Submit for Review
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuItem className="gap-2 cursor-pointer rounded-lg">
                         <Link
                           href={`/dashboard/ideas/${idea.slug || idea.id}`}
