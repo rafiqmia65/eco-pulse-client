@@ -69,7 +69,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
 
   const memberLinks: NavItem[] = [
     { title: "Create Idea", href: "/dashboard/ideas-create", icon: PlusCircle },
-    { title: "Pending Ideas", href: "/dashboard/ideas/pending", icon: Clock },
+    { title: "My All Ideas", href: "/dashboard/my-ideas", icon: Lightbulb },
     {
       title: "Under Review",
       href: "/dashboard/ideas/under-review",
