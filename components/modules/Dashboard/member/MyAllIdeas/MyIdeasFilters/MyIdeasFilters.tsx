@@ -47,7 +47,7 @@ const MyIdeasFilters: React.FC<MyIdeasFiltersProps> = ({
 
       <div className="flex flex-wrap gap-3 items-center">
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-[140px] md:w-[160px] h-11 rounded-xl">
+          <SelectTrigger className="w-35 md:w-40 h-11 rounded-xl">
             <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>
@@ -60,7 +60,7 @@ const MyIdeasFilters: React.FC<MyIdeasFiltersProps> = ({
         </Select>
 
         <Select value={categoryId} onValueChange={setCategoryId}>
-          <SelectTrigger className="w-[160px] md:w-[180px] h-11 rounded-xl">
+          <SelectTrigger className="w-40 md:w-45 h-11 rounded-xl">
             <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent>

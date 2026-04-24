@@ -1,4 +1,4 @@
-import IdeasCreate from "@/components/modules/Dashboard/IdeasCreate/IdeasCreate";
+import IdeasCreate from "@/components/modules/Dashboard/member/IdeasCreate/IdeasCreate";
 
 const IdeasCreatePage = () => {
   return <IdeasCreate />;

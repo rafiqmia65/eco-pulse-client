@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import MyIdeasHeader from "@/components/modules/Dashboard/MyAllIdeas/MyIdeasHeader/MyIdeasHeader";
-import MyIdeasFilters from "@/components/modules/Dashboard/MyAllIdeas/MyIdeasFilters/MyIdeasFilters";
-import MyIdeasTable from "@/components/modules/Dashboard/MyAllIdeas/MyIdeasTable/MyIdeasTable";
+import MyIdeasHeader from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasHeader/MyIdeasHeader";
+import MyIdeasFilters from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasFilters/MyIdeasFilters";
+import MyIdeasTable from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasTable/MyIdeasTable";
 import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 
 import { useDebounce } from "@/hooks/useDebounce";

@@ -8,7 +8,7 @@ import confetti from "canvas-confetti";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import IdeaHero from "./IdeaHero/IdeaHero";
 import IdeaContent from "./IdeaContent/IdeaContent";
-import CommentsSection from "./CommentsSection/CommentsSection";
+import CommentsSection from "@/components/shared/Comments/CommentsSection";
 
 import { RoleType } from "@/constants/roles";
 

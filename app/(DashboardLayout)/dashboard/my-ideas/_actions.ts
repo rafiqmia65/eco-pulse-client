@@ -7,7 +7,7 @@ import { IQueryParams } from "@/types/memberTypes/myAllIdeas.types";
 
 export const useMyIdeas = (params: IQueryParams) => {
   return useQuery({
-    queryKey: ["my-ideas", params],
+    queryKey: ["ideas", params],
     queryFn: () => getMyIdeas(params),
   });
 };
@@ -18,7 +18,7 @@ export const useSubmitIdea = () => {
   return useMutation({
     mutationFn: (id: string) => submitIdea(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["my-ideas"] });
+      queryClient.invalidateQueries({ queryKey: ["ideas"] });
     },
   });
 };

@@ -9,7 +9,7 @@ import Section from "@/components/shared/reusableComponents/Section";
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { fetchIdeaCommentsById } from "@/app/(PublicLayout)/ideas/[id]/_actions";
+import { useIdeaComments } from "@/hooks/useComments";
 import { IComment } from "@/types/public/ideaDetails.types";
 import { RoleType } from "@/constants/roles";
 
@@ -29,11 +29,7 @@ export default function CommentsSection({
 
   const formRef = useRef<HTMLTextAreaElement>(null);
 
-  const { data, isLoading, isFetching } = useQuery({
-    queryKey: ["idea-comments", ideaId, page],
-    queryFn: () => fetchIdeaCommentsById(ideaId, page),
-    placeholderData: keepPreviousData,
-  });
+  const { data, isLoading, isFetching } = useIdeaComments(ideaId, page);
 
   const comments: IComment[] = data?.data?.comments ?? [];
   const meta = data?.data?.commentsMeta;

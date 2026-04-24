@@ -2,15 +2,8 @@
 import { IComment } from "@/types/public/ideaDetails.types";
 import CommentActions from "../CommentActions/CommentActions";
 import { MessageCircle } from "lucide-react";
+import { useUpdateComment, useDeleteComment, useRestoreComment } from "@/hooks/useComments";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import {
-  updateCommentAction,
-  deleteCommentAction,
-  restoreCommentAction,
-} from "@/app/(PublicLayout)/ideas/[id]/_actions";
-
 import CommentHeader from "./CommentHeader";
 import CommentEditForm from "./CommentEditForm";
 import DeleteCommentDialog from "./DeleteCommentDialog";
@@ -37,58 +30,10 @@ export default function CommentItem({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const queryClient = useQueryClient();
 
-  const updateComment = useMutation({
-    mutationFn: async ({ id, content }: { id: string; content: string }) => {
-      const res = await updateCommentAction(id, { content });
-      if (!res?.success)
-        throw new Error(res?.message || "Failed to update comment");
-      return res;
-    },
-    onSuccess: (data) => {
-      toast.success(data.message || "Comment updated successfully");
-      setEditingId(null);
-      setEditContent("");
-      queryClient.invalidateQueries({ queryKey: ["idea-comments", ideaId] });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || "Failed to update comment");
-    },
-  });
-
-  const deleteComment = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await deleteCommentAction(id);
-      if (!res?.success)
-        throw new Error(res?.message || "Failed to delete comment");
-      return res;
-    },
-    onSuccess: (data) => {
-      toast.success(data.message || "Comment deleted successfully");
-      setDeleteId(null);
-      queryClient.invalidateQueries({ queryKey: ["idea-comments", ideaId] });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || "Failed to delete comment");
-    },
-  });
-
-  const restoreComment = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await restoreCommentAction(id);
-      if (!res?.success)
-        throw new Error(res?.message || "Failed to restore comment");
-      return res;
-    },
-    onSuccess: (data) => {
-      toast.success(data.message || "Comment restored successfully");
-      queryClient.invalidateQueries({ queryKey: ["idea-comments", ideaId] });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || "Failed to restore comment");
-    },
-  });
+  const updateComment = useUpdateComment(ideaId);
+  const deleteComment = useDeleteComment(ideaId);
+  const restoreComment = useRestoreComment(ideaId);
 
   const handleEdit = (id: string, content: string) => {
     setEditingId(id);
@@ -97,7 +42,15 @@ export default function CommentItem({
 
   const handleUpdate = () => {
     if (!editContent.trim() || !editingId) return;
-    updateComment.mutate({ id: editingId, content: editContent });
+    updateComment.mutate(
+      { id: editingId, content: editContent },
+      {
+        onSuccess: () => {
+          setEditingId(null);
+          setEditContent("");
+        },
+      }
+    );
   };
 
   const handleDeleteClick = (id: string) => {
@@ -106,7 +59,9 @@ export default function CommentItem({
 
   const confirmDelete = () => {
     if (deleteId) {
-      deleteComment.mutate(deleteId);
+      deleteComment.mutate(deleteId, {
+        onSuccess: () => setDeleteId(null),
+      });
     }
   };
 

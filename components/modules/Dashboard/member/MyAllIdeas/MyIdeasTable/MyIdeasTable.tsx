@@ -90,7 +90,7 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
 
   return (
     <div className="bg-card border rounded-2xl overflow-hidden shadow-sm overflow-x-auto">
-      <table className="w-full text-left border-collapse min-w-[800px]">
+      <table className="w-full text-left border-collapse min-w-200">
         <thead>
           <tr className="bg-muted/30 border-b">
             <th className="p-4 text-sm font-semibold">Idea Details</th>
@@ -120,7 +120,7 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="font-semibold text-sm truncate max-w-[250px]">
+                    <p className="font-semibold text-sm truncate max-w-62.5">
                       {idea.title}
                     </p>
                     <div className="flex items-center gap-2 mt-1 text-[11px] text-muted-foreground font-medium uppercase tracking-wider">
@@ -177,7 +177,7 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
                     </button>
                   )}
                   <Link
-                    href={`/ideas/${idea.slug || idea.id}`}
+                    href={`/dashboard/ideas/${idea.id}`}
                     className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-muted rounded-lg transition-colors border"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -210,7 +210,7 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
                       )}
                       <DropdownMenuItem className="gap-2 cursor-pointer rounded-lg">
                         <Link
-                          href={`/dashboard/ideas/${idea.slug || idea.id}`}
+                          href={`/dashboard/ideas/${idea.id}`}
                           className="flex items-center gap-2 w-full"
                         >
                           <Eye className="w-4 h-4" /> View Details

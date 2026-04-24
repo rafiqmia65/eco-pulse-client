@@ -1,4 +1,4 @@
-import MyAllIdeas from "@/components/modules/Dashboard/MyAllIdeas/MyAllIdeas";
+import MyAllIdeas from "@/components/modules/Dashboard/member/MyAllIdeas/MyAllIdeas";
 import React from "react";
 
 const page = () => {

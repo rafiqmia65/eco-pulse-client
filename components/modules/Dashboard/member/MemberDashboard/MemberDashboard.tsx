@@ -56,7 +56,7 @@ export default function MemberDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight bg-linear-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-extrabold tracking-tight text-primary bg-clip-text">
             Dashboard Analytics
           </h1>
           <p className="text-muted-foreground mt-1 text-lg font-medium">

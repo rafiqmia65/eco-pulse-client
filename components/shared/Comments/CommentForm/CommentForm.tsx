@@ -4,9 +4,7 @@
 import { useState, RefObject } from "react";
 import { Send, Loader2, MessageSquare, X } from "lucide-react";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { createCommentAction } from "@/app/(PublicLayout)/ideas/[id]/_actions";
+import { useCreateComment } from "@/hooks/useComments";
 
 interface Props {
   ideaId: string;
@@ -22,31 +20,22 @@ export default function CommentForm({
   clearReply,
 }: Props) {
   const [comment, setComment] = useState("");
-  const queryClient = useQueryClient();
-
-  const createComment = useMutation({
-    mutationFn: async () => {
-      const res = await createCommentAction(ideaId, {
-        content: comment,
-        parentId: replyTo || undefined,
-      });
-      if (!res.success) throw new Error(res.message);
-      return res;
-    },
-    onSuccess: (data) => {
-      toast.success(data.message || "Comment created successfully");
-      setComment("");
-      clearReply?.();
-      queryClient.invalidateQueries({ queryKey: ["idea-comments", ideaId] });
-    },
-    onError: (error: any) => {
-      toast.error(error.message || "Failed to create comment");
-    },
-  });
+  const createComment = useCreateComment(ideaId);
 
   const handleSubmit = () => {
     if (!comment.trim()) return;
-    createComment.mutate();
+    createComment.mutate(
+      {
+        content: comment,
+        parentId: replyTo || undefined,
+      },
+      {
+        onSuccess: () => {
+          setComment("");
+          clearReply?.();
+        },
+      }
+    );
   };
 
   return (

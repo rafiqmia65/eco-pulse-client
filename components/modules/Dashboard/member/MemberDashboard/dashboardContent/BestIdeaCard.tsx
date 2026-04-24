@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { BestIdea } from "@/types/memberTypes/DashboardStats.types";
+import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 
 export const BestIdeaCard = ({ bestIdea }: { bestIdea: BestIdea | null }) => {
   return (
@@ -48,12 +49,11 @@ export const BestIdeaCard = ({ bestIdea }: { bestIdea: BestIdea | null }) => {
                 This project is currently your most successful initiative. High
                 engagement suggests strong community interest.
               </p>
-              <Link
-                href={`/ideas/${bestIdea.slug}`}
-                className="flex items-center justify-between p-4 text-sm font-bold rounded-xl bg-secondary hover:bg-primary hover:text-primary-foreground transition-all duration-300 group/btn"
-              >
-                Go to Project
-                <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+              <Link href={`/dashboard/ideas/${bestIdea.id}`}>
+                <CustomButton className="flex items-center justify-center w-full">
+                  Go to Project
+                  <ChevronRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                </CustomButton>
               </Link>
             </div>
           </div>
