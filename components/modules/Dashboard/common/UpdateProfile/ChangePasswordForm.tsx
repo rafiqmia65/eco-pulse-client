@@ -2,7 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
-import { Lock, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
 import {
   changePasswordSchema,

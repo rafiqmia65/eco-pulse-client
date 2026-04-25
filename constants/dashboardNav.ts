@@ -71,21 +71,6 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
     { title: "Create Idea", href: "/dashboard/ideas-create", icon: PlusCircle },
     { title: "My All Ideas", href: "/dashboard/my-ideas", icon: Lightbulb },
     {
-      title: "Under Review",
-      href: "/dashboard/ideas/under-review",
-      icon: Search,
-    },
-    {
-      title: "Approved Ideas",
-      href: "/dashboard/ideas/approved",
-      icon: CheckCircle,
-    },
-    {
-      title: "Rejected Ideas",
-      href: "/dashboard/ideas/rejected",
-      icon: XCircle,
-    },
-    {
       title: "Purchased Ideas",
       href: "/dashboard/purchased-ideas",
       icon: ShoppingBag,
