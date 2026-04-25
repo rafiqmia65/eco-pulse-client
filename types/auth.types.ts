@@ -46,3 +46,14 @@ export interface LoginResponse {
     };
   };
 }
+export interface UpdateProfilePayload {
+  name?: string;
+  email?: string;
+  image?: string;
+}
+
+export interface ChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
