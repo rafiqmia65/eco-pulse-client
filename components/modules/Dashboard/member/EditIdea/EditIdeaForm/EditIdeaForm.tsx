@@ -80,14 +80,10 @@ export default function EditIdeaForm({ idea }: { idea: IIdeaDetailsByOwner }) {
           return toast.error(parsed.error.issues[0]?.message);
         }
 
-        const res: any = await updateMutation.mutateAsync({
+        await updateMutation.mutateAsync({
           id: idea.id,
           payload,
         });
-
-        if (res && res.success === false) {
-          return toast.error(res.message || "Failed to update idea");
-        }
 
         toast.success("Idea updated successfully");
         router.push(`/dashboard/ideas/${idea.id}`);

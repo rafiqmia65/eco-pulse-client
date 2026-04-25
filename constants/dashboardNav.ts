@@ -91,7 +91,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
       icon: ShoppingBag,
     },
     { title: "My Votes", href: "/dashboard/votes", icon: ThumbsUp },
-    { title: "Watchlist", href: "/dashboard/watchlist", icon: Bookmark },
+    { title: "Watchlist Ideas", href: "/dashboard/watchlist-ideas", icon: Bookmark },
   ];
 
   const sections: NavSection[] = [{ label: "Account", items: commonLinks }];
