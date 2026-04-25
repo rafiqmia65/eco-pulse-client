@@ -19,7 +19,7 @@ import { RecentPurchasesTable } from "./dashboardContent/RecentPurchasesTable";
  */
 export default function MemberDashboard() {
   const { data, isLoading, isError } = useUserStats();
-  const stats = data as DashboardStats;
+  const stats = data?.data as DashboardStats;
 
   if (isLoading) {
     return (

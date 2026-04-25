@@ -2,16 +2,17 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 import { useForm, useStore } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { useCategories } from "@/hooks/useCategories";
-import { useCreateIdea } from "@/app/(DashboardLayout)/dashboard/ideas-create/_actions";
+import { useIdeaManagement } from "@/hooks/useIdeaManagement";
 import { uploadImage } from "@/lib/upload/uploadImage";
 import { createIdeaSchema } from "@/zod/ideas.validation";
+import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
 
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
@@ -30,31 +31,31 @@ const slugify = (text: string) =>
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-");
 
-const IdeasCreateForm = () => {
+export default function EditIdeaForm({ idea }: { idea: IIdeaDetailsByOwner }) {
   const router = useRouter();
-  const { mutateAsync } = useCreateIdea();
+  const { updateMutation } = useIdeaManagement();
   const { data: categories } = useCategories();
 
-  const [preview, setPreview] = useState<string | null>(null);
-  const [isPaid, setIsPaid] = useState(false);
-  const [autoSlug, setAutoSlug] = useState(true);
+  const [preview, setPreview] = useState<string | null>(idea.image || null);
+  const [isPaid, setIsPaid] = useState(idea.isPaid);
+  const [autoSlug, setAutoSlug] = useState(false);
   const [submitType, setSubmitType] = useState<"draft" | "publish" | null>(
     null,
   );
-  const isDraftRef = useRef(false);
+  const isDraftRef = useRef(idea.status === "DRAFT");
 
   const form = useForm({
     defaultValues: {
-      title: "",
-      slug: "",
-      problem: "",
-      solution: "",
-      description: "",
-      image: "",
-      categoryId: "",
-      isPaid: false,
-      price: Number,
-      isDraft: false,
+      title: idea.title,
+      slug: idea.slug || "",
+      problem: idea.problem,
+      solution: idea.solution,
+      description: idea.description,
+      image: idea.image || "",
+      categoryId: idea.categoryId,
+      isPaid: idea.isPaid,
+      price: idea.price || "",
+      isDraft: idea.status === "DRAFT",
     },
 
     onSubmit: async ({ value }) => {
@@ -62,7 +63,7 @@ const IdeasCreateForm = () => {
         const payload: any = {
           ...value,
           slug: value.slug || null,
-          image: value.image, // Keep empty string so Zod min(1) catches it
+          image: value.image,
           isPaid,
           isDraft: isDraftRef.current,
         };
@@ -79,25 +80,17 @@ const IdeasCreateForm = () => {
           return toast.error(parsed.error.issues[0]?.message);
         }
 
-        const res = await mutateAsync(payload);
+        const res: any = await updateMutation.mutateAsync({
+          id: idea.id,
+          payload,
+        });
 
-        if (!res?.success) {
-          return toast.error(res?.message || "Request failed");
+        if (res && res.success === false) {
+          return toast.error(res.message || "Failed to update idea");
         }
 
-        toast.success(res.message || "Success");
-
-        form.reset();
-        setPreview(null);
-        setIsPaid(false);
-        setAutoSlug(true);
-        isDraftRef.current = false;
-
-        if (res?.data?.id) {
-          router.push(`/dashboard/ideas/${res.data.id}`);
-        } else {
-          router.push("/dashboard/all-ideas");
-        }
+        toast.success("Idea updated successfully");
+        router.push(`/dashboard/ideas/${idea.id}`);
       } catch (err: any) {
         toast.error(
           err?.response?.data?.message ||
@@ -110,7 +103,6 @@ const IdeasCreateForm = () => {
     },
   });
 
-  // slug auto generate
   const titleValue = useStore(form.store, (s) => s.values.title);
   const setFieldValue = form.setFieldValue;
 
@@ -121,7 +113,6 @@ const IdeasCreateForm = () => {
     }
   }, [titleValue, autoSlug, setFieldValue]);
 
-  // image upload
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -134,7 +125,7 @@ const IdeasCreateForm = () => {
       form.setFieldValue("image", url);
       toast.success("Image uploaded");
     } catch {
-      setPreview(null);
+      setPreview(idea.image || null);
       toast.error("Image upload failed");
     }
   };
@@ -145,7 +136,7 @@ const IdeasCreateForm = () => {
         e.preventDefault();
         form.handleSubmit();
       }}
-      className="space-y-5"
+      className="space-y-5 max-w-4xl mx-auto"
     >
       <div className="bg-card border rounded-2xl p-6 shadow-lg space-y-5">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -172,12 +163,11 @@ const IdeasCreateForm = () => {
           <div className="flex-1 text-center md:text-left space-y-2">
             <div className="flex items-center justify-center md:justify-start gap-2">
               <Upload className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-semibold">Add your best idea</h2>
+              <h2 className="text-xl font-semibold">Edit your idea</h2>
             </div>
 
             <p className="text-sm text-muted-foreground max-w-md">
-              Share something impactful with the community. Your idea could
-              inspire real-world solutions.
+              Update the details of your idea to keep the community informed.
             </p>
           </div>
         </div>
@@ -323,7 +313,7 @@ const IdeasCreateForm = () => {
               <AppSubmitButton
                 type="button"
                 isPending={isSubmitting && submitType === "draft"}
-                pendingLabel="Drafting..."
+                pendingLabel="Saving Draft..."
                 disabled={isSubmitting}
                 variant="outline"
                 onClick={() => {
@@ -333,7 +323,7 @@ const IdeasCreateForm = () => {
                 }}
                 className="flex-1 px-4 py-2 rounded-xl border font-medium transition"
               >
-                Save to Draft
+                Save as Draft
               </AppSubmitButton>
 
               {/* PUBLISH */}
@@ -356,6 +346,4 @@ const IdeasCreateForm = () => {
       </div>
     </form>
   );
-};
-
-export default IdeasCreateForm;
+}

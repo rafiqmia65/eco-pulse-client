@@ -8,7 +8,7 @@ import {
 import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
 
 export const createIdea = async (payload: IIdea) => {
-  return await httpClient.post<{ success: boolean; message: string }>(
+  return await httpClient.post<{ success: boolean; message: string; data?: { id: string } }>(
     "/api/v1/ideas",
     payload,
   );

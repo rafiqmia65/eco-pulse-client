@@ -7,7 +7,7 @@ import MyIdeasTable from "@/components/modules/Dashboard/member/MyAllIdeas/MyIde
 import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 
 import { useDebounce } from "@/hooks/useDebounce";
-import { useMyIdeas } from "@/app/(DashboardLayout)/dashboard/my-ideas/_actions";
+import { useMyIdeas } from "@/app/(DashboardLayout)/dashboard/_actions";
 import { IIdeaCounts } from "@/types/memberTypes/myAllIdeas.types";
 
 const MyAllIdeas = () => {

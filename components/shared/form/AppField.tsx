@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import type { AnyFieldApi } from "@tanstack/react-form";
 import CustomInput from "../reusableComponents/CustomInput";
 import CustomTextarea from "../reusableComponents/CustomTextArea";
+import InputEditor from "@/components/shared/InputEditor/InputEditor";
 
 
 type InputType =
@@ -27,6 +28,7 @@ interface AppFieldProps {
   append?: React.ReactNode;
   description?: string;
   textarea?: boolean;
+  editor?: boolean;
   rows?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
@@ -50,6 +52,7 @@ const AppField: React.FC<AppFieldProps> = ({
   append,
   description,
   textarea = false,
+  editor = false,
   rows = 4,
   onChange,
 }) => {
@@ -83,7 +86,14 @@ const AppField: React.FC<AppFieldProps> = ({
           </div>
         )}
 
-        {textarea ? (
+        {editor ? (
+          <div className={cn(error && "ring-2 ring-red-500/50 rounded-xl")}>
+            <InputEditor
+              value={field.state.value}
+              onChange={(v) => field.handleChange(v)}
+            />
+          </div>
+        ) : textarea ? (
           <CustomTextarea
             id={field.name}
             name={field.name}

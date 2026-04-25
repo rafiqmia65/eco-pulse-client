@@ -7,12 +7,12 @@ import CommentsSection from "@/components/shared/Comments/CommentsSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import Section from "@/components/shared/reusableComponents/Section";
-import { useMySingleIdea } from "@/app/(DashboardLayout)/dashboard/ideas/[id]/_actions";
 import IdeaHeader from "./IdeaHeader/IdeaHeader";
 import IdeaActions from "./IdeaActions/IdeaActions";
 import IdeaMeta from "./IdeaMeta/IdeaMeta";
 import IdeaContent from "./IdeaContent/IdeaContent";
 import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
+import { useMySingleIdea } from "@/app/(DashboardLayout)/dashboard/_actions";
 
 interface Props {
   id: string;
@@ -148,7 +148,7 @@ function Stat({
 function IdeaDetailsSkeleton() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-10 space-y-8 animate-pulse">
-      <Skeleton className="h-[300px] w-full rounded-3xl" />
+      <Skeleton className="h-75 w-full rounded-3xl" />
       <div className="grid grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} className="h-24 w-full rounded-2xl" />

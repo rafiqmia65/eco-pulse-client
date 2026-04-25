@@ -1,24 +1,72 @@
+"use client";
+
+import { useState } from "react";
 import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
+
+const PREVIEW_LIMIT = 300;
+
+function ExpandableText({ text }: { text: string }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const safeText = text || "";
+  const isLong = safeText.length > PREVIEW_LIMIT;
+
+  const display =
+    isLong && !expanded ? safeText.slice(0, PREVIEW_LIMIT) + "…" : safeText;
+
+  return (
+    <div className="space-y-2">
+      <p className="text-muted-foreground whitespace-pre-line leading-relaxed break-all overflow-hidden">
+        {display}
+      </p>
+
+      {isLong && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-sm font-medium text-primary hover:underline"
+        >
+          {expanded ? "See less" : "See more"}
+        </button>
+      )}
+    </div>
+  );
+}
+
+function SectionCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-w-0 overflow-hidden bg-muted/30 border border-border/60 rounded-2xl p-5 md:p-6 space-y-3 hover:shadow-sm transition">
+      <h2 className="text-base md:text-lg font-semibold tracking-tight">
+        {title}
+      </h2>
+
+      <div className="text-sm md:text-[15px] leading-relaxed max-w-none">
+        {children}
+      </div>
+    </div>
+  );
+}
 
 export default function IdeaContent({ idea }: { idea: IIdeaDetailsByOwner }) {
   return (
-    <div className="bg-card border rounded-2xl p-6 space-y-8 shadow-sm">
-      <section>
-        <h2 className="text-lg font-semibold">Problem</h2>
-        <p className="text-muted-foreground mt-2">{idea.problem}</p>
-      </section>
+    <div className="bg-card border border-border/50 rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
+      <SectionCard title="Problem">
+        <ExpandableText text={idea.problem ?? ""} />
+      </SectionCard>
 
-      <section>
-        <h2 className="text-lg font-semibold">Solution</h2>
-        <p className="text-muted-foreground mt-2">{idea.solution}</p>
-      </section>
+      <SectionCard title="Solution">
+        <ExpandableText text={idea.solution ?? ""} />
+      </SectionCard>
 
-      <section>
-        <h2 className="text-lg font-semibold">Full Details</h2>
-        <p className="text-muted-foreground mt-2 whitespace-pre-line leading-relaxed">
-          {idea.description}
-        </p>
-      </section>
+      {/* Full Description */}
+      <SectionCard title="Full Details">
+        <ExpandableText text={idea.description ?? ""} />
+      </SectionCard>
     </div>
   );
 }

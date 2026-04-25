@@ -1,29 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import {
-  MoreVertical,
-  Edit,
-  Trash2,
-  Eye,
-  Calendar,
-  Layers,
-  Send,
-  Loader2,
-} from "lucide-react";
+import { Calendar, Layers } from "lucide-react";
 import { IIdea } from "@/types/memberTypes/myAllIdeas.types";
-import { useSubmitIdea } from "@/app/(DashboardLayout)/dashboard/my-ideas/_actions";
-import { toast } from "sonner";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import Image from "next/image";
-import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { IdeaActionButtons } from "@/components/shared/IdeaActionButtonsByOwner/IdeaActionButtonsByOwner";
 
 interface MyIdeasTableProps {
   ideas: IIdea[];
@@ -38,27 +20,6 @@ const statusStyles = {
 };
 
 const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
-  const { mutate: submitIdea, isPending: isSubmitting } = useSubmitIdea();
-  const [submittingId, setSubmittingId] = React.useState<string | null>(null);
-
-  const handleSubmit = (id: string) => {
-    setSubmittingId(id);
-    submitIdea(id, {
-      onSuccess: () => {
-        toast.success("Idea submitted for review successfully");
-        setSubmittingId(null);
-      },
-      onError: (error: any) => {
-        toast.error(
-          error?.response?.data?.message ||
-            error?.message ||
-            "Failed to submit idea",
-        );
-        setSubmittingId(null);
-      },
-    });
-  };
-
   if (isLoading) {
     return (
       <div className="bg-card border rounded-2xl overflow-hidden shadow-sm">
@@ -162,68 +123,10 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
               </td>
               <td className="p-4 text-right">
                 <div className="flex items-center justify-end gap-2">
-                  {idea.status === "DRAFT" && (
-                    <button
-                      onClick={() => handleSubmit(idea.id as string)}
-                      disabled={isSubmitting && submittingId === idea.id}
-                      className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors disabled:opacity-50"
-                    >
-                      {isSubmitting && submittingId === idea.id ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                      ) : (
-                        <Send className="w-3.5 h-3.5" />
-                      )}
-                      <span>Publish</span>
-                    </button>
-                  )}
-                  <Link
-                    href={`/dashboard/ideas/${idea.id}`}
-                    className="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-primary hover:bg-muted rounded-lg transition-colors border"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>See more</span>
-                  </Link>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button className="w-8 h-8 rounded-lg hover:bg-muted flex items-center justify-center transition-colors">
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="end"
-                      className="w-48 rounded-xl"
-                    >
-                      {idea.status === "DRAFT" && (
-                        <DropdownMenuItem
-                          onClick={() => handleSubmit(idea.id as string)}
-                          disabled={isSubmitting && submittingId === idea.id}
-                          className="gap-2 cursor-pointer rounded-lg text-primary focus:text-primary font-semibold"
-                        >
-                          {isSubmitting && submittingId === idea.id ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : (
-                            <Send className="w-4 h-4" />
-                          )}{" "}
-                          Submit for Review
-                        </DropdownMenuItem>
-                      )}
-                      <DropdownMenuItem className="gap-2 cursor-pointer rounded-lg">
-                        <Link
-                          href={`/dashboard/ideas/${idea.id}`}
-                          className="flex items-center gap-2 w-full"
-                        >
-                          <Eye className="w-4 h-4" /> View Details
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="gap-2 cursor-pointer rounded-lg">
-                        <Edit className="w-4 h-4" /> Edit Idea
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="gap-2 cursor-pointer text-red-600 focus:text-red-600 rounded-lg">
-                        <Trash2 className="w-4 h-4" /> Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <IdeaActionButtons
+                    idea={{ id: idea.id ?? "", status: idea.status ?? "" }}
+                    variant="dropdown"
+                  />
                 </div>
               </td>
             </tr>
