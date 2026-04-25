@@ -90,7 +90,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
       href: "/dashboard/purchased-ideas",
       icon: ShoppingBag,
     },
-    { title: "My Votes", href: "/dashboard/votes", icon: ThumbsUp },
+    { title: "My Votes Ideas", href: "/dashboard/my-votes-ideas", icon: ThumbsUp },
     { title: "Watchlist Ideas", href: "/dashboard/watchlist-ideas", icon: Bookmark },
   ];
 

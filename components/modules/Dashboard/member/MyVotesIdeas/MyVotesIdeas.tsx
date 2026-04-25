@@ -1,25 +1,25 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import WatchlistHeader from "./WatchlistHeader/WatchlistHeader";
-import WatchlistFilters from "./WatchlistFilters/WatchlistFilters";
-import WatchlistGrid from "./WatchlistGrid/WatchlistGrid";
+import MyVotesHeader from "./MyVotesHeader/MyVotesHeader";
+import MyVotesFilters from "./MyVotesFilters/MyVotesFilters";
+import MyVotesGrid from "./MyVotesGrid/MyVotesGrid";
 import AppPagination from "@/components/shared/reusableComponents/AppPagination";
-import { useMyWatchList } from "@/app/(DashboardLayout)/dashboard/watchlist-ideas/_actions";
+import { useMyVotes } from "@/app/(DashboardLayout)/dashboard/my-votes-ideas/_actions";
 import { useDebounce } from "@/hooks/useDebounce";
-import { IWatchListMeta } from "@/types/memberTypes/watchlist.types";
+import { IVotesCounts } from "@/types/memberTypes/myVotes.types";
 
-const WatchlistIdeas = () => {
+const MyVotesIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 500);
   const [categoryId, setCategoryId] = useState("all");
   const [page, setPage] = useState(1);
 
-  const { data: response, isLoading } = useMyWatchList({
-    search: debouncedSearch || undefined,
-    categoryId: categoryId === "all" ? undefined : categoryId,
+  const { data: response, isLoading } = useMyVotes({
+    searchTerm: debouncedSearch || undefined,
+    "idea.categoryId": categoryId === "all" ? undefined : categoryId,
     page: String(page),
-    limit: "9", // 3x3 grid looks better than 10
+    limit: "9",
   });
 
   const handleSearch = (val: string) => {
@@ -38,22 +38,23 @@ const WatchlistIdeas = () => {
     setPage(1);
   };
 
-  const ideas = response?.data || [];
-  const meta = response?.meta as IWatchListMeta | undefined;
+  const votes = response?.data || [];
+  const meta = response?.meta;
+  const counts = response?.counts as unknown as IVotesCounts | undefined;
 
   return (
     <div className="space-y-8 pb-10">
       {/* Page Title Section */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-3xl font-extrabold tracking-tight">Watchlist Ideas</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">My Voted Ideas</h1>
         <p className="text-muted-foreground leading-relaxed">
-          Manage and track the innovative ideas you&apos;ve saved for future consideration.
+          Review the innovative solutions you&apos;ve supported or provided feedback on through your votes.
         </p>
       </div>
 
-      <WatchlistHeader meta={meta} />
+      <MyVotesHeader counts={counts} />
 
-      <WatchlistFilters
+      <MyVotesFilters
         searchTerm={searchTerm}
         setSearchTerm={handleSearch}
         categoryId={categoryId}
@@ -61,7 +62,7 @@ const WatchlistIdeas = () => {
         onClear={handleClear}
       />
 
-      <WatchlistGrid ideas={ideas} isLoading={isLoading} />
+      <MyVotesGrid votes={votes} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
         <div className="flex justify-center pt-6">
@@ -76,4 +77,4 @@ const WatchlistIdeas = () => {
   );
 };
 
-export default WatchlistIdeas;
+export default MyVotesIdeas;
