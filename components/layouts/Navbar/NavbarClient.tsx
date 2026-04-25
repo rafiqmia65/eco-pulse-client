@@ -6,7 +6,7 @@ import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
 import DesktopNav from "./DesktopNav/DesktopNav";
 import MobileSidebar from "./MobileSidebar/MobileSidebar";
-import { AuthUser } from "@/types/public/auth.types";
+import { AuthUser } from "@/types/auth.types";
 
 export default function NavbarClient({
   user,

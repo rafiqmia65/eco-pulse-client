@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MyVotesHeader from "./MyVotesHeader/MyVotesHeader";
 import MyVotesFilters from "./MyVotesFilters/MyVotesFilters";
 import MyVotesGrid from "./MyVotesGrid/MyVotesGrid";

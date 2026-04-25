@@ -35,10 +35,10 @@ export interface NavSection {
 export const getDashboardNav = (userRole: string): NavSection[] => {
   const commonLinks: NavItem[] = [
     { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { title: "My Profile", href: "/dashboard/my-profile", icon: User },
+    { title: "My Profile", href: "/my-profile", icon: User },
     {
-      title: "Change Password",
-      href: "/dashboard/change-password",
+      title: "Update Profile",
+      href: "/update-profile",
       icon: Lock,
     },
   ];
@@ -90,8 +90,16 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
       href: "/dashboard/purchased-ideas",
       icon: ShoppingBag,
     },
-    { title: "My Votes Ideas", href: "/dashboard/my-votes-ideas", icon: ThumbsUp },
-    { title: "Watchlist Ideas", href: "/dashboard/watchlist-ideas", icon: Bookmark },
+    {
+      title: "My Votes Ideas",
+      href: "/dashboard/my-votes-ideas",
+      icon: ThumbsUp,
+    },
+    {
+      title: "Watchlist Ideas",
+      href: "/dashboard/watchlist-ideas",
+      icon: Bookmark,
+    },
   ];
 
   const sections: NavSection[] = [{ label: "Account", items: commonLinks }];

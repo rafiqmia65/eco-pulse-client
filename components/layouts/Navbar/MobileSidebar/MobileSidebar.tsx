@@ -10,7 +10,7 @@ import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 
 import { getDefaultDashboardRoute } from "@/lib/authUtils";
 import { usePathname } from "next/navigation";
-import { AuthUser } from "@/types/public/auth.types";
+import { AuthUser } from "@/types/auth.types";
 
 export default function MobileSidebar({
   open,

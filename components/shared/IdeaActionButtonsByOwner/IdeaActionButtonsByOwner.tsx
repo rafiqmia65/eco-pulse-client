@@ -2,14 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  MoreVertical,
-  Edit,
-  Trash2,
-  Eye,
-  Send,
-  Loader2,
-} from "lucide-react";
+import { MoreVertical, Edit, Trash2, Eye, Send, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,8 +24,6 @@ import Link from "next/link";
 import { useIdeaManagement } from "@/hooks/useIdeaManagement";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
-
 
 interface IdeaActionButtonsProps {
   idea: {
@@ -116,7 +107,6 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
       </AlertDialogContent>
     </AlertDialog>
   );
-
 
   if (variant === "sidebar") {
     return (
@@ -242,7 +232,10 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
                 Submit for Review
               </DropdownMenuItem>
             )}
-            <DropdownMenuItem className="gap-2 cursor-pointer rounded-lg" asChild>
+            <DropdownMenuItem
+              className="gap-2 cursor-pointer rounded-lg"
+              asChild
+            >
               <Link
                 href={`/dashboard/ideas/${idea.id}`}
                 className="flex items-center w-full"

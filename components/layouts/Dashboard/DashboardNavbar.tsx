@@ -7,7 +7,7 @@ import { Bell, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/layouts/ModeToggle/ModeToggle";
 import { DashboardSidebar } from "./DashboardSidebar";
-import { AuthUser } from "@/types/public/auth.types";
+import { AuthUser } from "@/types/auth.types";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { User, MoreVertical, Settings } from "lucide-react";
-import { AuthUser } from "@/types/public/auth.types";
+import { AuthUser } from "@/types/auth.types";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import {
   DropdownMenu,

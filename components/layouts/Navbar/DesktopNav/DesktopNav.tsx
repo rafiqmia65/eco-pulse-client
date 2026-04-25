@@ -6,7 +6,7 @@ import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 import LogOutButton from "@/components/shared/LogOutButton/LogOutButton";
 import { getDefaultDashboardRoute } from "@/lib/authUtils";
 import { usePathname } from "next/navigation";
-import { AuthUser } from "@/types/public/auth.types";
+import { AuthUser } from "@/types/auth.types";
 
 export default function DesktopNav({
   user,
