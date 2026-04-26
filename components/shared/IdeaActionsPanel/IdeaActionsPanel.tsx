@@ -8,7 +8,7 @@ import { canPurchase, isOwnerOrAdmin } from "@/lib/access-utils";
 import IdeaVoteActions from "./IdeaVoteActions/IdeaVoteActions";
 import IdeaWatchListButton from "./IdeaWatchListButton/IdeaWatchListButton";
 import { getAccessMeta } from "./getAccessMeta/getAccessMeta";
-import PurchaseModal from "../../PurchaseModal";
+import PurchaseModal from "../../modules/public/IdeaDetails/IdeaContent/PurchaseModal/PurchaseModal";
 
 export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
@@ -48,25 +48,28 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
       <IdeaWatchListButton idea={idea} />
 
       {/* PURCHASE */}
-      <div className="pt-3 border-t border-border space-y-2">
-        <button
-          onClick={() => setIsPurchaseModalOpen(true)}
-          disabled={purchaseDisabled}
-          className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition
+
+      {idea.accessLevel !== "PURCHASED_FULL_ACCESS" && (
+        <div className="pt-3 border-t border-border space-y-2">
+          <button
+            onClick={() => setIsPurchaseModalOpen(true)}
+            disabled={purchaseDisabled}
+            className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition
           ${
             purchaseDisabled
               ? "bg-muted text-muted-foreground cursor-not-allowed"
               : "bg-primary text-primary-foreground hover:opacity-90"
           }`}
-        >
-          <ShoppingCart size={16} />
-          Purchase Idea
-        </button>
+          >
+            <ShoppingCart size={16} />
+            Purchase Idea
+          </button>
 
-        <p className="text-center text-xs text-muted-foreground">
-          {idea.isPaid ? `Price: $${idea.price}` : "Free Idea"}
-        </p>
-      </div>
+          <p className="text-center text-xs text-muted-foreground">
+            {idea.isPaid ? `Price: $${idea.price}` : "Free Idea"}
+          </p>
+        </div>
+      )}
 
       <PurchaseModal
         idea={idea}

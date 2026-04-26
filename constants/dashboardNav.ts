@@ -10,7 +10,6 @@ import {
   CreditCard,
   PlusCircle,
   Clock,
-  Search,
   CheckCircle,
   XCircle,
   ShoppingBag,

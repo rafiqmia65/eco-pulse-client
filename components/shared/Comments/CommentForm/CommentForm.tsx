@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, RefObject } from "react";
@@ -34,7 +33,7 @@ export default function CommentForm({
           setComment("");
           clearReply?.();
         },
-      }
+      },
     );
   };
 

@@ -11,12 +11,13 @@ import IdeaContent from "./IdeaContent/IdeaContent";
 import CommentsSection from "@/components/shared/Comments/CommentsSection";
 
 import { RoleType } from "@/constants/roles";
+import Section from "@/components/shared/reusableComponents/Section";
 
-export default function IdeaDetails({ 
-  idea, 
-  currentUserId, 
-  currentUserRole 
-}: { 
+export default function IdeaDetails({
+  idea,
+  currentUserId,
+  currentUserRole,
+}: {
   idea?: IIdeaAccessData;
   currentUserId?: string;
   currentUserRole?: RoleType;
@@ -32,9 +33,10 @@ export default function IdeaDetails({
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-      const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+      const randomInRange = (min: number, max: number) =>
+        Math.random() * (max - min) + min;
 
-      const interval: any = setInterval(function() {
+      const interval: any = setInterval(function () {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -42,12 +44,21 @@ export default function IdeaDetails({
         }
 
         const particleCount = 50 * (timeLeft / duration);
-        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        });
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        });
       }, 250);
 
       toast.success("Payment Successful!", {
-        description: "You now have full access to this idea's strategic content.",
+        description:
+          "You now have full access to this idea's strategic content.",
         duration: 5000,
       });
     }
@@ -67,7 +78,9 @@ export default function IdeaDetails({
       <IdeaHero idea={idea} />
 
       {/* MAIN CONTENT */}
-      <IdeaContent idea={idea} />
+      <Section>
+        <IdeaContent idea={idea} />
+      </Section>
 
       <CommentsSection
         ideaId={idea.id}

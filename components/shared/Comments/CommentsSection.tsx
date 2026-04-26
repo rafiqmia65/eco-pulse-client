@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
 import CommentItem from "./CommentItem/CommentItem";
 import CommentForm from "./CommentForm/CommentForm";

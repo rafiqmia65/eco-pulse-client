@@ -5,6 +5,9 @@ import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.type
 
 const PREVIEW_LIMIT = 300;
 
+/* -------------------------
+   Expandable Text Component
+--------------------------*/
 function ExpandableText({ text }: { text: string }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -16,7 +19,7 @@ function ExpandableText({ text }: { text: string }) {
 
   return (
     <div className="space-y-2">
-      <p className="text-muted-foreground whitespace-pre-line leading-relaxed break-all overflow-hidden">
+      <p className="text-muted-foreground whitespace-pre-line leading-relaxed wrap-break-words">
         {display}
       </p>
 
@@ -32,6 +35,9 @@ function ExpandableText({ text }: { text: string }) {
   );
 }
 
+/* -------------------------
+   Section Card
+--------------------------*/
 function SectionCard({
   title,
   children,
@@ -40,31 +46,34 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-w-0 overflow-hidden bg-muted/30 border border-border/60 rounded-2xl p-5 md:p-6 space-y-3 hover:shadow-sm transition">
+    <div className="bg-muted/30 border border-border/60 rounded-2xl p-5 md:p-6 space-y-3 hover:shadow-sm transition">
       <h2 className="text-base md:text-lg font-semibold tracking-tight">
         {title}
       </h2>
 
-      <div className="text-sm md:text-[15px] leading-relaxed max-w-none">
-        {children}
-      </div>
+      <div className="text-sm md:text-[15px] leading-relaxed">{children}</div>
     </div>
   );
 }
 
+/* -------------------------
+   Main Component
+--------------------------*/
 export default function IdeaContent({ idea }: { idea: IIdeaDetailsByOwner }) {
   return (
     <div className="bg-card border border-border/50 rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
+      {/* Problem */}
       <SectionCard title="Problem">
         <ExpandableText text={idea.problem ?? ""} />
       </SectionCard>
 
+      {/* Solution */}
       <SectionCard title="Solution">
         <ExpandableText text={idea.solution ?? ""} />
       </SectionCard>
 
-      {/* Full Description */}
-      <SectionCard title="Full Details">
+      {/* Description */}
+      <SectionCard title="Description">
         <ExpandableText text={idea.description ?? ""} />
       </SectionCard>
     </div>

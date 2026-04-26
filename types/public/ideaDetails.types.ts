@@ -10,6 +10,7 @@ export interface IIdeaAccessData {
   id: string;
   title: string;
   description: string;
+  problem: string;
   image: string;
 
   price: number | null;
@@ -40,7 +41,8 @@ export interface IIdeaAccessData {
     | "PUBLIC_FREE_GUEST"
     | "LIMITED_PREVIEW"
     | "GUEST_PREVIEW"
-    | "PAID_FULL_ACCESS";
+    | "PAID_FULL_ACCESS"
+    | "PURCHASED_FULL_ACCESS";
 }
 
 // ================= USER =================

@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { RoleType } from "@/constants/roles";
 
 import CommentsSection from "@/components/shared/Comments/CommentsSection";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import Section from "@/components/shared/reusableComponents/Section";
 import IdeaHeader from "./IdeaHeader/IdeaHeader";
 import IdeaActions from "./IdeaActions/IdeaActions";
 import IdeaMeta from "./IdeaMeta/IdeaMeta";
-import IdeaContent from "./IdeaContent/IdeaContent";
 import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
 import { useMySingleIdea } from "@/app/(DashboardLayout)/dashboard/_actions";
+import StatsBar from "./StatsBar/StatsBar";
+import { AlertTriangle, MessageSquareWarning } from "lucide-react";
+import IdeaDetailContent from "./IdeaDetailContent/IdeaDetailContent";
 
 interface Props {
   id: string;
@@ -27,10 +28,6 @@ export default function IdeaDetailsByOwner({
 }: Props) {
   const { data: response, isLoading, isError } = useMySingleIdea(id);
   const idea = response?.data as IIdeaDetailsByOwner;
-
-  const [activeTab, setActiveTab] = useState<"overview" | "discussion">(
-    "overview",
-  );
 
   if (isLoading) return <IdeaDetailsSkeleton />;
 
@@ -49,98 +46,64 @@ export default function IdeaDetailsByOwner({
   }
 
   return (
-    <Section>
+    <div>
       {/* Header */}
       <IdeaHeader idea={idea} />
 
-      {/* Stats Bar */}
-      <div className="grid mt-8 grid-cols-2 md:grid-cols-4 gap-4">
-        <Stat
-          label="Upvotes"
-          value={idea.upvotesCount}
-          color="text-emerald-600"
-        />
-        <Stat
-          label="Downvotes"
-          value={idea.downvotesCount}
-          color="text-rose-600"
-        />
-        <Stat
-          label="Comments"
-          value={idea.commentsCount}
-          color="text-blue-600"
-        />
-        <Stat
-          label="Engagement"
-          value={idea.votesCount}
-          color="text-amber-600"
-        />
-      </div>
-      {/* Sidebar Area: Action and Overview (Meta) in same column/grid */}
-      <div className="md:flex justify-between mt-8 gap-4">
-        <IdeaActions idea={idea} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 items-stretch">
         <IdeaMeta idea={idea} />
+        <StatsBar idea={idea} />
+        <IdeaActions idea={idea} />
       </div>
 
-      {/* Tabs */}
-      <div className="border-b mt-8 flex gap-8 text-sm font-medium">
-        <button
-          onClick={() => setActiveTab("overview")}
-          className={`pb-4 border-b-2 transition-all duration-300 ${
-            activeTab === "overview"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Project Overview
-        </button>
+      {idea.feedback && (
+        <div className="relative overflow-hidden rounded-2xl border border-red-200/40 dark:border-red-900/40 bg-red-50/40 dark:bg-red-950/20 p-5 shadow-sm">
+          {/* top status bar */}
+          <div className="absolute top-0 left-0 h-1 w-full bg-linear-to-r from-red-500 to-rose-500" />
 
-        <button
-          onClick={() => setActiveTab("discussion")}
-          className={`pb-4 border-b-2 transition-all duration-300 ${
-            activeTab === "discussion"
-              ? "border-primary text-primary"
-              : "border-transparent text-muted-foreground hover:text-foreground"
-          }`}
-        >
-          Discussion ({idea.commentsCount})
-        </button>
-      </div>
+          <div className="flex items-start gap-3">
+            {/* icon */}
+            <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600">
+              <AlertTriangle className="w-5 h-5" />
+            </div>
 
-      <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-        {activeTab === "overview" ? (
-          <IdeaContent idea={idea} />
-        ) : (
-          <div className="bg-card border rounded-2xl overflow-hidden shadow-sm">
-            <CommentsSection
-              ideaId={idea.id}
-              currentUserId={currentUserId}
-              currentUserRole={currentUserRole}
-            />
+            <div className="flex-1">
+              <p className="text-sm font-bold text-red-700 dark:text-red-300 flex items-center gap-2">
+                Rejected by Admin
+              </p>
+
+              <p className="text-xs text-muted-foreground mt-1">
+                This idea was reviewed and did not meet platform quality or
+                guideline requirements.
+              </p>
+
+              {/* feedback box */}
+              <div className="mt-3 p-4 rounded-xl bg-white/60 dark:bg-black/20 border border-red-100 dark:border-red-900/30">
+                <div className="flex items-center gap-2 mb-2 text-red-500">
+                  <MessageSquareWarning className="w-4 h-4" />
+                  <span className="text-[11px] uppercase tracking-wider font-semibold">
+                    Admin Feedback
+                  </span>
+                </div>
+
+                <p className="text-sm italic text-red-900 dark:text-red-200 leading-relaxed">
+                  “{idea.feedback.message}”
+                </p>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    </Section>
-  );
-}
+        </div>
+      )}
 
-function Stat({
-  label,
-  value,
-  color,
-}: {
-  label: string;
-  value: number;
-  color?: string;
-}) {
-  return (
-    <div className="bg-card border border-border/50 rounded-2xl p-5 text-center shadow-sm hover:shadow-md transition-all duration-300 group">
-      <p className="text-[11px] uppercase tracking-wider font-bold text-muted-foreground group-hover:text-primary transition-colors">
-        {label}
-      </p>
-      <p className={`font-black text-2xl mt-1 ${color || "text-foreground"}`}>
-        {value}
-      </p>
+      <div className="mt-8">
+        <IdeaDetailContent idea={idea} />
+      </div>
+
+      <CommentsSection
+        ideaId={idea.id}
+        currentUserId={currentUserId}
+        currentUserRole={currentUserRole}
+      />
     </div>
   );
 }

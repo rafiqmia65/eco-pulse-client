@@ -1,4 +1,4 @@
-import { ICategory } from "./myAllIdeas.types";
+import { ICategory, IComment, ICommentsMeta, IUser } from "../public/ideaDetails.types";
 
 export interface IPurchasedIdea {
   paymentId: string;
@@ -16,7 +16,10 @@ export interface IPurchasedIdea {
     price: number;
     isPaid: boolean;
     createdAt: string;
-    category: ICategory;
+    category: {
+        id: string;
+        name: string;
+    };
     author: {
       id: string;
       name: string;
@@ -48,7 +51,15 @@ export interface IPurchasedIdeaDetails {
   price: number;
   status: string;
   isLocked: boolean;
-  accessLevel: string;
+  accessLevel:
+    | "ADMIN_FULL_ACCESS"
+    | "OWNER_FULL_ACCESS"
+    | "PUBLIC_FREE"
+    | "PUBLIC_FREE_GUEST"
+    | "LIMITED_PREVIEW"
+    | "GUEST_PREVIEW"
+    | "PAID_FULL_ACCESS"
+    | "PURCHASED_FULL_ACCESS";
   purchasedAt: string;
   paymentInfo: {
     paymentId: string;
@@ -62,21 +73,10 @@ export interface IPurchasedIdeaDetails {
   downvotes: number;
   votesCount: number;
   currentUserVote: number | null;
-  comments: any[];
-  commentsMeta: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
+  comments: IComment[];
+  commentsMeta: ICommentsMeta;
   category: ICategory;
-  author: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    status: string;
-  };
+  author: IUser;
   createdAt: string;
   updatedAt: string;
 }

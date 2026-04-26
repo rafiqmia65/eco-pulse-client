@@ -6,6 +6,7 @@ export const AccessLevel = {
   PUBLIC_FREE_GUEST: "PUBLIC_FREE_GUEST",
   LIMITED_PREVIEW: "LIMITED_PREVIEW",
   GUEST_PREVIEW: "GUEST_PREVIEW",
+  PURCHASED_FULL_ACCESS: "PURCHASED_FULL_ACCESS",
 } as const;
 
 export const isLockedAccess = (level: string) =>
@@ -17,6 +18,7 @@ export const isOwnerOrAdmin = (level: string) =>
 
 export const isPaidOrFreeAccess = (level: string) =>
   level === AccessLevel.PAID_FULL_ACCESS ||
+  level === AccessLevel.PURCHASED_FULL_ACCESS ||
   level === AccessLevel.PUBLIC_FREE ||
   level === AccessLevel.PUBLIC_FREE_GUEST;
 
@@ -33,5 +35,6 @@ export const isFullAccess = (level: string) =>
   level === AccessLevel.ADMIN_FULL_ACCESS ||
   level === AccessLevel.OWNER_FULL_ACCESS ||
   level === AccessLevel.PAID_FULL_ACCESS ||
+  level === AccessLevel.PURCHASED_FULL_ACCESS ||
   level === AccessLevel.PUBLIC_FREE ||
   level === AccessLevel.PUBLIC_FREE_GUEST;

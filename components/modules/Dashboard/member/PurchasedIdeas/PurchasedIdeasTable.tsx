@@ -1,5 +1,5 @@
 import React from "react";
-import { Calendar, Layers, ExternalLink, User } from "lucide-react";
+import { Calendar, Layers, User, Eye } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -51,7 +51,7 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
 
   return (
     <div className="bg-card border rounded-2xl overflow-hidden shadow-sm overflow-x-auto">
-      <table className="w-full text-left border-collapse min-w-[800px]">
+      <table className="w-full text-left border-collapse min-w-200">
         <thead>
           <tr className="bg-muted/30 border-b">
             <th className="p-4 text-sm font-semibold">Idea & Author</th>
@@ -84,7 +84,7 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="font-semibold text-sm truncate max-w-[250px]">
+                    <p className="font-semibold text-sm truncate max-w-62.5">
                       {purchase.idea.title}
                     </p>
                     <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground font-medium truncate">
@@ -108,7 +108,7 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
                     ${purchase.amount.toFixed(2)}
                   </span>
                   <span
-                    className="text-[10px] text-muted-foreground font-mono truncate max-w-[120px]"
+                    className="text-[10px] text-muted-foreground font-mono truncate max-w-30"
                     title={purchase.transactionId}
                   >
                     ID: {purchase.transactionId.substring(0, 8)}...
@@ -125,16 +125,14 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
               </td>
               <td className="p-4 text-right">
                 <Button
-                  asChild
-                  variant="ghost"
                   size="sm"
-                  className="rounded-lg h-8 w-8 p-0"
+                  variant="outline"
+                  asChild
+                  className="h-8 text-xs font-semibold"
                 >
-                  <Link
-                    href={`/dashboard/idea-details/${purchase.idea.id}`}
-                    title="View Details"
-                  >
-                    <ExternalLink className="w-4 h-4" />
+                  <Link href={`/dashboard/idea-details/${purchase.idea.id}`}>
+                    <Eye className="w-3.5 h-3.5 mr-1.5" />
+                    See more
                   </Link>
                 </Button>
               </td>

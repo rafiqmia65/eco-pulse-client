@@ -3,6 +3,7 @@ export const getAccessMeta = (level: string) => {
     case "ADMIN_FULL_ACCESS":
     case "OWNER_FULL_ACCESS":
     case "PAID_FULL_ACCESS":
+    case "PURCHASED_FULL_ACCESS":
     case "PUBLIC_FREE":
     case "PUBLIC_FREE_GUEST":
     case "LIMITED_PREVIEW":

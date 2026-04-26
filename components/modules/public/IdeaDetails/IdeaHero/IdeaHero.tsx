@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
-import IdeaActionsPanel from "./IdeaActionsPanel/IdeaActionsPanel";
+import IdeaActionsPanel from "../../../../shared/IdeaActionsPanel/IdeaActionsPanel";
 import Section from "@/components/shared/reusableComponents/Section";
 
 export default function IdeaHero({ idea }: { idea: IIdeaAccessData }) {
