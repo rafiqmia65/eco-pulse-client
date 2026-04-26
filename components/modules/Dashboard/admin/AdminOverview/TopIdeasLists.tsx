@@ -26,7 +26,7 @@ const TopIdeasLists = ({ voted, purchased }: TopIdeasListsProps) => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Most Voted */}
       <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-xs shadow-sm overflow-hidden">
-        <CardHeader className="border-b bg-muted/20 px-6 py-4">
+        <CardHeader className="border-b bg-muted/30 px-6 py-4">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <ThumbsUp className="w-5 h-5 text-amber-500" />
             Most Voted Ideas
@@ -38,7 +38,7 @@ const TopIdeasLists = ({ voted, purchased }: TopIdeasListsProps) => {
               voted.map((idea) => (
                 <Link
                   key={idea.id}
-                  href={`/ideas/${idea.slug}`}
+                  href={`/admin/ideas/${idea.id}`}
                   className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
@@ -75,7 +75,7 @@ const TopIdeasLists = ({ voted, purchased }: TopIdeasListsProps) => {
 
       {/* Most Purchased */}
       <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-xs shadow-sm overflow-hidden">
-        <CardHeader className="border-b bg-muted/20 px-6 py-4">
+        <CardHeader className="border-b bg-muted/30 px-6 py-4">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-emerald-500" />
             Best Selling Ideas
@@ -87,7 +87,7 @@ const TopIdeasLists = ({ voted, purchased }: TopIdeasListsProps) => {
               purchased.map((idea) => (
                 <Link
                   key={idea.id}
-                  href={`/ideas/${idea.slug}`}
+                  href={`/admin/ideas/${idea.id}`}
                   className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors group"
                 >
                   <div className="flex items-center gap-3">

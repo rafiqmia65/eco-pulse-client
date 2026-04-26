@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MoreVertical, Edit, Trash2, Eye, Send, Loader2 } from "lucide-react";
+import { MoreVertical, Edit, Trash2, ExternalLink, Send, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useIdeaManagement } from "@/hooks/useIdeaManagement";
@@ -176,17 +181,22 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
               Publish
             </Button>
           )}
-          <Button
-            size="sm"
-            variant="outline"
-            asChild
-            className="h-8 text-xs font-semibold"
-          >
-            <Link href={`/dashboard/ideas/${idea.id}`}>
-              <Eye className="w-3.5 h-3.5 mr-1.5" />
-              See more
-            </Link>
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href={`/dashboard/ideas/${idea.id}`}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-xl hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/20 transition-all"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-1 px-2">
+              View Details
+            </TooltipContent>
+          </Tooltip>
         </div>
       </>
     );
@@ -198,17 +208,22 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
       {DeleteConfirmDialog}
       <div className="flex items-center gap-2">
         {variant === "dropdown" && (
-          <Button
-            size="sm"
-            variant="outline"
-            asChild
-            className="h-8 text-xs font-semibold px-3"
-          >
-            <Link href={`/dashboard/ideas/${idea.id}`}>
-              <Eye className="w-3.5 h-3.5 mr-1.5" />
-              <span>See more</span>
-            </Link>
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link href={`/dashboard/ideas/${idea.id}`}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-xl hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/20 transition-all"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-1 px-2">
+              View Details
+            </TooltipContent>
+          </Tooltip>
         )}
 
         <DropdownMenu>
@@ -240,7 +255,7 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
                 href={`/dashboard/ideas/${idea.id}`}
                 className="flex items-center w-full"
               >
-                <Eye className="w-4 h-4" /> View Details
+                <ExternalLink className="w-4 h-4" /> View Details
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem

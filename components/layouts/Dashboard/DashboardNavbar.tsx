@@ -22,7 +22,7 @@ export const DashboardNavbar = ({ user }: DashboardNavbarProps) => {
 
   return (
     <>
-      {/* 🔹 Navbar */}
+      {/* Navbar */}
       <header className="h-16 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 sticky top-0 z-40 w-full">
         <div className="container h-full flex items-center justify-between px-4">
           {/* Left */}

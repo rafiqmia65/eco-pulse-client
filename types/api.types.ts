@@ -1,3 +1,10 @@
+export interface ApiMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 export type ApiResponse<T> = {
   httpStatusCode: number;
   success: boolean;

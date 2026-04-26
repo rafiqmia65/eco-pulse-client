@@ -44,7 +44,7 @@ const ProfileHeader = ({ user }: { user: AuthUser }) => {
         </p>
       </div>
 
-      <Link href="/dashboard/update-profile">
+      <Link href="/update-profile">
         <Button variant="outline" className="rounded-xl gap-2 font-bold">
           <Edit3 className="w-4 h-4" />
           Edit Profile

@@ -1,5 +1,14 @@
+"use client";
+
 import React from "react";
-import { Calendar, Layers, User, Eye } from "lucide-react";
+import {
+  Calendar,
+  Layers,
+  User,
+  ExternalLink,
+  Tag,
+  DollarSign,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -7,6 +16,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { IPurchasedIdea } from "@/types/memberTypes/purchasedIdeas.types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface PurchasedIdeasTableProps {
   purchases: IPurchasedIdea[];
@@ -19,7 +41,7 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="bg-card border rounded-2xl overflow-hidden shadow-sm">
+      <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-xs shadow-sm overflow-hidden">
         <div className="p-6 space-y-4">
           {[...Array(5)].map((_, i) => (
             <Skeleton key={i} className="h-16 w-full rounded-xl" />
@@ -31,17 +53,19 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
 
   if (purchases.length === 0) {
     return (
-      <div className="bg-card border rounded-2xl p-12 text-center shadow-sm">
+      <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-xs p-12 text-center shadow-sm">
         <div className="max-w-xs mx-auto space-y-4">
-          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto text-muted-foreground">
+          <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mx-auto text-muted-foreground/40">
             <Layers className="w-8 h-8" />
           </div>
-          <h3 className="text-lg font-semibold">No purchased ideas found</h3>
-          <p className="text-sm text-muted-foreground">
-            You haven&apos;t purchased any ideas yet or no ideas match your
-            search criteria.
-          </p>
-          <Button asChild variant="outline" className="rounded-xl">
+          <div className="space-y-1">
+            <h3 className="text-lg font-bold">No purchased ideas found</h3>
+            <p className="text-sm text-muted-foreground">
+              You haven&apos;t purchased any ideas yet or no ideas match your
+              search criteria.
+            </p>
+          </div>
+          <Button asChild variant="outline" className="rounded-xl mt-4">
             <Link href="/ideas">Explore Ideas</Link>
           </Button>
         </div>
@@ -50,32 +74,43 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
   }
 
   return (
-    <div className="bg-card border rounded-2xl overflow-hidden shadow-sm overflow-x-auto">
-      <table className="w-full text-left border-collapse min-w-200">
-        <thead>
-          <tr className="bg-muted/30 border-b">
-            <th className="p-4 text-sm font-semibold">Idea & Author</th>
-            <th className="p-4 text-sm font-semibold">Category</th>
-            <th className="p-4 text-sm font-semibold">Payment Details</th>
-            <th className="p-4 text-sm font-semibold">Purchased At</th>
-            <th className="p-4 text-sm font-semibold text-right">Action</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y">
+    <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-xs overflow-hidden shadow-sm">
+      <Table>
+        <TableHeader className="bg-muted/30">
+          <TableRow className="hover:bg-transparent border-border/40">
+            <TableHead className="px-6 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground w-[380px]">
+              Idea & Author
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
+              Category
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
+              Payment Details
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
+              Purchased At
+            </TableHead>
+            <TableHead className="px-6 py-4 text-right text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
+              Action
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {purchases.map((purchase) => (
-            <tr
+            <TableRow
               key={purchase.paymentId}
-              className="hover:bg-muted/20 transition-colors"
+              className="hover:bg-muted/40 transition-colors border-border/40 group"
             >
-              <td className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 rounded-lg overflow-hidden border bg-muted shrink-0">
+              <TableCell className="px-6 py-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0 border border-border/50 relative shadow-sm">
                     {purchase.idea.image ? (
                       <Image
                         src={purchase.idea.image}
                         alt={purchase.idea.title}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        sizes="48px"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground opacity-40">
@@ -83,63 +118,67 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
                       </div>
                     )}
                   </div>
-                  <div className="min-w-0">
-                    <p className="font-semibold text-sm truncate max-w-62.5">
+                  <div className="max-w-[280px]">
+                    <p className="font-bold text-foreground leading-tight text-sm truncate">
                       {purchase.idea.title}
                     </p>
-                    <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground font-medium truncate">
-                      <User className="w-3 h-3 shrink-0" />
+                    <div className="flex items-center gap-1.5 mt-1 text-[10px] text-muted-foreground font-medium truncate">
+                      <User className="w-3 h-3 shrink-0 text-muted-foreground/60" />
                       {purchase.idea.author.name}
                     </div>
                   </div>
                 </div>
-              </td>
-              <td className="p-4">
+              </TableCell>
+              <TableCell className="px-4 py-4">
                 <Badge
                   variant="outline"
-                  className="rounded-full font-medium whitespace-nowrap"
+                  className="bg-muted/30 border-border/50 text-[10px] font-medium px-2 py-0.5 flex items-center gap-1.5 w-fit whitespace-nowrap"
                 >
+                  <Tag className="w-3 h-3" />
                   {purchase.idea.category?.name || "Uncategorized"}
                 </Badge>
-              </td>
-              <td className="p-4">
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-bold text-green-600">
-                    ${purchase.amount.toFixed(2)}
-                  </span>
-                  <span
-                    className="text-[10px] text-muted-foreground font-mono truncate max-w-30"
-                    title={purchase.transactionId}
-                  >
-                    ID: {purchase.transactionId.substring(0, 8)}...
+              </TableCell>
+              <TableCell className="px-4 py-4">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg w-fit border border-emerald-500/20">
+                    <DollarSign className="w-3 h-3" />$
+                    {purchase.amount.toFixed(2)}
+                  </div>
+                  <span className="text-[9px] text-muted-foreground font-mono ml-1 uppercase tracking-tighter">
+                    TX: {purchase.transactionId.substring(0, 8)}...
                   </span>
                 </div>
-              </td>
-              <td className="p-4">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-                  <Calendar className="w-3.5 h-3.5" />
+              </TableCell>
+              <TableCell className="px-4 py-4">
+                <div className="flex items-center gap-2 text-[11px] text-foreground font-medium">
+                  <Calendar className="w-3.5 h-3.5 text-muted-foreground/60" />
                   {purchase.purchasedAt
                     ? format(new Date(purchase.purchasedAt), "MMM dd, yyyy")
                     : "N/A"}
                 </div>
-              </td>
-              <td className="p-4 text-right">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  asChild
-                  className="h-8 text-xs font-semibold"
-                >
-                  <Link href={`/dashboard/idea-details/${purchase.idea.id}`}>
-                    <Eye className="w-3.5 h-3.5 mr-1.5" />
-                    See more
-                  </Link>
-                </Button>
-              </td>
-            </tr>
+              </TableCell>
+              <TableCell className="px-6 py-4 text-right">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={`/dashboard/idea-details/${purchase.idea.id}`}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9 rounded-xl hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/20 transition-all"
+                      >
+                        <ExternalLink className="w-4.5 h-4.5" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-1 px-2">
+                    View Idea
+                  </TooltipContent>
+                </Tooltip>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };

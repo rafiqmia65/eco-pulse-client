@@ -26,7 +26,7 @@ const DetailedBreakdown = ({ data }: DetailedBreakdownProps) => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {/* User Status Breakdown */}
       <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-xs shadow-sm overflow-hidden">
-        <CardHeader className="bg-muted/20 border-b px-6 py-4">
+        <CardHeader className="bg-muted/30 border-b px-6 py-4">
           <CardTitle className="text-sm font-semibold flex items-center gap-2">
             <Users className="w-4 h-4 text-blue-500" />
             User Management
@@ -55,7 +55,7 @@ const DetailedBreakdown = ({ data }: DetailedBreakdownProps) => {
 
       {/* Idea Status Breakdown */}
       <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-xs shadow-sm overflow-hidden">
-        <CardHeader className="bg-muted/20 border-b px-6 py-4">
+        <CardHeader className="bg-muted/30 border-b px-6 py-4">
           <CardTitle className="text-sm font-semibold flex items-center gap-2">
             <Lightbulb className="w-4 h-4 text-amber-500" />
             Idea Lifecycle
@@ -101,7 +101,7 @@ const DetailedBreakdown = ({ data }: DetailedBreakdownProps) => {
 
       {/* Payment Status Breakdown */}
       <Card className="rounded-2xl border-border/50 bg-card/50 backdrop-blur-xs shadow-sm overflow-hidden">
-        <CardHeader className="bg-muted/20 border-b px-6 py-4">
+        <CardHeader className="bg-muted/30 border-b px-6 py-4">
           <CardTitle className="text-sm font-semibold flex items-center gap-2">
             <CreditCard className="w-4 h-4 text-rose-500" />
             Financial Health

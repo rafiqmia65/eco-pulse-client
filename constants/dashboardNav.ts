@@ -32,7 +32,6 @@ export interface NavSection {
 
 export const getDashboardNav = (userRole: string): NavSection[] => {
   const commonLinks: NavItem[] = [
-    { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { title: "My Profile", href: "/my-profile", icon: User },
     {
       title: "Update Profile",
@@ -42,8 +41,9 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
   ];
 
   const adminLinks: NavItem[] = [
+    { title: "Overview", href: "/admin", icon: LayoutDashboard },
     { title: "Users", href: "/admin/users", icon: Users },
-    { title: "Ideas", href: "/admin/ideas", icon: Lightbulb },
+    { title: "All Ideas", href: "/admin/all-ideas", icon: Lightbulb },
     { title: "Pending", href: "/admin/ideas/pending", icon: Clock },
     {
       title: "Approved",
@@ -65,6 +65,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
   ];
 
   const memberLinks: NavItem[] = [
+    { title: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { title: "Create Idea", href: "/dashboard/ideas-create", icon: PlusCircle },
     { title: "My All Ideas", href: "/dashboard/my-ideas", icon: Lightbulb },
     {

@@ -3,19 +3,33 @@
 import React, { useState } from "react";
 import { IPaymentHistoryItem } from "@/types/memberTypes/payment.types";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   CheckCircle2,
   Clock,
   AlertCircle,
-  ChevronRight,
   History,
   Copy,
   Check,
+  ExternalLink,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatTimeAgo } from "@/lib/formatDate";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 interface PaymentsTableProps {
   payments: IPaymentHistoryItem[];
@@ -35,7 +49,7 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
     switch (status) {
       case "PAID":
         return (
-          <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1 w-fit shadow-none">
+          <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 hover:bg-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1 w-fit shadow-none font-medium">
             <CheckCircle2 className="w-3 h-3" />
             Paid
           </Badge>
@@ -44,7 +58,7 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
         return (
           <Badge
             variant="outline"
-            className="bg-amber-500/10 text-amber-600 border-amber-500/20 hover:bg-amber-500/20 px-2 py-0.5 rounded-full flex items-center gap-1 w-fit shadow-none"
+            className="bg-amber-500/10 text-amber-600 border-amber-500/20 hover:bg-amber-500/20 px-2 py-0.5 rounded-full flex items-center gap-1 w-fit shadow-none font-medium"
           >
             <Clock className="w-3 h-3" />
             Pending
@@ -54,7 +68,7 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
         return (
           <Badge
             variant="destructive"
-            className="bg-rose-500/10 text-rose-600 border-rose-500/20 hover:bg-rose-500/20 px-2 py-0.5 rounded-full flex items-center gap-1 w-fit shadow-none"
+            className="bg-rose-500/10 text-rose-600 border-rose-500/20 hover:bg-rose-500/20 px-2 py-0.5 rounded-full flex items-center gap-1 w-fit shadow-none font-medium"
           >
             <AlertCircle className="w-3 h-3" />
             Failed
@@ -64,125 +78,145 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
   };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left border-collapse">
-        <thead className="bg-muted/30 border-b border-border/40">
-          <tr>
-            <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-xs overflow-hidden shadow-sm">
+      <Table>
+        <TableHeader className="bg-muted/30">
+          <TableRow className="hover:bg-transparent border-border/40">
+            <TableHead className="px-6 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
               Idea / Project
-            </th>
-            <th className="px-4 py-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
               Amount
-            </th>
-            <th className="px-4 py-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
               Transaction ID
-            </th>
-            <th className="px-4 py-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
               Date
-            </th>
-            <th className="px-4 py-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            </TableHead>
+            <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
               Status
-            </th>
-            <th className="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            </TableHead>
+            <TableHead className="px-6 py-4 text-right text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
               Action
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border/40">
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {payments.length > 0 ? (
             payments.map((payment) => (
-              <tr
+              <TableRow
                 key={payment.paymentId}
-                className="hover:bg-muted/50 transition-colors group"
+                className="hover:bg-muted/40 transition-colors border-border/40 group"
               >
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl overflow-hidden bg-muted shrink-0 border border-border/50 relative">
+                <TableCell className="px-6 py-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0 border border-border/50 relative shadow-sm">
                       <Image
                         fill
                         src={payment.idea.image}
                         alt={payment.idea.title}
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        sizes="40px"
+                        sizes="48px"
                       />
                     </div>
                     <div className="max-w-[200px] md:max-w-[300px]">
-                      <p className="font-semibold truncate text-foreground leading-tight text-sm">
+                      <p className="font-bold text-foreground leading-tight text-sm truncate">
                         {payment.idea.title}
                       </p>
-                      <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-wider font-bold">
+                      <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-widest font-bold bg-muted/50 w-fit px-1.5 py-0.5 rounded">
                         {payment.idea.category}
                       </p>
                     </div>
                   </div>
-                </td>
-                <td className="px-4 py-4">
-                  <span className="font-bold text-foreground text-sm">
-                    ${payment.amount.toFixed(2)}
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  <span className="font-bold text-foreground text-sm flex items-center gap-0.5">
+                    <span className="text-muted-foreground font-normal text-xs">
+                      $
+                    </span>
+                    {payment.amount.toFixed(2)}
                   </span>
-                </td>
-                <td className="px-4 py-4">
-                  <div
-                    className="relative group/tid cursor-pointer max-w-[140px]"
-                    onClick={() => handleCopy(payment.transactionId)}
-                  >
-                    <div className="flex items-center gap-2 bg-muted/50 hover:bg-muted px-2 py-1.5 rounded-lg border border-border/50 transition-all hover:ring-2 hover:ring-primary/20">
-                      <code className="text-[11px] text-muted-foreground font-mono truncate">
-                        {payment.transactionId}
-                      </code>
-                      <div className="shrink-0 text-muted-foreground/50 group-hover/tid:text-primary transition-colors">
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div
+                        className="flex items-center gap-2 bg-muted/30 hover:bg-muted/60 px-2.5 py-1.5 rounded-lg border border-border/40 transition-all cursor-pointer w-fit group/tid hover:ring-2 hover:ring-primary/10"
+                        onClick={() => handleCopy(payment.transactionId)}
+                      >
+                        <code className="text-[11px] text-muted-foreground font-mono truncate max-w-[100px]">
+                          {payment.transactionId}
+                        </code>
                         {copiedId === payment.transactionId ? (
                           <Check className="w-3 h-3 text-emerald-500" />
                         ) : (
-                          <Copy className="w-3 h-3" />
+                          <Copy className="w-3 h-3 text-muted-foreground/40 group-hover/tid:text-primary transition-colors" />
                         )}
                       </div>
-                    </div>
-
-                    {/* Tooltip on Hover */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-black text-white text-[10px] font-mono rounded-lg opacity-0 invisible group-hover/tid:opacity-100 group-hover/tid:visible transition-all whitespace-pre-wrap break-all w-[240px] shadow-xl z-50 pointer-events-none border border-white/10">
-                      <p className="font-sans text-[9px] text-gray-400 mb-1 uppercase tracking-widest font-bold">
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-2 px-3 font-mono max-w-[250px] break-all leading-relaxed shadow-xl">
+                      <p className="font-sans text-[9px] text-primary-foreground/50 mb-1 uppercase tracking-widest font-bold">
                         Full Transaction ID
                       </p>
                       {payment.transactionId}
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-black"></div>
-                    </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  <div className="flex flex-col">
+                    <span className="text-[11px] text-foreground font-medium">
+                      {formatTimeAgo(payment.createdAt)}
+                    </span>
                   </div>
-                </td>
-                <td className="px-4 py-4 text-[13px] text-muted-foreground whitespace-nowrap">
-                  {formatTimeAgo(payment.createdAt)}
-                </td>
-                <td className="px-4 py-4">{getStatusBadge(payment.status)}</td>
-                <td className="px-6 py-4 text-right">
-                  <Link
-                    href={`/dashboard/purchased-ideas/${payment.idea.id}`}
-                    className="inline-flex items-center justify-center w-9 h-9 rounded-xl hover:bg-primary hover:text-primary-foreground text-primary transition-all group/btn border border-primary/10"
-                  >
-                    <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-0.5 transition-transform" />
-                  </Link>
-                </td>
-              </tr>
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  {getStatusBadge(payment.status)}
+                </TableCell>
+                <TableCell className="px-6 py-4 text-right">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link href={``}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-xl hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/20 transition-all"
+                        >
+                          <ExternalLink className="w-4.5 h-4.5" />
+                        </Button>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-1 px-2">
+                      View Details
+                    </TooltipContent>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
             ))
           ) : (
-            <tr>
-              <td colSpan={6} className="h-48 text-center">
-                <div className="flex flex-col items-center justify-center text-muted-foreground/60">
-                  <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mb-4">
-                    <History className="w-8 h-8 opacity-20" />
+            <TableRow>
+              <TableCell colSpan={6} className="h-64 text-center">
+                <div className="flex flex-col items-center justify-center space-y-3">
+                  <div className="p-4 rounded-full bg-muted/50">
+                    <History className="w-10 h-10 text-muted-foreground/40" />
                   </div>
-                  <p className="text-sm font-medium">
-                    No payment history found.
-                  </p>
-                  <p className="text-xs mt-1">
-                    Your transactions will appear here once you make a purchase.
-                  </p>
+                  <div className="space-y-1">
+                    <p className="font-semibold text-foreground text-sm">
+                      No payment history found
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Your transactions will appear here once you make a
+                      purchase.
+                    </p>
+                  </div>
                 </div>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           )}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };
+
 export default PaymentsTable;
