@@ -35,7 +35,7 @@ const LoginForm = () => {
 
       // role-based redirect
       const redirectPath =
-        res.role === "ADMIN" ? "/admin/dashboard" : "/dashboard";
+        res.role === "ADMIN" ? "/admin" : "/dashboard";
       router.push(redirectPath);
     },
   });

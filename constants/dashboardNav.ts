@@ -2,7 +2,6 @@ import {
   LayoutDashboard,
   User,
   Lock,
-  Home,
   Users,
   Lightbulb,
   Tags,
@@ -33,7 +32,7 @@ export interface NavSection {
 
 export const getDashboardNav = (userRole: string): NavSection[] => {
   const commonLinks: NavItem[] = [
-    { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { title: "My Profile", href: "/my-profile", icon: User },
     {
       title: "Update Profile",
@@ -43,27 +42,26 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
   ];
 
   const adminLinks: NavItem[] = [
-    { title: "Overview", href: "/dashboard/admin", icon: Home },
-    { title: "Users", href: "/dashboard/admin/users", icon: Users },
-    { title: "Ideas", href: "/dashboard/admin/ideas", icon: Lightbulb },
-    { title: "Pending", href: "/dashboard/admin/ideas/pending", icon: Clock },
+    { title: "Users", href: "/admin/users", icon: Users },
+    { title: "Ideas", href: "/admin/ideas", icon: Lightbulb },
+    { title: "Pending", href: "/admin/ideas/pending", icon: Clock },
     {
       title: "Approved",
-      href: "/dashboard/admin/ideas/approved",
+      href: "/admin/ideas/approved",
       icon: CheckCircle,
     },
     {
       title: "Rejected",
-      href: "/dashboard/admin/ideas/rejected",
+      href: "/admin/ideas/rejected",
       icon: XCircle,
     },
-    { title: "Categories", href: "/dashboard/admin/categories", icon: Tags },
+    { title: "Categories", href: "/admin/categories", icon: Tags },
     {
       title: "Comments",
-      href: "/dashboard/admin/comments",
+      href: "/admin/comments",
       icon: MessageSquare,
     },
-    { title: "Payments", href: "/dashboard/admin/payments", icon: CreditCard },
+    { title: "Payments", href: "/admin/payments", icon: CreditCard },
   ];
 
   const memberLinks: NavItem[] = [
