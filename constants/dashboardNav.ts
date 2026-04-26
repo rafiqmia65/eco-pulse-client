@@ -84,6 +84,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
       href: "/dashboard/watchlist-ideas",
       icon: Bookmark,
     },
+    { title: "My Payments", href: "/dashboard/my-payments", icon: CreditCard },
   ];
 
   const sections: NavSection[] = [{ label: "Account", items: commonLinks }];
