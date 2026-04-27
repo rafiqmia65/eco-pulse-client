@@ -44,23 +44,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
     { title: "Overview", href: "/admin", icon: LayoutDashboard },
     { title: "Users", href: "/admin/users", icon: Users },
     { title: "All Ideas", href: "/admin/all-ideas", icon: Lightbulb },
-    { title: "Pending", href: "/admin/ideas/pending", icon: Clock },
-    {
-      title: "Approved",
-      href: "/admin/ideas/approved",
-      icon: CheckCircle,
-    },
-    {
-      title: "Rejected",
-      href: "/admin/ideas/rejected",
-      icon: XCircle,
-    },
     { title: "Categories", href: "/admin/categories", icon: Tags },
-    {
-      title: "Comments",
-      href: "/admin/comments",
-      icon: MessageSquare,
-    },
     { title: "Payments", href: "/admin/payments", icon: CreditCard },
   ];
 

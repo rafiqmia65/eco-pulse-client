@@ -52,7 +52,7 @@ const PurchasedIdeaDetails: React.FC<PurchasedIdeaDetailsProps> = ({
   }
 
   return (
-    <>
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* HEADER */}
       <IdeaHeader idea={idea} />
 
@@ -65,7 +65,7 @@ const PurchasedIdeaDetails: React.FC<PurchasedIdeaDetailsProps> = ({
         currentUserId={currentUserId}
         currentUserRole={currentUserRole}
       />
-    </>
+    </div>
   );
 };
 

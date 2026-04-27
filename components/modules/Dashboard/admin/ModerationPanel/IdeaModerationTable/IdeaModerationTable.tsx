@@ -20,23 +20,22 @@ import {
   Calendar,
   ExternalLink,
   FileText,
-  Check,
-  X,
 } from "lucide-react";
-import {
-  IAdminIdeaItem,
-  IIdeaStatus,
-} from "@/types/adminTypes/adminIdeas.types";
-import { format } from "date-fns";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { format } from "date-fns";
+import {
+  IAdminIdeaItem,
+  IIdeaStatus,
+} from "@/types/adminTypes/adminIdeas.types";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import AdminIdeaActions from "@/components/shared/AdminIdeaActions/AdminIdeaActions";
 
 interface IdeaModerationTableProps {
   ideas: IAdminIdeaItem[];
@@ -208,48 +207,7 @@ const IdeaModerationTable = ({ ideas }: IdeaModerationTableProps) => {
                         </TooltipContent>
                       </Tooltip>
 
-                      {/* APPROVE (REVIEW + REJECTED) */}
-                      {(idea.status === "REVIEW" ||
-                        idea.status === "REJECTED") && (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 rounded-lg hover:bg-emerald-500/10 hover:text-emerald-500 transition-all"
-                            >
-                              <Check className="w-4 h-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="top"
-                            className="bg-emerald-500 text-white text-[10px] py-1 px-2"
-                          >
-                            Approve Idea
-                          </TooltipContent>
-                        </Tooltip>
-                      )}
-
-                      {/* REJECT (ONLY REVIEW) */}
-                      {idea.status === "REVIEW" && (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 rounded-lg hover:bg-rose-500/10 hover:text-rose-500 transition-all"
-                            >
-                              <X className="w-4 h-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="top"
-                            className="bg-rose-500 text-white text-[10px] py-1 px-2"
-                          >
-                            Reject Idea
-                          </TooltipContent>
-                        </Tooltip>
-                      )}
+                      <AdminIdeaActions ideaId={idea.id} status={idea.status} />
                     </div>
                   </TableCell>
                 </TableRow>

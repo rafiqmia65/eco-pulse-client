@@ -6,6 +6,7 @@ import {
   IAdminIdeaListResponse,
   IAdminIdeaFilters,
   IAdminIdeaItem,
+  IAdminIdeaDetails,
 } from "@/types/adminTypes/adminIdeas.types";
 
 /**
@@ -25,4 +26,23 @@ export const getAllIdeasAdmin = async (
     params: query as Record<string, unknown>,
   })) as IAdminIdeaListResponse;
 };
+
+/**
+ * Fetch single idea for admin view
+ */
+export const getSingleIdeaAdmin = async (
+  id: string,
+  page = 1,
+  limit = 5,
+): Promise<IAdminIdeaDetails> => {
+  const response = await httpClient.get<IAdminIdeaDetails>(
+    `/api/v1/admin/ideas/${id}`,
+    {
+      params: { page, limit },
+    },
+  );
+  return response.data as IAdminIdeaDetails;
+};
+
+
 

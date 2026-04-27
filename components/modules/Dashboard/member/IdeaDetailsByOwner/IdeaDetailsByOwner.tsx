@@ -12,8 +12,9 @@ import IdeaMeta from "./IdeaMeta/IdeaMeta";
 import { IIdeaDetailsByOwner } from "@/types/memberTypes/IdeaDetailsByOwner.types";
 import { useMySingleIdea } from "@/app/(DashboardLayout)/dashboard/_actions";
 import StatsBar from "./StatsBar/StatsBar";
-import { AlertTriangle, MessageSquareWarning } from "lucide-react";
+import { AlertTriangle, ArrowLeft, MessageSquareWarning } from "lucide-react";
 import IdeaDetailContent from "./IdeaDetailContent/IdeaDetailContent";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   id: string;

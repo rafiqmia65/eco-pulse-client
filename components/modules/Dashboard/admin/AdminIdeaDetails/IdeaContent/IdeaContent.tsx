@@ -1,14 +1,12 @@
+"use client";
+
 import React from "react";
-import { IPurchasedIdeaDetails } from "@/types/memberTypes/purchasedIdeas.types";
-import Tabs from "@/components/shared/tabs/Tabs";
+import { IAdminIdeaDetails } from "@/types/adminTypes/adminIdeas.types";
 import { buildTabsFromSections } from "@/components/shared/tabs/buildTabsFromSections";
+import Tabs from "@/components/shared/tabs/Tabs";
 import TiptapViewer from "@/components/shared/TiptapViewer/TiptapViewer";
 
-interface IdeaContentProps {
-  idea: IPurchasedIdeaDetails;
-}
-
-const IdeaContent: React.FC<IdeaContentProps> = ({ idea }) => {
+export default function IdeaContent({ idea }: { idea: IAdminIdeaDetails }) {
   const tabs = buildTabsFromSections([
     {
       label: "Problem",
@@ -24,7 +22,9 @@ const IdeaContent: React.FC<IdeaContentProps> = ({ idea }) => {
     },
   ]);
 
-  return <Tabs tabs={tabs} defaultTab="problem" />;
-};
-
-export default IdeaContent;
+  return (
+    <div className="bg-card border border-border/50 rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
+      <Tabs tabs={tabs} defaultTab="problem" />
+    </div>
+  );
+}

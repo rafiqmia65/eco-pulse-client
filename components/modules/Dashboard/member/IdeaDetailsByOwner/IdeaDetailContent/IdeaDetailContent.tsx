@@ -13,15 +13,13 @@ export default function IdeaDetailContent({
       label: "Problem",
       content: <TiptapViewer content={idea.problem} />,
     },
-
-    {
-      label: "Description",
-      content: <TiptapViewer content={idea.description} />,
-    },
-
     {
       label: "Solution",
       content: <TiptapViewer content={idea.solution} />,
+    },
+    {
+      label: "Description",
+      content: <TiptapViewer content={idea.description} />,
     },
   ]);
 

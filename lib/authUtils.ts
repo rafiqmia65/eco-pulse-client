@@ -40,8 +40,9 @@ export const getRouteOwner = (pathname: string): RouteOwner | null => {
 };
 
 export const getDefaultDashboardRoute = (role: RoleType): string => {
-  if (role === "ADMIN") return "/admin/dashboard";
-  return "/dashboard";
+  if (role === "ADMIN") return "/admin";
+  if (role === "MEMBER") return "/dashboard";
+  return "/";
 };
 
 export const isValidRedirectForRole = (

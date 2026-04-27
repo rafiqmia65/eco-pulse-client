@@ -7,6 +7,8 @@ export interface IAdminIdeaAuthor {
   id: string;
   name: string;
   email: string;
+  status: string;
+  createdAt: string;
 }
 
 export interface IAdminIdeaCategory {
@@ -66,3 +68,25 @@ export interface IAdminIdeaFilters {
   sortOrder?: "asc" | "desc";
   [key: string]: any; // Still need to allow dynamic keys for potential future filters, but I'll use unknown in the code
 }
+
+import { IComment } from "../public/ideaDetails.types";
+
+// ================= ADMIN IDEA DETAILS =================
+export interface IAdminIdeaVote {
+  value: number;
+  userId: string;
+}
+
+export interface IAdminIdeaDetails extends IAdminIdeaItem {
+  votes: IAdminIdeaVote[];
+  comments: IComment[];
+  commentsMeta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export interface IAdminIdeaDetailsResponse extends ApiResponse<IAdminIdeaDetails> {}
+

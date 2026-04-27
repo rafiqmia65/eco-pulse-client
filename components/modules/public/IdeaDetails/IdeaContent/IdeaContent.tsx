@@ -9,15 +9,13 @@ export default function IdeaContent({ idea }: { idea: IIdeaAccessData }) {
       label: "Problem",
       content: <TiptapViewer content={idea.problem} />,
     },
-
-    {
-      label: "Description",
-      content: <TiptapViewer content={idea.description} />,
-    },
-
     {
       label: "Solution",
       content: <TiptapViewer content={idea.solution} />,
+    },
+    {
+      label: "Description",
+      content: <TiptapViewer content={idea.description} />,
     },
   ]);
 

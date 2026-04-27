@@ -3,15 +3,16 @@
 import React, { useState } from "react";
 import { useAdminAllIdeas } from "@/app/(DashboardLayout)/admin/all-ideas/_actions";
 import { ShieldCheck, RefreshCcw, FileText } from "lucide-react";
-import ModerationStats from "./ModerationStats";
-import IdeaModerationTable from "./IdeaModerationTable";
-import IdeaFilters from "./IdeaFilters";
+import ModerationStats from "./ModerationStats/ModerationStats";
+
+import IdeaFilters from "./IdeaFilters/IdeaFilters";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import Pagination from "@/components/shared/Pagination/Pagination";
 import { useDebounce } from "@/hooks/useDebounce";
 
 import { IIdeaStatus } from "@/types/adminTypes/adminIdeas.types";
+import IdeaModerationTable from "./IdeaModerationTable/IdeaModerationTable";
 
 const ModerationDashboard = () => {
   const [page, setPage] = useState(1);
@@ -29,11 +30,17 @@ const ModerationDashboard = () => {
     setPage(1);
   };
 
-  const { data: response, isLoading, isError, refetch, isFetching } = useAdminAllIdeas({
+  const {
+    data: response,
+    isLoading,
+    isError,
+    refetch,
+    isFetching,
+  } = useAdminAllIdeas({
     page,
     limit: 10,
     searchTerm: debouncedSearch,
-    status: statusFilter || undefined
+    status: statusFilter || undefined,
   });
 
   if (isError) {
@@ -43,15 +50,21 @@ const ModerationDashboard = () => {
           <RefreshCcw className="w-8 h-8 text-rose-500" />
         </div>
         <div className="text-center">
-          <p className="text-rose-500 font-bold text-xl">Moderation Load Error</p>
-          <p className="text-muted-foreground text-sm mt-1">Unable to fetch ideas for review. Please try again.</p>
+          <p className="text-rose-500 font-bold text-xl">
+            Moderation Load Error
+          </p>
+          <p className="text-muted-foreground text-sm mt-1">
+            Unable to fetch ideas for review. Please try again.
+          </p>
         </div>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           onClick={() => refetch()}
           className="gap-2 rounded-xl h-11 px-8 border-rose-500/20 hover:bg-rose-500/5 text-rose-500"
         >
-          <RefreshCcw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
+          <RefreshCcw
+            className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`}
+          />
           Retry Connection
         </Button>
       </div>
@@ -60,7 +73,12 @@ const ModerationDashboard = () => {
 
   const ideas = response?.data || [];
   const meta = response?.meta;
-  const counts = response?.counts || { total: 0, review: 0, approved: 0, rejected: 0 };
+  const counts = response?.counts || {
+    total: 0,
+    review: 0,
+    approved: 0,
+    rejected: 0,
+  };
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -85,8 +103,8 @@ const ModerationDashboard = () => {
           ))}
         </div>
       ) : (
-        <ModerationStats 
-          counts={counts} 
+        <ModerationStats
+          counts={counts}
           currentFilter={statusFilter}
           onFilterChange={handleFilterChange}
         />
@@ -106,7 +124,7 @@ const ModerationDashboard = () => {
             </div>
           )}
         </div>
-        <IdeaFilters 
+        <IdeaFilters
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
           onClear={() => handleSearchChange("")}
@@ -121,14 +139,11 @@ const ModerationDashboard = () => {
       ) : (
         <div className="space-y-6">
           <IdeaModerationTable ideas={ideas} />
-          
+
           {/* Pagination */}
           {meta && meta.totalPages > 1 && (
             <div className="flex items-center justify-center pt-4">
-              <Pagination 
-                meta={meta}
-                onPageChange={(p) => setPage(p)}
-              />
+              <Pagination meta={meta} onPageChange={(p) => setPage(p)} />
             </div>
           )}
         </div>
