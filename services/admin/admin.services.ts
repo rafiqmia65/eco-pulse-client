@@ -8,6 +8,7 @@ import {
   IAdminIdeaItem,
   IAdminIdeaDetails,
 } from "@/types/adminTypes/adminIdeas.types";
+import { IAdminPaymentsResponse } from "@/types/adminTypes/adminPayments.types";
 
 /**
  * Fetch admin dashboard statistics
@@ -56,4 +57,15 @@ export const approveIdeaAdmin = async (id: string) => {
  */
 export const rejectIdeaAdmin = async (id: string, feedback: string) => {
   return await httpClient.patch(`/api/v1/admin/ideas/reject/${id}`, { feedback });
+};
+
+/**
+ * Fetch all payments for admin
+ */
+export const getAllPaymentsAdmin = async (
+  query: Record<string, unknown> = {},
+): Promise<IAdminPaymentsResponse> => {
+  return await httpClient.get("/api/v1/admin/payments", {
+    params: query,
+  });
 };
