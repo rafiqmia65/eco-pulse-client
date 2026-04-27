@@ -18,6 +18,8 @@ const ModerationDashboard = () => {
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<IIdeaStatus | "">("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [isPaidFilter, setIsPaidFilter] = useState("");
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   const handleSearchChange = (val: string) => {
@@ -25,8 +27,26 @@ const ModerationDashboard = () => {
     setPage(1);
   };
 
-  const handleFilterChange = (status: string) => {
+  const handleStatusChange = (status: string) => {
     setStatusFilter(status as IIdeaStatus | "");
+    setPage(1);
+  };
+
+  const handleCategoryChange = (val: string) => {
+    setCategoryFilter(val);
+    setPage(1);
+  };
+
+  const handleIsPaidChange = (val: string) => {
+    setIsPaidFilter(val);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("");
+    setCategoryFilter("");
+    setIsPaidFilter("");
     setPage(1);
   };
 
@@ -41,6 +61,8 @@ const ModerationDashboard = () => {
     limit: 10,
     searchTerm: debouncedSearch,
     status: statusFilter || undefined,
+    categoryId: categoryFilter || undefined,
+    isPaid: isPaidFilter === "true" ? true : isPaidFilter === "false" ? false : undefined,
   });
 
   if (isError) {
@@ -106,7 +128,7 @@ const ModerationDashboard = () => {
         <ModerationStats
           counts={counts}
           currentFilter={statusFilter}
-          onFilterChange={handleFilterChange}
+          onFilterChange={handleStatusChange}
         />
       )}
 
@@ -127,7 +149,13 @@ const ModerationDashboard = () => {
         <IdeaFilters
           searchTerm={searchTerm}
           onSearchChange={handleSearchChange}
-          onClear={() => handleSearchChange("")}
+          status={statusFilter}
+          onStatusChange={handleStatusChange}
+          categoryId={categoryFilter}
+          onCategoryChange={handleCategoryChange}
+          isPaid={isPaidFilter}
+          onIsPaidChange={handleIsPaidChange}
+          onClear={handleClearFilters}
         />
       </div>
 
@@ -153,3 +181,4 @@ const ModerationDashboard = () => {
 };
 
 export default ModerationDashboard;
+

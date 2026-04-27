@@ -44,5 +44,16 @@ export const getSingleIdeaAdmin = async (
   return response.data as IAdminIdeaDetails;
 };
 
+/**
+ * Approve an idea
+ */
+export const approveIdeaAdmin = async (id: string) => {
+  return await httpClient.patch(`/api/v1/admin/ideas/approve/${id}`, {});
+};
 
-
+/**
+ * Reject an idea with feedback
+ */
+export const rejectIdeaAdmin = async (id: string, feedback: string) => {
+  return await httpClient.patch(`/api/v1/admin/ideas/reject/${id}`, { feedback });
+};
