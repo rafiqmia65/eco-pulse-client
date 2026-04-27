@@ -1,4 +1,4 @@
-import { ApiResponse, ApiMeta } from "../api.types";
+import { ApiResponse } from "../api.types";
 
 export enum PaymentStatus {
   PAID = "PAID",

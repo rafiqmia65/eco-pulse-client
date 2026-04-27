@@ -148,7 +148,7 @@ const AdminIdeaActions = ({
 
   const RejectModal = (
     <Dialog open={rejectModalOpen} onOpenChange={setRejectModalOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle>Reject Idea</DialogTitle>
           <DialogDescription>
@@ -164,7 +164,7 @@ const AdminIdeaActions = ({
               placeholder="e.g. Lacks feasibility study..."
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              className="col-span-3 min-h-[100px]"
+              className="col-span-3 min-h-25"
             />
           </div>
         </div>

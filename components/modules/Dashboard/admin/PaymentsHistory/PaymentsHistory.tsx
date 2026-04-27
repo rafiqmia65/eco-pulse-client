@@ -106,16 +106,16 @@ const PaymentsHistory = () => {
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Skeleton className="h-[380px] lg:col-span-2 rounded-2xl" />
-          <Skeleton className="h-[380px] rounded-2xl" />
+          <Skeleton className="h-95 lg:col-span-2 rounded-2xl" />
+          <Skeleton className="h-95 rounded-2xl" />
         </div>
-        <Skeleton className="h-[400px] w-full rounded-2xl" />
+        <Skeleton className="h-100 w-full rounded-2xl" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 p-6 max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-8 p-6 max-w-400 mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* Header */}
       <div className="flex flex-col gap-1">
         <h1 className="text-3xl font-bold tracking-tight">Payment Analytics</h1>

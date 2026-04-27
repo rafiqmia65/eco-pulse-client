@@ -120,7 +120,7 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
                         sizes="48px"
                       />
                     </div>
-                    <div className="max-w-[200px] md:max-w-[300px]">
+                    <div className="max-w-50 md:max-w-75">
                       <p className="font-bold text-foreground leading-tight text-sm truncate">
                         {payment.idea.title}
                       </p>
@@ -145,7 +145,7 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
                         className="flex items-center gap-2 bg-muted/30 hover:bg-muted/60 px-2.5 py-1.5 rounded-lg border border-border/40 transition-all cursor-pointer w-fit group/tid hover:ring-2 hover:ring-primary/10"
                         onClick={() => handleCopy(payment.transactionId)}
                       >
-                        <code className="text-[11px] text-muted-foreground font-mono truncate max-w-[100px]">
+                        <code className="text-[11px] text-muted-foreground font-mono truncate max-w-25">
                           {payment.transactionId}
                         </code>
                         {copiedId === payment.transactionId ? (
@@ -155,7 +155,7 @@ const PaymentsTable = ({ payments }: PaymentsTableProps) => {
                         )}
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-2 px-3 font-mono max-w-[250px] break-all leading-relaxed shadow-xl">
+                    <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-2 px-3 font-mono max-w-62.5 break-all leading-relaxed shadow-xl">
                       <p className="font-sans text-[9px] text-primary-foreground/50 mb-1 uppercase tracking-widest font-bold">
                         Full Transaction ID
                       </p>

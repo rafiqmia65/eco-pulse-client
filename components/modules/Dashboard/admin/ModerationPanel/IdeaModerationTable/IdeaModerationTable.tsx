@@ -86,7 +86,7 @@ const IdeaModerationTable = ({ ideas }: IdeaModerationTableProps) => {
         <Table>
           <TableHeader className="bg-muted/30">
             <TableRow className="hover:bg-transparent border-border/40">
-              <TableHead className="w-[380px] text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
+              <TableHead className="w-95 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
                 Idea Details
               </TableHead>
               <TableHead className="text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
@@ -126,7 +126,7 @@ const IdeaModerationTable = ({ ideas }: IdeaModerationTableProps) => {
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
-                      <div className="max-w-[280px]">
+                      <div className="max-w-70">
                         <p className="font-semibold text-foreground truncate block text-sm">
                           {idea.title}
                         </p>
@@ -144,7 +144,7 @@ const IdeaModerationTable = ({ ideas }: IdeaModerationTableProps) => {
                         <User className="w-3.5 h-3.5 text-muted-foreground" />
                         {idea.author.name}
                       </span>
-                      <span className="text-[11px] text-muted-foreground ml-5 truncate max-w-[150px]">
+                      <span className="text-[11px] text-muted-foreground ml-5 truncate max-w-37.5">
                         {idea.author.email}
                       </span>
                     </div>

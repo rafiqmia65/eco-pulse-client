@@ -88,5 +88,5 @@ export interface IAdminIdeaDetails extends IAdminIdeaItem {
   };
 }
 
-export interface IAdminIdeaDetailsResponse extends ApiResponse<IAdminIdeaDetails> {}
+export type IAdminIdeaDetailsResponse = ApiResponse<IAdminIdeaDetails>;
 

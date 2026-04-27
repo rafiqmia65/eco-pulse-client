@@ -47,7 +47,7 @@ const PurchasedIdeasFilters: React.FC<PurchasedIdeasFiltersProps> = ({
 
       <div className="flex flex-wrap gap-3 items-center">
         <Select value={sortBy} onValueChange={setSortBy}>
-          <SelectTrigger className="w-[180px] h-11 rounded-xl">
+          <SelectTrigger className="w-45 h-11 rounded-xl">
             <div className="flex items-center gap-2">
               <SortAsc className="w-4 h-4 text-muted-foreground" />
               <SelectValue placeholder="Sort By" />
@@ -64,7 +64,7 @@ const PurchasedIdeasFilters: React.FC<PurchasedIdeasFiltersProps> = ({
         </Select>
 
         <Select value={categoryId} onValueChange={setCategoryId}>
-          <SelectTrigger className="w-[180px] h-11 rounded-xl">
+          <SelectTrigger className="w-45 h-11 rounded-xl">
             <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent>

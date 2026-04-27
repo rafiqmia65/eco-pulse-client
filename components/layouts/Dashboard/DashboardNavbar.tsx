@@ -53,7 +53,7 @@ export const DashboardNavbar = ({ user }: DashboardNavbarProps) => {
         </div>
       </header>
 
-      {/* 🔹 Mobile Sidebar */}
+      {/* Mobile Sidebar */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           {/* Backdrop */}

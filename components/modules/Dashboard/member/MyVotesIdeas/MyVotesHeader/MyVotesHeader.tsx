@@ -1,5 +1,5 @@
 import React from "react";
-import { ThumbsUp, ThumbsDown, Vote, TrendingUp, Lightbulb } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Vote, Lightbulb } from "lucide-react";
 import { IVotesCounts } from "@/types/memberTypes/myVotes.types";
 
 interface MyVotesHeaderProps {

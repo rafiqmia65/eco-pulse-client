@@ -62,12 +62,17 @@ const ModerationDashboard = () => {
     searchTerm: debouncedSearch,
     status: statusFilter || undefined,
     categoryId: categoryFilter || undefined,
-    isPaid: isPaidFilter === "true" ? true : isPaidFilter === "false" ? false : undefined,
+    isPaid:
+      isPaidFilter === "true"
+        ? true
+        : isPaidFilter === "false"
+          ? false
+          : undefined,
   });
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 space-y-4">
         <div className="p-4 rounded-full bg-rose-500/10 border border-rose-500/20">
           <RefreshCcw className="w-8 h-8 text-rose-500" />
         </div>
@@ -162,7 +167,7 @@ const ModerationDashboard = () => {
       {/* Content Area */}
       {isLoading && !response ? (
         <div className="space-y-4">
-          <Skeleton className="h-[400px] w-full rounded-2xl" />
+          <Skeleton className="h-100 w-full rounded-2xl" />
         </div>
       ) : (
         <div className="space-y-6">
@@ -181,4 +186,3 @@ const ModerationDashboard = () => {
 };
 
 export default ModerationDashboard;
-

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import PurchasedIdeasHeader from "./PurchasedIdeasHeader";
-import PurchasedIdeasFilters from "./PurchasedIdeasFilters";
-import PurchasedIdeasTable from "./PurchasedIdeasTable";
+import PurchasedIdeasHeader from "./PurchasedIdeasHeader/PurchasedIdeasHeader";
+import PurchasedIdeasFilters from "./PurchasedIdeasFilters/PurchasedIdeasFilters";
+import PurchasedIdeasTable from "./PurchasedIdeasTable/PurchasedIdeasTable";
 import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 
 import { useDebounce } from "@/hooks/useDebounce";

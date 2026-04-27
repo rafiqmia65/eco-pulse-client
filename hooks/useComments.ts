@@ -1,12 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
-import { 
-  fetchComments, 
-  createComment, 
-  updateComment, 
-  deleteComment, 
-  restoreComment 
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
+import {
+  fetchComments,
+  createComment,
+  updateComment,
+  deleteComment,
+  restoreComment,
 } from "@/services/comments.services";
 import { toast } from "sonner";
 
@@ -28,7 +34,7 @@ export const useCreateComment = (ideaId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: { content: string; parentId?: string }) => 
+    mutationFn: (payload: { content: string; parentId?: string }) =>
       createComment(ideaId, payload),
     onSuccess: (data) => {
       toast.success(data.message || "Comment created successfully");
@@ -47,7 +53,7 @@ export const useUpdateComment = (ideaId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, content }: { id: string; content: string }) => 
+    mutationFn: ({ id, content }: { id: string; content: string }) =>
       updateComment(id, { content }),
     onSuccess: (data) => {
       toast.success(data.message || "Comment updated successfully");

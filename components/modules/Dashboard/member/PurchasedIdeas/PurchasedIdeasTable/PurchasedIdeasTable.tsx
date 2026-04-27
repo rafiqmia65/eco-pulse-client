@@ -78,7 +78,7 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
       <Table>
         <TableHeader className="bg-muted/30">
           <TableRow className="hover:bg-transparent border-border/40">
-            <TableHead className="px-6 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground w-[380px]">
+            <TableHead className="px-6 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground w-95">
               Idea & Author
             </TableHead>
             <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
@@ -118,7 +118,7 @@ const PurchasedIdeasTable: React.FC<PurchasedIdeasTableProps> = ({
                       </div>
                     )}
                   </div>
-                  <div className="max-w-[280px]">
+                  <div className="max-w-70">
                     <p className="font-bold text-foreground leading-tight text-sm truncate">
                       {purchase.idea.title}
                     </p>

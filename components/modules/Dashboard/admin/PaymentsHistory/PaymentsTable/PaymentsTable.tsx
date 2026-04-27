@@ -145,7 +145,7 @@ const PaymentsTable: React.FC<PaymentsTableProps> = ({
         <div className="flex flex-wrap gap-3 items-center w-full lg:w-auto">
           {/* Status */}
           <Select value={filters.status} onValueChange={onStatusChange}>
-            <SelectTrigger className="w-full sm:w-[150px] h-11 rounded-xl bg-background/50 border-border/50 shadow-none">
+            <SelectTrigger className="w-full sm:w-37.5 h-11 rounded-xl bg-background/50 border-border/50 shadow-none">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -158,7 +158,7 @@ const PaymentsTable: React.FC<PaymentsTableProps> = ({
 
           {/* Gateway */}
           <Select value={filters.gateway} onValueChange={onGatewayChange}>
-            <SelectTrigger className="w-full sm:w-[150px] h-11 rounded-xl bg-background/50 border-border/50 shadow-none">
+            <SelectTrigger className="w-full sm:w-37.5 h-11 rounded-xl bg-background/50 border-border/50 shadow-none">
               <SelectValue placeholder="Gateway" />
             </SelectTrigger>
             <SelectContent>
@@ -240,7 +240,7 @@ const PaymentsTable: React.FC<PaymentsTableProps> = ({
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex flex-col max-w-[200px]">
+                    <div className="flex flex-col max-w-50">
                       <span
                         className="text-sm font-medium truncate"
                         title={payment.idea.title}
@@ -272,7 +272,7 @@ const PaymentsTable: React.FC<PaymentsTableProps> = ({
                             )}
                           </div>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-2 px-3 font-mono max-w-[250px] break-all">
+                        <TooltipContent className="bg-primary text-primary-foreground text-[10px] py-2 px-3 font-mono max-w-62.5 break-all">
                           <p className="font-sans text-[9px] text-primary-foreground/50 mb-1 uppercase tracking-widest font-bold">
                             Full Transaction ID
                           </p>

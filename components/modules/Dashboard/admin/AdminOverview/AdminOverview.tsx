@@ -3,12 +3,12 @@
 import React from "react";
 import { useAdminStats } from "@/app/(DashboardLayout)/admin/_actions";
 import { LayoutDashboard, RefreshCcw } from "lucide-react";
-import AdminOverviewSkeleton from "./AdminOverviewSkeleton";
-import StatCards from "./StatCards";
-import RevenueChart from "./RevenueChart";
-import IdeasChart from "./IdeasChart";
-import TopIdeasLists from "./TopIdeasLists";
-import DetailedBreakdown from "./DetailedBreakdown";
+import AdminOverviewSkeleton from "./AdminOverviewSkeleton/AdminOverviewSkeleton";
+import StatCards from "./StatCards/StatCards";
+import RevenueChart from "./RevenueChart/RevenueChart";
+import IdeasChart from "./IdeasChart/IdeasChart";
+import TopIdeasLists from "./TopIdeasLists/TopIdeasLists";
+import DetailedBreakdown from "./DetailedBreakdown/DetailedBreakdown";
 import { Button } from "@/components/ui/button";
 
 const AdminOverview = () => {
@@ -24,7 +24,7 @@ const AdminOverview = () => {
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 space-y-4">
         <p className="text-rose-500 font-medium text-lg">
           Failed to load admin stats
         </p>

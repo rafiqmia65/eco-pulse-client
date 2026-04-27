@@ -132,7 +132,6 @@ export default function InputEditor({ value, onChange }: Props) {
   const btn = (active: boolean) =>
     `p-2 rounded-lg hover:bg-muted/80 transition-colors ${active ? "bg-muted text-primary" : "text-muted-foreground hover:text-foreground"}`;
 
-
   // LINK
   const addLink = () => {
     if (link) {
@@ -172,25 +171,52 @@ export default function InputEditor({ value, onChange }: Props) {
   };
 
   return (
-    <div onPaste={handlePaste} className="border rounded-xl overflow-hidden shadow-sm bg-card">
+    <div
+      onPaste={handlePaste}
+      className="border rounded-xl overflow-hidden shadow-sm bg-card"
+    >
       {/* TOOLBAR */}
       <div className="flex flex-wrap items-center gap-1.5 p-2 border-b bg-muted/20">
-        
         {/* TEXT STYLE */}
         <div className="flex items-center gap-1 pr-2 border-r">
-          <button type="button" title="Bold" onClick={() => editor.chain().focus().toggleBold().run()} className={btn(editor.isActive("bold"))}>
+          <button
+            type="button"
+            title="Bold"
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={btn(editor.isActive("bold"))}
+          >
             <Bold className="w-4 h-4" />
           </button>
-          <button type="button" title="Italic" onClick={() => editor.chain().focus().toggleItalic().run()} className={btn(editor.isActive("italic"))}>
+          <button
+            type="button"
+            title="Italic"
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={btn(editor.isActive("italic"))}
+          >
             <Italic className="w-4 h-4" />
           </button>
-          <button type="button" title="Underline" onClick={() => editor.chain().focus().toggleUnderline().run()} className={btn(editor.isActive("underline"))}>
+          <button
+            type="button"
+            title="Underline"
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={btn(editor.isActive("underline"))}
+          >
             <UnderlineIcon className="w-4 h-4" />
           </button>
-          <button type="button" title="Strikethrough" onClick={() => editor.chain().focus().toggleStrike().run()} className={btn(editor.isActive("strike"))}>
+          <button
+            type="button"
+            title="Strikethrough"
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={btn(editor.isActive("strike"))}
+          >
             <Strikethrough className="w-4 h-4" />
           </button>
-          <button type="button" title="Highlight" onClick={() => editor.chain().focus().toggleHighlight().run()} className={btn(editor.isActive("highlight"))}>
+          <button
+            type="button"
+            title="Highlight"
+            onClick={() => editor.chain().focus().toggleHighlight().run()}
+            className={btn(editor.isActive("highlight"))}
+          >
             <Highlighter className="w-4 h-4" />
           </button>
           <div className="w-6 h-6 rounded-md overflow-hidden relative ml-1 border cursor-pointer hover:ring-2 ring-primary/50 transition-all">
@@ -205,55 +231,128 @@ export default function InputEditor({ value, onChange }: Props) {
               title="Text Color"
             />
           </div>
-          <button type="button" title="Clear Formatting" onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} className={btn(false)}>
+          <button
+            type="button"
+            title="Clear Formatting"
+            onClick={() =>
+              editor.chain().focus().unsetAllMarks().clearNodes().run()
+            }
+            className={btn(false)}
+          >
             <Paintbrush className="w-4 h-4" />
           </button>
         </div>
 
         {/* HEADINGS */}
         <div className="flex items-center gap-1 pr-2 border-r">
-          <button type="button" title="Heading 1" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={btn(editor.isActive("heading", { level: 1 }))}>
+          <button
+            type="button"
+            title="Heading 1"
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 1 }).run()
+            }
+            className={btn(editor.isActive("heading", { level: 1 }))}
+          >
             <Heading1 className="w-4 h-4" />
           </button>
-          <button type="button" title="Heading 2" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={btn(editor.isActive("heading", { level: 2 }))}>
+          <button
+            type="button"
+            title="Heading 2"
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 2 }).run()
+            }
+            className={btn(editor.isActive("heading", { level: 2 }))}
+          >
             <Heading2 className="w-4 h-4" />
           </button>
-          <button type="button" title="Heading 3" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={btn(editor.isActive("heading", { level: 3 }))}>
+          <button
+            type="button"
+            title="Heading 3"
+            onClick={() =>
+              editor.chain().focus().toggleHeading({ level: 3 }).run()
+            }
+            className={btn(editor.isActive("heading", { level: 3 }))}
+          >
             <Heading3 className="w-4 h-4" />
           </button>
         </div>
 
         {/* LISTS & BLOCKS */}
         <div className="flex items-center gap-1 pr-2 border-r">
-          <button type="button" title="Bullet List" onClick={() => editor.chain().focus().toggleBulletList().run()} className={btn(editor.isActive("bulletList"))}>
+          <button
+            type="button"
+            title="Bullet List"
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={btn(editor.isActive("bulletList"))}
+          >
             <List className="w-4 h-4" />
           </button>
-          <button type="button" title="Numbered List" onClick={() => editor.chain().focus().toggleOrderedList().run()} className={btn(editor.isActive("orderedList"))}>
+          <button
+            type="button"
+            title="Numbered List"
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            className={btn(editor.isActive("orderedList"))}
+          >
             <ListOrdered className="w-4 h-4" />
           </button>
-          <button type="button" title="Task List" onClick={() => editor.chain().focus().toggleTaskList().run()} className={btn(editor.isActive("taskList"))}>
+          <button
+            type="button"
+            title="Task List"
+            onClick={() => editor.chain().focus().toggleTaskList().run()}
+            className={btn(editor.isActive("taskList"))}
+          >
             <CheckSquare className="w-4 h-4" />
           </button>
-          <button type="button" title="Blockquote" onClick={() => editor.chain().focus().toggleBlockquote().run()} className={btn(editor.isActive("blockquote"))}>
+          <button
+            type="button"
+            title="Blockquote"
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            className={btn(editor.isActive("blockquote"))}
+          >
             <Quote className="w-4 h-4" />
           </button>
-          <button type="button" title="Code Block" onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={btn(editor.isActive("codeBlock"))}>
+          <button
+            type="button"
+            title="Code Block"
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            className={btn(editor.isActive("codeBlock"))}
+          >
             <Code className="w-4 h-4" />
           </button>
-          <button type="button" title="Divider" onClick={() => editor.chain().focus().setHorizontalRule().run()} className={btn(false)}>
+          <button
+            type="button"
+            title="Divider"
+            onClick={() => editor.chain().focus().setHorizontalRule().run()}
+            className={btn(false)}
+          >
             <Minus className="w-4 h-4" />
           </button>
         </div>
 
         {/* ALIGNMENT */}
         <div className="hidden sm:flex items-center gap-1 pr-2 border-r">
-          <button type="button" title="Align Left" onClick={() => editor.chain().focus().setTextAlign("left").run()} className={btn(editor.isActive({ textAlign: "left" }))}>
+          <button
+            type="button"
+            title="Align Left"
+            onClick={() => editor.chain().focus().setTextAlign("left").run()}
+            className={btn(editor.isActive({ textAlign: "left" }))}
+          >
             <AlignLeft className="w-4 h-4" />
           </button>
-          <button type="button" title="Align Center" onClick={() => editor.chain().focus().setTextAlign("center").run()} className={btn(editor.isActive({ textAlign: "center" }))}>
+          <button
+            type="button"
+            title="Align Center"
+            onClick={() => editor.chain().focus().setTextAlign("center").run()}
+            className={btn(editor.isActive({ textAlign: "center" }))}
+          >
             <AlignCenter className="w-4 h-4" />
           </button>
-          <button type="button" title="Align Right" onClick={() => editor.chain().focus().setTextAlign("right").run()} className={btn(editor.isActive({ textAlign: "right" }))}>
+          <button
+            type="button"
+            title="Align Right"
+            onClick={() => editor.chain().focus().setTextAlign("right").run()}
+            className={btn(editor.isActive({ textAlign: "right" }))}
+          >
             <AlignRight className="w-4 h-4" />
           </button>
         </div>
@@ -262,7 +361,11 @@ export default function InputEditor({ value, onChange }: Props) {
         <div className="flex items-center gap-1 pr-2 border-r">
           <Dialog>
             <DialogTrigger asChild>
-              <button type="button" title="Insert Link" className={btn(editor.isActive("link"))}>
+              <button
+                type="button"
+                title="Insert Link"
+                className={btn(editor.isActive("link"))}
+              >
                 <LinkIcon className="w-4 h-4" />
               </button>
             </DialogTrigger>
@@ -270,14 +373,22 @@ export default function InputEditor({ value, onChange }: Props) {
               <DialogHeader>
                 <DialogTitle>Add Link</DialogTitle>
               </DialogHeader>
-              <Input value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://..." />
+              <Input
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+                placeholder="https://..."
+              />
               <Button onClick={addLink}>Add Link</Button>
             </DialogContent>
           </Dialog>
 
           <Dialog>
             <DialogTrigger asChild>
-              <button type="button" title="Insert Image" className={btn(editor.isActive("image"))}>
+              <button
+                type="button"
+                title="Insert Image"
+                className={btn(editor.isActive("image"))}
+              >
                 <ImageIcon className="w-4 h-4" />
               </button>
             </DialogTrigger>
@@ -296,10 +407,15 @@ export default function InputEditor({ value, onChange }: Props) {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or</span>
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or
+                  </span>
                 </div>
               </div>
-              <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+              <Button
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+              >
                 Upload File
               </Button>
               <input
@@ -318,10 +434,20 @@ export default function InputEditor({ value, onChange }: Props) {
 
         {/* UNDO/REDO */}
         <div className="flex items-center gap-1">
-          <button type="button" title="Undo" onClick={() => editor.chain().focus().undo().run()} className={btn(false)}>
+          <button
+            type="button"
+            title="Undo"
+            onClick={() => editor.chain().focus().undo().run()}
+            className={btn(false)}
+          >
             <Undo className="w-4 h-4" />
           </button>
-          <button type="button" title="Redo" onClick={() => editor.chain().focus().redo().run()} className={btn(false)}>
+          <button
+            type="button"
+            title="Redo"
+            onClick={() => editor.chain().focus().redo().run()}
+            className={btn(false)}
+          >
             <Redo className="w-4 h-4" />
           </button>
         </div>
@@ -330,7 +456,7 @@ export default function InputEditor({ value, onChange }: Props) {
       {/* EDITOR */}
       <EditorContent
         editor={editor}
-        className="p-4 min-h-[200px] max-h-[300px] overflow-y-auto prose max-w-none focus:outline-none"
+        className="p-4 min-h-50 max-h-75 overflow-y-auto prose max-w-none focus:outline-none"
       />
     </div>
   );

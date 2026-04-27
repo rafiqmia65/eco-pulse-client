@@ -9,7 +9,7 @@ import StatsBar from "./StatsBar/StatsBar";
 import IdeaMeta from "./IdeaMeta/IdeaMeta";
 import CommentsSection from "@/components/shared/Comments/CommentsSection";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, ArrowLeft, RefreshCcw } from "lucide-react";
+import { AlertCircle, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AdminIdeaActions from "../../../../shared/AdminIdeaActions/AdminIdeaActions";
@@ -27,7 +27,7 @@ const AdminIdeaDetails = ({ user }: { user: AuthUser | null }) => {
   if (isLoading) {
     return (
       <div className="space-y-8 animate-in fade-in duration-500">
-        <Skeleton className="h-[400px] w-full rounded-3xl" />
+        <Skeleton className="h-100 w-full rounded-3xl" />
         <div className="grid grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <Skeleton key={i} className="h-24 w-full rounded-2xl" />
@@ -43,7 +43,7 @@ const AdminIdeaDetails = ({ user }: { user: AuthUser | null }) => {
 
   if (isError || !idea) {
     return (
-      <div className="min-h-[500px] flex flex-col items-center justify-center text-center p-8 bg-card rounded-3xl border border-dashed border-border/60">
+      <div className="min-h-125 flex flex-col items-center justify-center text-center p-8 bg-card rounded-3xl border border-dashed border-border/60">
         <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mb-4">
           <AlertCircle className="text-rose-500 w-8 h-8" />
         </div>

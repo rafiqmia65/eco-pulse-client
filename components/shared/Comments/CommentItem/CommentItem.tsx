@@ -1,8 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IComment } from "@/types/public/ideaDetails.types";
 import CommentActions from "../CommentActions/CommentActions";
 import { MessageCircle } from "lucide-react";
-import { useUpdateComment, useDeleteComment, useRestoreComment } from "@/hooks/useComments";
+import {
+  useUpdateComment,
+  useDeleteComment,
+  useRestoreComment,
+} from "@/hooks/useComments";
 import { useState } from "react";
 import CommentHeader from "./CommentHeader";
 import CommentEditForm from "./CommentEditForm";
@@ -49,7 +52,7 @@ export default function CommentItem({
           setEditingId(null);
           setEditContent("");
         },
-      }
+      },
     );
   };
 

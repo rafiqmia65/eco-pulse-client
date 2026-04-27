@@ -1,7 +1,7 @@
 import { getUserInfo } from "@/services/auth/auth.services";
 import { AuthUser } from "@/types/auth.types";
-import UpdateProfileForm from "./UpdateProfileForm";
-import ChangePasswordForm from "./ChangePasswordForm";
+import UpdateProfileForm from "./UpdateProfileForm/UpdateProfileForm";
+import ChangePasswordForm from "./ChangePasswordForm/ChangePasswordForm";
 import { Settings } from "lucide-react";
 
 const UpdateProfile = async () => {

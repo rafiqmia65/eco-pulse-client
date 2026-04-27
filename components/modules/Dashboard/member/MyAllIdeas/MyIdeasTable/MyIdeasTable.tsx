@@ -1,7 +1,15 @@
 "use client";
 
 import React from "react";
-import { Calendar, Layers, Tag, DollarSign, CheckCircle2, Clock, XCircle } from "lucide-react";
+import {
+  Calendar,
+  Layers,
+  Tag,
+  DollarSign,
+  CheckCircle2,
+  Clock,
+  XCircle,
+} from "lucide-react";
 import { IIdea } from "@/types/memberTypes/myAllIdeas.types";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -48,7 +56,10 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
         );
       case "DRAFT":
         return (
-          <Badge variant="outline" className="text-muted-foreground gap-1 font-medium px-2 py-0.5 rounded-full">
+          <Badge
+            variant="outline"
+            className="text-muted-foreground gap-1 font-medium px-2 py-0.5 rounded-full"
+          >
             <Clock className="w-3 h-3" />
             Draft
           </Badge>
@@ -80,7 +91,8 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
           <div className="space-y-1">
             <h3 className="text-lg font-bold">No ideas found</h3>
             <p className="text-sm text-muted-foreground">
-              Try adjusting your filters or search terms to find what you&apos;re looking for.
+              Try adjusting your filters or search terms to find what
+              you&apos;re looking for.
             </p>
           </div>
         </div>
@@ -93,7 +105,7 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
       <Table>
         <TableHeader className="bg-muted/30">
           <TableRow className="hover:bg-transparent border-border/40">
-            <TableHead className="px-6 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground w-[380px]">
+            <TableHead className="px-6 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground w-95">
               Idea Details
             </TableHead>
             <TableHead className="px-4 py-4 text-[11px] uppercase tracking-wider font-bold text-muted-foreground">
@@ -112,7 +124,10 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
         </TableHeader>
         <TableBody>
           {ideas.map((idea) => (
-            <TableRow key={idea.id} className="hover:bg-muted/40 transition-colors border-border/40 group">
+            <TableRow
+              key={idea.id}
+              className="hover:bg-muted/40 transition-colors border-border/40 group"
+            >
               <TableCell className="px-6 py-4">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted shrink-0 border border-border/50 relative shadow-sm">
@@ -130,7 +145,7 @@ const MyIdeasTable: React.FC<MyIdeasTableProps> = ({ ideas, isLoading }) => {
                       </div>
                     )}
                   </div>
-                  <div className="max-w-[280px]">
+                  <div className="max-w-70">
                     <p className="font-bold text-foreground leading-tight text-sm truncate">
                       {idea.title}
                     </p>

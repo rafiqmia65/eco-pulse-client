@@ -1,6 +1,4 @@
 import { IAdminIdeaDetails } from "@/types/adminTypes/adminIdeas.types";
-import { ThumbsUp, ThumbsDown, MessageSquare, Eye, Bookmark } from "lucide-react";
-import { Card } from "@/components/ui/card";
 
 export default function StatsBar({ idea }: { idea: IAdminIdeaDetails }) {
   return (
@@ -16,7 +14,11 @@ export default function StatsBar({ idea }: { idea: IAdminIdeaDetails }) {
         color="text-rose-600"
       />
       <Stat label="Comments" value={idea.commentsCount} color="text-blue-600" />
-      <Stat label="Engagement" value={idea.upvotesCount + idea.downvotesCount} color="text-amber-600" />
+      <Stat
+        label="Engagement"
+        value={idea.upvotesCount + idea.downvotesCount}
+        color="text-amber-600"
+      />
     </div>
   );
 }

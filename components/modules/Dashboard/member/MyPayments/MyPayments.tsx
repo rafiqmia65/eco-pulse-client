@@ -10,9 +10,9 @@ import {
   Clock
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import StatsCard from "./StatsCard";
-import PaymentsTable from "./PaymentsTable";
-import PaymentsSkeleton from "./PaymentsSkeleton";
+import StatsCard from "./StatsCard/StatsCard";
+import PaymentsTable from "./PaymentsTable/PaymentsTable";
+import PaymentsSkeleton from "./PaymentsSkeleton/PaymentsSkeleton";
 import Pagination from "@/components/shared/Pagination/Pagination";
 
 const MyPayments = () => {
