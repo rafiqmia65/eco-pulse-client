@@ -2,6 +2,7 @@ import { getUserInfo } from "@/services/auth/auth.services";
 import { DashboardSidebar } from "@/components/layouts/Dashboard/DashboardSidebar";
 import { DashboardNavbar } from "@/components/layouts/Dashboard/DashboardNavbar";
 import { redirect } from "next/navigation";
+import BodyOverflowHidden from "@/components/shared/BodyOverflowHidden";
 
 /**
  * DashboardLayout Component
@@ -22,6 +23,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-muted/30">
+      <BodyOverflowHidden />
       <div className="hidden md:flex shrink-0">
         <DashboardSidebar
           user={user}

@@ -30,6 +30,14 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
   const handleVote = (value: 1 | -1) => {
     if (voteDisabled || isPending) return;
 
+    if (
+      idea.accessLevel === "PUBLIC_FREE_GUEST" ||
+      idea.accessLevel === "GUEST_PREVIEW"
+    ) {
+      toast.error("Please login first to vote");
+      return;
+    }
+
     const prevVote = currentVote;
 
     if (prevVote === value) {

@@ -65,7 +65,7 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
   };
 
   return (
-    <div className="bg-card border rounded-2xl p-6 shadow-sm space-y-6">
+    <div className="bg-card border rounded-2xl p-6 shadow-sm flex flex-col h-full">
       <div className="flex items-center gap-4 border-b pb-4">
         <div className="p-2 bg-primary/10 rounded-lg text-primary">
           <User className="w-5 h-5" />
@@ -83,7 +83,7 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
           e.preventDefault();
           form.handleSubmit();
         }}
-        className="space-y-5"
+        className="flex flex-col flex-1 space-y-5"
       >
         {/* IMAGE */}
         <div className="flex flex-col items-center sm:flex-row gap-6 p-4 bg-muted/30 rounded-xl border border-dashed">
@@ -147,7 +147,7 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
         </form.Field>
 
         {/* SUBMIT */}
-        <div className="pt-2">
+        <div className="mt-auto pt-4">
           <form.Subscribe>
             {({ canSubmit, isSubmitting, isDirty }) => (
               <AppSubmitButton

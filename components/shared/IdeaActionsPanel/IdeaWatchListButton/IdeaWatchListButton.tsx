@@ -29,6 +29,14 @@ export default function IdeaWatchListButton({
   const handleToggle = () => {
     if (disabled) return;
 
+    if (
+      idea.accessLevel === "PUBLIC_FREE_GUEST" ||
+      idea.accessLevel === "GUEST_PREVIEW"
+    ) {
+      toast.error("Please login first to add to watchlist");
+      return;
+    }
+
     const prevState = isInWatchList;
 
     setIsInWatchList(!prevState);

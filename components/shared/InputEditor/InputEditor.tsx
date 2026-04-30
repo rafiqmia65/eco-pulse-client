@@ -456,7 +456,7 @@ export default function InputEditor({ value, onChange }: Props) {
       {/* EDITOR */}
       <EditorContent
         editor={editor}
-        className="p-4 min-h-50 max-h-75 overflow-y-auto prose max-w-none focus:outline-none"
+        className="p-4 min-h-[150px] max-h-[400px] overflow-y-auto prose max-w-none focus:outline-none"
       />
     </div>
   );

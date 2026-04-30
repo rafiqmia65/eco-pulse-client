@@ -3,16 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Lock,
-  Unlock,
   MessageSquare,
   ThumbsUp,
-  ArrowRight,
-  User,
-  Calendar,
-  Layers,
 } from "lucide-react";
 import { IWatchListIdea } from "@/types/memberTypes/watchlist.types";
-import { Badge } from "@/components/ui/badge";
 import { formatTimeAgo } from "@/lib/formatDate";
 
 interface WatchlistCardProps {
@@ -21,107 +15,80 @@ interface WatchlistCardProps {
 
 const WatchlistCard: React.FC<WatchlistCardProps> = ({ idea }) => {
   return (
-    <div className="group bg-card rounded-2xl border overflow-hidden transition-all hover:shadow-xl hover:border-primary/20 flex flex-col h-full">
-      {/* Image Section */}
-      <div className="relative h-48 w-full overflow-hidden">
-        {idea.image ? (
-          <Image
-            src={idea.image}
-            alt={idea.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-        ) : (
-          <div className="w-full h-full bg-muted flex items-center justify-center">
-            <Layers className="w-12 h-12 text-muted-foreground/20" />
-          </div>
+    <div className="bg-card border border-border overflow-hidden shadow-sm hover:shadow-md transition flex flex-col h-full rounded-xl">
+      {/* IMAGE */}
+      <div className="relative">
+        <Image
+          src={idea.image || "/placeholder.png"}
+          alt={idea.title}
+          width={600}
+          height={300}
+          className="w-full h-40 object-cover"
+        />
+
+        {idea.isPaid && (
+          <span className="absolute top-2 right-2 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded">
+            Premium
+          </span>
         )}
 
-        {/* Status Overlay */}
-        <div className="absolute top-4 left-4 flex gap-2">
-          <Badge
-            variant={idea.isPaid ? "secondary" : "default"}
-            className="font-semibold px-3 py-1 backdrop-blur-md bg-white/90"
-          >
-            {idea.isPaid ? `$${idea.price}` : "Free"}
-          </Badge>
-          <Badge
-            className={`font-semibold px-3 py-1 ${idea.isLocked ? "bg-orange-500 hover:bg-orange-600" : "bg-green-500 hover:bg-green-600"}`}
-          >
-            {idea.isLocked ? (
-              <span className="flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5" /> Locked
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5">
-                <Unlock className="w-3.5 h-3.5" /> Unlocked
-              </span>
-            )}
-          </Badge>
-        </div>
+        {idea.isLocked && (
+          <span className="absolute top-2 left-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1">
+            <Lock size={10} /> Locked
+          </span>
+        )}
       </div>
 
-      {/* Content Section */}
-      <div className="p-5 flex-1 flex flex-col">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-[10px] uppercase tracking-wider font-bold text-primary px-2 py-0.5 rounded bg-primary/10">
-            {idea.category.name}
+      {/* CONTENT */}
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        {/* CATEGORY + PRICE */}
+        <div className="flex items-center justify-between">
+          <span className="bg-muted px-2 py-0.5 rounded text-[10px] text-muted-foreground font-medium">
+            {idea.category?.name}
+          </span>
+          <span className="font-bold text-sm text-primary">
+            {idea.isPaid ? `$${idea.price}` : "Free"}
           </span>
         </div>
 
-        <h3 className="text-xl font-bold mb-2 line-clamp-1 group-hover:text-primary transition-colors">
-          {idea.title}
-        </h3>
+        {/* TITLE */}
+        <h3 className="text-base font-bold text-foreground line-clamp-1 leading-tight">{idea.title}</h3>
 
-        <p className="text-muted-foreground text-sm line-clamp-2 mb-4 leading-relaxed">
+        {/* DESCRIPTION */}
+        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
           {idea.description}
         </p>
 
-        <div className="mt-auto space-y-4">
-          {/* Solution Snippet */}
-          <div className="bg-muted/30 p-3 rounded-xl border border-dashed border-muted-foreground/20">
-            <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest mb-1">
-              Proposed Solution
-            </p>
-            <p className="text-xs line-clamp-2 italic text-muted-foreground/80">
-              {idea.solution}
-            </p>
-          </div>
-
-          {/* Author & Date */}
-          <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">
-            <div className="flex items-center gap-1.5 font-medium">
-              <User className="w-3.5 h-3.5" />
-              <span className="line-clamp-1">{idea.author.name}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5" />
-              {formatTimeAgo(idea.createdAt)}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer Section */}
-      <div className="p-4 bg-muted/20 border-t flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-blue-500">
-            <ThumbsUp className="w-4 h-4" />
-            <span className="text-xs font-bold">{idea.votesCount}</span>
-          </div>
-          <div className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-green-500">
-            <MessageSquare className="w-4 h-4" />
-            <span className="text-xs font-bold">{idea.commentsCount}</span>
-          </div>
+        {/* SOLUTION (Compact) */}
+        <div className="bg-muted/30 border border-border/50 p-2 rounded text-[11px] text-muted-foreground mt-1">
+          <p className="line-clamp-1 italic">
+            <span className="font-semibold text-foreground not-italic">Sol:</span> {idea.solution}
+          </p>
         </div>
 
-        <Link
-          href={`/ideas/${idea.id}`}
-          className="flex items-center gap-1.5 text-xs font-bold text-primary hover:gap-2.5 transition-all"
-        >
-          View Details
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {/* FOOTER */}
+        <div className="mt-auto pt-3 border-t flex flex-col gap-3">
+          <div className="flex items-center justify-between text-[11px] text-muted-foreground font-medium">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1" title="Votes">
+                <ThumbsUp size={12} className="text-primary/70" />
+                {idea.votesCount || 0}
+              </span>
+
+              <span className="flex items-center gap-1" title="Comments">
+                <MessageSquare size={12} className="text-primary/70" />
+                {idea.commentsCount}
+              </span>
+            </div>
+            <span>{formatTimeAgo(idea.createdAt)}</span>
+          </div>
+
+          <Link href={`/ideas/${idea.id}`} className="w-full">
+            <button className="w-full py-2 text-xs rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition font-bold uppercase tracking-wider">
+              See Details
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

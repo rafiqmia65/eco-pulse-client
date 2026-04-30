@@ -39,7 +39,7 @@ const ChangePasswordForm = () => {
   });
 
   return (
-    <div className="bg-card border rounded-2xl p-6 shadow-sm space-y-6 h-full">
+    <div className="bg-card border rounded-2xl p-6 shadow-sm flex flex-col h-full">
       <div className="flex items-center gap-4 border-b pb-4">
         <div className="p-2 bg-primary/10 rounded-lg text-primary">
           <ShieldCheck className="w-5 h-5" />
@@ -57,7 +57,7 @@ const ChangePasswordForm = () => {
           e.preventDefault();
           form.handleSubmit();
         }}
-        className="space-y-5"
+        className="flex flex-col flex-1 space-y-5"
       >
         {/* OLD PASSWORD */}
         <form.Field
@@ -106,7 +106,7 @@ const ChangePasswordForm = () => {
         </div>
 
         {/* SUBMIT */}
-        <div className="pt-2">
+        <div className="mt-auto pt-4">
           <form.Subscribe>
             {({ canSubmit, isSubmitting, isDirty }) => (
               <AppSubmitButton

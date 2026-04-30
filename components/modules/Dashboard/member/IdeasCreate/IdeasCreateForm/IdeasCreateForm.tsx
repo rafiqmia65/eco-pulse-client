@@ -145,7 +145,7 @@ const IdeasCreateForm = () => {
         e.preventDefault();
         form.handleSubmit();
       }}
-      className="space-y-5"
+      className="space-y-5 mt-8"
     >
       <div className="bg-card border rounded-2xl p-6 shadow-lg space-y-5">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">

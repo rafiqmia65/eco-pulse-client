@@ -2,7 +2,7 @@ import { Lightbulb, Target, Rocket } from "lucide-react";
 
 const IdeasCreateHeader = () => {
   return (
-    <div className="relative overflow-hidden bg-card border rounded-2xl p-10 shadow-sm">
+    <div className="relative overflow-hidden bg-card border p-10 shadow-sm">
       {/* glow background */}
       <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 blur-3xl rounded-full" />
 

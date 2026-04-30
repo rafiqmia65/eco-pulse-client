@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import { canPurchase, isOwnerOrAdmin } from "@/lib/access-utils";
 
@@ -52,7 +53,16 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
       {idea.accessLevel !== "PURCHASED_FULL_ACCESS" && (
         <div className="pt-3 border-t border-border space-y-2">
           <button
-            onClick={() => setIsPurchaseModalOpen(true)}
+            onClick={() => {
+              if (
+                idea.accessLevel === "PUBLIC_FREE_GUEST" ||
+                idea.accessLevel === "GUEST_PREVIEW"
+              ) {
+                toast.error("Please login first to purchase");
+                return;
+              }
+              setIsPurchaseModalOpen(true);
+            }}
             disabled={purchaseDisabled}
             className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition
           ${

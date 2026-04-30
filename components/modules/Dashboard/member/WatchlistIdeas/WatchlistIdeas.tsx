@@ -64,7 +64,7 @@ const WatchlistIdeas = () => {
       <WatchlistGrid ideas={ideas} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
-        <div className="flex justify-center pt-6">
+        <div className="flex justify-center">
           <AppPagination
             page={page}
             totalPages={meta.totalPages}

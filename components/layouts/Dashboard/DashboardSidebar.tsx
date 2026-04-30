@@ -36,7 +36,7 @@ export const DashboardSidebar = ({
         <BrandLogo />
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin">
         {sections.map((section) => (
           <div key={section.label} className="space-y-2">
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-2">
