@@ -9,22 +9,30 @@ interface IdeaContentProps {
 }
 
 const IdeaContent: React.FC<IdeaContentProps> = ({ idea }) => {
-  const tabs = buildTabsFromSections([
-    {
-      label: "Problem",
-      content: <TiptapViewer content={idea.problem} />,
-    },
-    {
-      label: "Solution",
-      content: <TiptapViewer content={idea.solution} />,
-    },
-    {
-      label: "Description",
-      content: <TiptapViewer content={idea.description} />,
-    },
-  ]);
+  const tabs = React.useMemo(
+    () =>
+      buildTabsFromSections([
+        {
+          label: "Problem",
+          content: <TiptapViewer content={idea.problem} />,
+        },
+        {
+          label: "Solution",
+          content: <TiptapViewer content={idea.solution} />,
+        },
+        {
+          label: "Description",
+          content: <TiptapViewer content={idea.description} />,
+        },
+      ]),
+    [idea.problem, idea.solution, idea.description],
+  );
 
-  return <Tabs tabs={tabs} defaultTab="problem" />;
+  return (
+    <div className="bg-card border border-border/50 rounded-2xl p-6 md:p-8 space-y-6 shadow-sm">
+      <Tabs tabs={tabs} defaultTab="problem" />
+    </div>
+  );
 };
 
 export default IdeaContent;

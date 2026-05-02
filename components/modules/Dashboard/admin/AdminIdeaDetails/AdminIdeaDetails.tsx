@@ -85,10 +85,10 @@ const AdminIdeaDetails = ({ user }: { user: AuthUser | null }) => {
 
       <CommentsSection
         ideaId={idea.id}
-        currentUserId={user?.id}
-        currentUserRole={user?.role}
-      />
-    </div>
+          currentUserId={user?.id}
+          currentUserRole={user?.role}
+        />
+      </div>
   );
 };
 

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import React from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
@@ -15,6 +16,12 @@ const TiptapViewer = ({ content }: Props) => {
     editable: false,
     immediatelyRender: false,
   });
+ 
+  React.useEffect(() => {
+    if (editor && content) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) return null;
 
