@@ -15,6 +15,7 @@ import {
 import { IIdea } from "@/types/public/home.types";
 import Section from "@/components/shared/reusableComponents/Section";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
+import TiptapViewer from "@/components/shared/TiptapViewer/TiptapViewer";
 
 const TrendingIdeas = ({ ideas }: { ideas: IIdea[] }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -137,7 +138,7 @@ const TrendingIdeas = ({ ideas }: { ideas: IIdea[] }) => {
                   </h3>
 
                   <p className="text-xs text-muted-foreground line-clamp-2">
-                    {idea.description}
+                    <TiptapViewer content={idea.description} />
                   </p>
 
                   <div className="flex justify-between text-xs text-muted-foreground">

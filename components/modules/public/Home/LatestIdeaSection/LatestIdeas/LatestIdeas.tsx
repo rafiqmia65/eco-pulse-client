@@ -4,6 +4,7 @@ import { ThumbsUp, MessageCircle, Lock, ThumbsDown } from "lucide-react";
 import { IIdea } from "@/types/public/home.types";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 import Section from "@/components/shared/reusableComponents/Section";
+import TiptapViewer from "@/components/shared/TiptapViewer/TiptapViewer";
 
 const LatestIdeas = ({ ideas }: { ideas: IIdea[] }) => {
   if (!ideas.length) {
@@ -74,7 +75,7 @@ const LatestIdeas = ({ ideas }: { ideas: IIdea[] }) => {
 
                 {/* DESCRIPTION */}
                 <p className="text-sm text-muted-foreground line-clamp-2">
-                  {idea.description}
+                  <TiptapViewer content={idea.description} />
                 </p>
 
                 {/* META */}

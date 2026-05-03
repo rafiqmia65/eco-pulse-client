@@ -1,3 +1,4 @@
+import TiptapViewer from "@/components/shared/TiptapViewer/TiptapViewer";
 import { Idea } from "@/types/public/ideas.types";
 import { ThumbsUp, ThumbsDown, MessageCircle, Lock } from "lucide-react";
 import Image from "next/image";
@@ -43,7 +44,7 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
 
         {/* DESCRIPTION */}
         <p className="text-sm text-muted-foreground line-clamp-2">
-          {idea.description}
+          <TiptapViewer content={idea.description} />
         </p>
 
         {/* META */}

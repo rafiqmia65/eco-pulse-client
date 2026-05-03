@@ -10,6 +10,7 @@ import AppField from "@/components/shared/form/AppField";
 import AppPasswordField from "@/components/shared/form/AppPasswordField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import { loginAction } from "@/app/(PublicLayout)/(Auth)/login/_actions";
+import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -34,8 +35,7 @@ const LoginForm = () => {
       router.refresh();
 
       // role-based redirect
-      const redirectPath =
-        res.role === "ADMIN" ? "/admin" : "/dashboard";
+      const redirectPath = res.role === "ADMIN" ? "/admin" : "/dashboard";
       router.push(redirectPath);
     },
   });
@@ -54,6 +54,30 @@ const LoginForm = () => {
           <p className="text-sm text-muted-foreground">
             Enter your credentials to continue
           </p>
+        </div>
+
+        <div className="flex gap-2 justify-center">
+          <CustomButton
+            type="button"
+            onClick={() => {
+              form.setFieldValue("email", "admin@gmail.com");
+              form.setFieldValue("password", "Admin1234");
+            }}
+            variant="primary"
+          >
+            Use Admin Demo
+          </CustomButton>
+
+          <CustomButton
+            type="button"
+            onClick={() => {
+              form.setFieldValue("email", "user@gmail.com");
+              form.setFieldValue("password", "User1234");
+            }}
+            variant="outline"
+          >
+            Use User Demo
+          </CustomButton>
         </div>
 
         <form.Field
