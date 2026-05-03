@@ -7,7 +7,10 @@ import WatchlistGrid from "./WatchlistGrid/WatchlistGrid";
 import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 import { useMyWatchList } from "@/app/(DashboardLayout)/dashboard/watchlist-ideas/_actions";
 import { useDebounce } from "@/hooks/useDebounce";
-import { IWatchListMeta } from "@/types/memberTypes/watchlist.types";
+import {
+  IWatchListIdea,
+  IWatchListMeta,
+} from "@/types/memberTypes/watchlist.types";
 
 const WatchlistIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,16 +41,19 @@ const WatchlistIdeas = () => {
     setPage(1);
   };
 
-  const ideas = response?.data || [];
+  const ideas = (response?.data ?? []) as IWatchListIdea[];
   const meta = response?.meta as IWatchListMeta | undefined;
 
   return (
     <div className="space-y-8 pb-10">
       {/* Page Title Section */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-3xl font-extrabold tracking-tight">Watchlist Ideas</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          Watchlist Ideas
+        </h1>
         <p className="text-muted-foreground leading-relaxed">
-          Manage and track the innovative ideas you&apos;ve saved for future consideration.
+          Manage and track the innovative ideas you&apos;ve saved for future
+          consideration.
         </p>
       </div>
 

@@ -1,139 +1,193 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  ThumbsUp, 
-  ThumbsDown, 
-  MessageSquare, 
-  ArrowRight,
-  User,
+import {
+  ThumbsUp,
+  ThumbsDown,
+  MessageCircle,
+  Lock,
+  Bookmark,
+  Star,
   Calendar,
-  Layers,
-  CheckCircle2
 } from "lucide-react";
-import { IVote } from "@/types/memberTypes/myVotes.types";
-import { Badge } from "@/components/ui/badge";
+import { IIdea } from "@/types/public/home.types";
+import CustomButton from "@/components/shared/reusableComponents/CustomButton";
+import TiptapViewer from "@/components/shared/TiptapViewer/TiptapViewer";
 import { formatTimeAgo } from "@/lib/formatDate";
 
 interface MyVotesCardProps {
-  vote: IVote;
+  idea: IIdea;
 }
 
-const MyVotesCard: React.FC<MyVotesCardProps> = ({ vote }) => {
-  const idea = vote.idea;
-  const isUpvote = vote.value === 1;
+const MyVotesCard: React.FC<MyVotesCardProps> = ({ idea }) => {
+  const isUpvoted = idea.currentUserVote === 1;
+  const isDownvoted = idea.currentUserVote === -1;
 
   return (
-    <div className="group bg-card rounded-2xl border shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col h-full">
-      {/* Image Section */}
-      <div className="relative h-48 w-full overflow-hidden">
-        {idea.image ? (
-          <Image
-            src={idea.image}
-            alt={idea.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full bg-muted/50 flex items-center justify-center">
-            <Layers className="w-12 h-12 text-muted-foreground/30" />
+    <div className="bg-card border border-border overflow-hidden shadow-custom hover:shadow-lg transition flex flex-col">
+      {/* IMAGE */}
+      <div className="relative">
+        <Image
+          src={idea.image}
+          alt={idea.title}
+          width={600}
+          height={300}
+          className="w-full h-44 object-cover"
+        />
+
+        {/* LOCK OVERLAY */}
+        {idea.isLocked && (
+          <div className="absolute inset-0 z-10 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center gap-2">
+            <div className="bg-background p-2 shadow">
+              <Lock size={18} className="text-primary" />
+            </div>
+            {idea.isPaid && (
+              <span className="bg-primary text-primary-foreground text-xs px-3 py-1">
+                PREMIUM CONTENT
+              </span>
+            )}
           </div>
         )}
-        
-        {/* Vote Status Overlay */}
-        <div className="absolute top-4 left-4">
-          <Badge 
-            variant="outline"
-            className={`font-bold px-3 py-1 border shadow-sm backdrop-blur-md ${
-              isUpvote 
-                ? 'bg-green-500/10 text-green-700 border-green-200/50' 
-                : 'bg-red-500/10 text-red-700 border-red-200/50'
-            }`}
-          >
-            <span className="flex items-center gap-1.5">
-              {isUpvote ? (
-                <>
-                  <ThumbsUp className="w-3.5 h-3.5" /> 
-                  Upvoted
-                </>
-              ) : (
-                <>
-                  <ThumbsDown className="w-3.5 h-3.5" /> 
-                  Downvoted
-                </>
-              )}
+
+        {/* LEFT TOP: OWNER / PURCHASED badges */}
+        <div className="absolute top-3 left-3 z-20 flex flex-col gap-1">
+          {idea.isOwner && (
+            <span className="bg-primary text-primary-foreground text-[11px] px-2 py-1">
+              OWNER
             </span>
-          </Badge>
+          )}
+          {idea.hasPurchased && (
+            <span className="bg-primary text-primary-foreground text-[11px] px-2 py-1 flex items-center gap-1">
+              <Star size={11} className="fill-white" />
+              Already Purchased
+            </span>
+          )}
         </div>
 
-        <div className="absolute bottom-4 right-4">
-           <Badge className="bg-primary/80 backdrop-blur-md text-primary-foreground font-bold border-none">
-              {idea.category.name}
-           </Badge>
+        {/* RIGHT TOP: vote status badge */}
+        <div className="absolute top-3 right-3 z-20">
+          {isUpvoted && (
+            <span className="flex items-center gap-1 bg-primary text-primary-foreground text-[11px] px-2 py-1 font-semibold uppercase tracking-wide">
+              <ThumbsUp size={11} />
+              Upvoted
+            </span>
+          )}
+          {isDownvoted && (
+            <span className="flex items-center gap-1 bg-primary text-primary-foreground text-[11px] px-2 py-1 font-semibold uppercase tracking-wide">
+              <ThumbsDown size={11} />
+              Downvoted
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="p-6 flex-1 flex flex-col">
-        <h3 className="text-xl font-bold mb-2 line-clamp-1 group-hover:text-primary transition-colors">
-          {idea.title}
-        </h3>
-        
-        <p className="text-muted-foreground text-sm line-clamp-2 mb-6 leading-relaxed">
-          {idea.description}
-        </p>
+      {/* CONTENT */}
+      <div className="p-5 flex flex-col gap-3 flex-1">
+        {/* TITLE */}
+        <h3 className="text-lg font-semibold text-foreground">{idea.title}</h3>
 
-        <div className="mt-auto space-y-4">
-          {/* Status Badge */}
+        {/* DESCRIPTION */}
+        <div className="text-sm text-muted-foreground line-clamp-2">
+          <TiptapViewer content={idea.description} />
+        </div>
+
+        {/* META */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span className="bg-muted px-2 py-1">{idea.category.name}</span>
           <div className="flex items-center gap-2">
-             <div className={`flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-               idea.status === 'APPROVED' ? 'bg-green-100 text-green-700' : 
-               idea.status === 'REJECTED' ? 'bg-red-100 text-red-700' : 
-               'bg-blue-100 text-blue-700'
-             }`}>
-               <CheckCircle2 className="w-3 h-3" />
-               {idea.status}
-             </div>
-          </div>
-
-          {/* Author & Date */}
-          <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t">
-            <div className="flex items-center gap-1.5 font-medium">
-              <User className="w-3.5 h-3.5" />
-              <span className="line-clamp-1">{idea.author.name}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5" />
-              {formatTimeAgo(idea.createdAt)}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer Section */}
-      <div className="p-4 bg-muted/30 border-t flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-primary">
-            <ThumbsUp className="w-4 h-4" />
-            <span className="text-xs font-bold">{idea.upvotesCount}</span>
-          </div>
-          <div className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-destructive">
-            <ThumbsDown className="w-4 h-4" />
-            <span className="text-xs font-bold">{idea.downvotesCount}</span>
-          </div>
-          <div className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-primary">
-            <MessageSquare className="w-4 h-4" />
-            <span className="text-xs font-bold">{idea.commentsCount}</span>
+            <span className="text-foreground font-medium">Author:</span>
+            <span className="bg-muted px-2 py-1">{idea.author.name}</span>
           </div>
         </div>
 
-        <Link 
-          href={`/ideas/${idea.id}`}
-          className="flex items-center gap-1.5 text-xs font-bold text-primary hover:gap-2.5 transition-all"
-        >
-          View Details
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {/* SOLUTION */}
+        <div className="bg-muted/40 border border-border p-3 text-xs text-muted-foreground">
+          <TiptapViewer content={idea.solution} />
+        </div>
+
+        {/* VOTE + COMMENTS + WATCHLIST */}
+        <div className="flex items-center justify-between text-xs pt-1">
+          <div className="flex items-center gap-3 text-muted-foreground">
+            {/* UPVOTE */}
+            <span
+              className={`flex items-center gap-1 transition ${
+                isUpvoted
+                  ? "text-primary font-semibold"
+                  : "text-muted-foreground"
+              }`}
+            >
+              <ThumbsUp
+                size={14}
+                className={
+                  isUpvoted
+                    ? "text-primary fill-primary stroke-primary"
+                    : "text-muted-foreground"
+                }
+              />
+              {idea.upvotes}
+            </span>
+
+            {/* DOWNVOTE */}
+            <span
+              className={`flex items-center gap-1 transition ${
+                isDownvoted
+                  ? "text-primary font-semibold"
+                  : "text-muted-foreground"
+              }`}
+            >
+              <ThumbsDown
+                size={14}
+                className={
+                  isDownvoted
+                    ? "text-primary fill-primary stroke-primary"
+                    : "text-muted-foreground"
+                }
+              />
+              {idea.downvotes}
+            </span>
+
+            {/* COMMENTS */}
+            <span className="flex items-center gap-1">
+              <MessageCircle size={14} />
+              {idea.commentsCount}
+            </span>
+          </div>
+
+          {/* WATCHLIST */}
+          <div className="flex items-center gap-1">
+            <Bookmark
+              size={14}
+              className={
+                idea.isWatchlisted
+                  ? "fill-primary text-primary"
+                  : "text-muted-foreground"
+              }
+            />
+            {idea.watchListCount}
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/60">
+          {/* PRICE */}
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <span>Price:</span>
+            <span
+              className={`font-semibold ${
+                idea.isPaid ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {idea.isPaid ? `$${idea.price}` : "Free"}
+            </span>
+          </div>
+
+          {/* CTA */}
+          <Link href={`/ideas/${idea.id}`}>
+            <CustomButton className="px-4 py-2 text-sm">
+              See Details
+            </CustomButton>
+          </Link>
+        </div>
       </div>
     </div>
   );

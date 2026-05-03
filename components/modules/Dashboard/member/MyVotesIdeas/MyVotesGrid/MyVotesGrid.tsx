@@ -1,9 +1,9 @@
 import React from "react";
 import MyVotesCard from "../MyVotesCard/MyVotesCard";
-import { IVote } from "@/types/memberTypes/myVotes.types";
+import { IIdea } from "@/types/public/home.types";
 
 interface MyVotesGridProps {
-  votes: IVote[];
+  votes: IIdea[];
   isLoading: boolean;
 }
 
@@ -12,7 +12,10 @@ const MyVotesGrid: React.FC<MyVotesGridProps> = ({ votes, isLoading }) => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="h-96 w-full rounded-2xl bg-muted animate-pulse" />
+          <div
+            key={i}
+            className="h-96 w-full rounded-2xl bg-muted animate-pulse"
+          />
         ))}
       </div>
     );
@@ -38,7 +41,8 @@ const MyVotesGrid: React.FC<MyVotesGridProps> = ({ votes, isLoading }) => {
         </div>
         <h3 className="text-xl font-bold">No voted ideas found</h3>
         <p className="text-muted-foreground max-w-xs text-center mt-2">
-          You haven&apos;t voted on any ideas yet. Explore the community and share your thoughts!
+          You haven&apos;t voted on any ideas yet. Explore the community and
+          share your thoughts!
         </p>
       </div>
     );
@@ -46,8 +50,8 @@ const MyVotesGrid: React.FC<MyVotesGridProps> = ({ votes, isLoading }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {votes.map((vote) => (
-        <MyVotesCard key={vote.id} vote={vote} />
+      {votes.map((idea) => (
+        <MyVotesCard key={idea.id} idea={idea} />
       ))}
     </div>
   );

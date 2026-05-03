@@ -19,7 +19,7 @@ export interface IIdeaAccessData {
   upvotes: number;
   downvotes: number;
   votesCount: number;
-  currentUserVote: number | null;
+  currentUserVote: 1 | -1 | null;
 
   comments: IComment[];
   commentsMeta: ICommentsMeta;
@@ -29,8 +29,8 @@ export interface IIdeaAccessData {
 
   createdAt: string;
 
-  isInWatchList?: boolean;
-  watchListCount?: number;
+  watchListCount: number;
+  isWatchlisted: boolean;
 
   solution: string;
   isLocked: boolean;

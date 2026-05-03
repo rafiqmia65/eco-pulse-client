@@ -16,10 +16,12 @@ export default function IdeaWatchListButton({
 }) {
   const isOwnerAdmin = isOwnerOrAdmin(idea.accessLevel);
 
+  // FIX: use isWatchlisted (from API)
   const [isInWatchList, setIsInWatchList] = useState<boolean>(
-    idea.isInWatchList ?? false,
+    idea.isWatchlisted ?? false,
   );
 
+  // FIX: use watchListCount (from API)
   const [count, setCount] = useState<number>(idea.watchListCount ?? 0);
 
   const [isPending, startTransition] = useTransition();
@@ -39,6 +41,7 @@ export default function IdeaWatchListButton({
 
     const prevState = isInWatchList;
 
+    // optimistic update
     setIsInWatchList(!prevState);
     setCount((prev) => (prevState ? prev - 1 : prev + 1));
 
@@ -49,6 +52,7 @@ export default function IdeaWatchListButton({
       } catch (error: any) {
         toast.error(error?.message || "Watchlist failed");
 
+        // rollback
         setIsInWatchList(prevState);
         setCount(idea.watchListCount ?? 0);
       }

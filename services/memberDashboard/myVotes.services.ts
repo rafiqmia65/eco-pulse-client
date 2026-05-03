@@ -2,10 +2,10 @@
 
 import { httpClient } from "@/lib/axios/httpClient";
 import { IQueryParams } from "@/types/api.types";
-import { IVote } from "@/types/memberTypes/myVotes.types";
+import { IVotesResponse } from "@/types/memberTypes/myVotes.types";
 
 export const getMyVotedIdeas = async (queryParams: IQueryParams) => {
-  return await httpClient.get<IVote[]>("/api/v1/votes/my-voted-ideas", {
+  return await httpClient.get<IVotesResponse>("/api/v1/votes/my-voted-ideas", {
     params: queryParams,
   });
 };

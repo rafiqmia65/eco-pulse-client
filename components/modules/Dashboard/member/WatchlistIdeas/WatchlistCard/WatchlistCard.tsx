@@ -2,11 +2,17 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Lock,
-  MessageSquare,
   ThumbsUp,
+  ThumbsDown,
+  MessageCircle,
+  Lock,
+  Bookmark,
+  Star,
+  Calendar,
 } from "lucide-react";
 import { IWatchListIdea } from "@/types/memberTypes/watchlist.types";
+import CustomButton from "@/components/shared/reusableComponents/CustomButton";
+import TiptapViewer from "@/components/shared/TiptapViewer/TiptapViewer";
 import { formatTimeAgo } from "@/lib/formatDate";
 
 interface WatchlistCardProps {
@@ -14,8 +20,11 @@ interface WatchlistCardProps {
 }
 
 const WatchlistCard: React.FC<WatchlistCardProps> = ({ idea }) => {
+  const isUpvoted = idea.currentUserVote === 1;
+  const isDownvoted = idea.currentUserVote === -1;
+
   return (
-    <div className="bg-card border border-border overflow-hidden shadow-sm hover:shadow-md transition flex flex-col h-full rounded-xl">
+    <div className="bg-card border border-border overflow-hidden shadow-custom hover:shadow-lg transition flex flex-col">
       {/* IMAGE */}
       <div className="relative">
         <Image
@@ -23,70 +32,166 @@ const WatchlistCard: React.FC<WatchlistCardProps> = ({ idea }) => {
           alt={idea.title}
           width={600}
           height={300}
-          className="w-full h-40 object-cover"
+          className="w-full h-44 object-cover"
         />
 
-        {idea.isPaid && (
-          <span className="absolute top-2 right-2 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded">
-            Premium
-          </span>
+        {/* LOCK OVERLAY */}
+        {idea.isLocked && (
+          <div className="absolute inset-0 z-10 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center gap-2">
+            <div className="bg-background p-2 shadow">
+              <Lock size={18} className="text-primary" />
+            </div>
+            {idea.isPaid && (
+              <span className="bg-primary text-primary-foreground text-xs px-3 py-1">
+                PREMIUM CONTENT
+              </span>
+            )}
+          </div>
         )}
 
-        {idea.isLocked && (
-          <span className="absolute top-2 left-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1">
-            <Lock size={10} /> Locked
-          </span>
-        )}
+        {/* LEFT TOP: OWNER / PURCHASED badges */}
+        <div className="absolute top-3 left-3 z-20 flex flex-col gap-1">
+          {idea.isOwner && (
+            <span className="bg-primary text-primary-foreground text-[11px] px-2 py-1">
+              OWNER
+            </span>
+          )}
+          {idea.hasPurchased && (
+            <span className="bg-primary text-primary-foreground text-[11px] px-2 py-1 flex items-center gap-1">
+              <Star size={11} className="fill-white" />
+              Already Purchased
+            </span>
+          )}
+        </div>
+
+        {/* RIGHT TOP: vote status badge */}
+        <div className="absolute top-3 right-3 z-20">
+          {isUpvoted && (
+            <span className="flex items-center gap-1 bg-primary text-primary-foreground text-[11px] px-2 py-1 font-semibold uppercase tracking-wide">
+              <ThumbsUp size={11} />
+              Upvoted
+            </span>
+          )}
+          {isDownvoted && (
+            <span className="flex items-center gap-1 bg-primary text-primary-foreground text-[11px] px-2 py-1 font-semibold uppercase tracking-wide">
+              <ThumbsDown size={11} />
+              Downvoted
+            </span>
+          )}
+        </div>
       </div>
 
       {/* CONTENT */}
-      <div className="p-4 flex flex-col gap-2 flex-1">
-        {/* CATEGORY + PRICE */}
-        <div className="flex items-center justify-between">
-          <span className="bg-muted px-2 py-0.5 rounded text-[10px] text-muted-foreground font-medium">
-            {idea.category?.name}
-          </span>
-          <span className="font-bold text-sm text-primary">
-            {idea.isPaid ? `$${idea.price}` : "Free"}
-          </span>
-        </div>
-
+      <div className="p-5 flex flex-col gap-3 flex-1">
         {/* TITLE */}
-        <h3 className="text-base font-bold text-foreground line-clamp-1 leading-tight">{idea.title}</h3>
+        <h3 className="text-lg font-semibold text-foreground">{idea.title}</h3>
 
         {/* DESCRIPTION */}
-        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-          {idea.description}
-        </p>
+        <div className="text-sm text-muted-foreground line-clamp-2">
+          <TiptapViewer content={idea.description} />
+        </div>
 
-        {/* SOLUTION (Compact) */}
-        <div className="bg-muted/30 border border-border/50 p-2 rounded text-[11px] text-muted-foreground mt-1">
-          <p className="line-clamp-1 italic">
-            <span className="font-semibold text-foreground not-italic">Sol:</span> {idea.solution}
-          </p>
+        {/* META */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span className="bg-muted px-2 py-1">{idea.category.name}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-foreground font-medium">Author:</span>
+            <span className="bg-muted px-2 py-1">{idea.author.name}</span>
+          </div>
+        </div>
+
+        {/* POSTED DATE */}
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Calendar size={12} />
+          <span>Posted {formatTimeAgo(idea.createdAt)}</span>
+        </div>
+
+        {/* SOLUTION */}
+        <div className="bg-muted/40 border border-border p-3 text-xs text-muted-foreground">
+          <TiptapViewer content={idea.solution} />
+        </div>
+
+        {/* VOTE + COMMENTS + WATCHLIST */}
+        <div className="flex items-center justify-between text-xs pt-1">
+          <div className="flex items-center gap-3 text-muted-foreground">
+            {/* UPVOTE */}
+            <span
+              className={`flex items-center gap-1 transition ${
+                isUpvoted
+                  ? "text-primary font-semibold"
+                  : "text-muted-foreground"
+              }`}
+            >
+              <ThumbsUp
+                size={14}
+                className={
+                  isUpvoted
+                    ? "text-primary fill-primary stroke-primary"
+                    : "text-muted-foreground"
+                }
+              />
+              {idea.upvotes}
+            </span>
+
+            {/* DOWNVOTE */}
+            <span
+              className={`flex items-center gap-1 transition ${
+                isDownvoted
+                  ? "text-primary font-semibold"
+                  : "text-muted-foreground"
+              }`}
+            >
+              <ThumbsDown
+                size={14}
+                className={
+                  isDownvoted
+                    ? "text-primary fill-primary stroke-primary"
+                    : "text-muted-foreground"
+                }
+              />
+              {idea.downvotes}
+            </span>
+
+            {/* COMMENTS */}
+            <span className="flex items-center gap-1">
+              <MessageCircle size={14} />
+              {idea.commentsCount}
+            </span>
+          </div>
+
+          {/* WATCHLIST */}
+          <div className="flex items-center gap-1">
+            <Bookmark
+              size={14}
+              className={
+                idea.isWatchlisted
+                  ? "fill-primary text-primary"
+                  : "text-muted-foreground"
+              }
+            />
+            {idea.watchListCount}
+          </div>
         </div>
 
         {/* FOOTER */}
-        <div className="mt-auto pt-3 border-t flex flex-col gap-3">
-          <div className="flex items-center justify-between text-[11px] text-muted-foreground font-medium">
-            <div className="flex items-center gap-3">
-              <span className="flex items-center gap-1" title="Votes">
-                <ThumbsUp size={12} className="text-primary/70" />
-                {idea.votesCount || 0}
-              </span>
-
-              <span className="flex items-center gap-1" title="Comments">
-                <MessageSquare size={12} className="text-primary/70" />
-                {idea.commentsCount}
-              </span>
-            </div>
-            <span>{formatTimeAgo(idea.createdAt)}</span>
+        <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/60">
+          {/* PRICE */}
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <span>Price:</span>
+            <span
+              className={`font-semibold ${
+                idea.isPaid ? "text-primary" : "text-foreground"
+              }`}
+            >
+              {idea.isPaid ? `$${idea.price}` : "Free"}
+            </span>
           </div>
 
-          <Link href={`/ideas/${idea.id}`} className="w-full">
-            <button className="w-full py-2 text-xs rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition font-bold uppercase tracking-wider">
+          {/* CTA */}
+          <Link href={`/ideas/${idea.id}`}>
+            <CustomButton className="px-4 py-2 text-sm">
               See Details
-            </button>
+            </CustomButton>
           </Link>
         </div>
       </div>

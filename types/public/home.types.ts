@@ -14,6 +14,10 @@ export interface IIdea {
   currentUserVote: 1 | -1 | null;
 
   commentsCount: number;
+  watchListCount: number;
+  isWatchlisted: boolean;
+  hasPurchased: boolean;
+  isOwner: boolean;
 
   category: {
     id: string;

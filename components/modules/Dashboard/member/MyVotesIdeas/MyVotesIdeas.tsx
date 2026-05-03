@@ -8,6 +8,7 @@ import AppPagination from "@/components/shared/reusableComponents/AppPagination"
 import { useMyVotes } from "@/app/(DashboardLayout)/dashboard/my-votes-ideas/_actions";
 import { useDebounce } from "@/hooks/useDebounce";
 import { IVotesCounts } from "@/types/memberTypes/myVotes.types";
+import { IIdea } from "@/types/public/home.types";
 
 const MyVotesIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,7 +39,7 @@ const MyVotesIdeas = () => {
     setPage(1);
   };
 
-  const votes = response?.data || [];
+  const votes = (response?.data ?? []) as IIdea[];
   const meta = response?.meta;
   const counts = response?.counts as unknown as IVotesCounts | undefined;
 
@@ -46,9 +47,12 @@ const MyVotesIdeas = () => {
     <div className="space-y-8 pb-10">
       {/* Page Title Section */}
       <div className="flex flex-col gap-1">
-        <h1 className="text-3xl font-extrabold tracking-tight">My Voted Ideas</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          My Voted Ideas
+        </h1>
         <p className="text-muted-foreground leading-relaxed">
-          Review the innovative solutions you&apos;ve supported or provided feedback on through your votes.
+          Review the innovative solutions you&apos;ve supported or provided
+          feedback on through your votes.
         </p>
       </div>
 

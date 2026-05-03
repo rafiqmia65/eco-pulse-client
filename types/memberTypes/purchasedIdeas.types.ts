@@ -1,4 +1,9 @@
-import { ICategory, IComment, ICommentsMeta, IUser } from "../public/ideaDetails.types";
+import {
+  ICategory,
+  IComment,
+  ICommentsMeta,
+  IUser,
+} from "../public/ideaDetails.types";
 
 export interface IPurchasedIdea {
   paymentId: string;
@@ -17,8 +22,8 @@ export interface IPurchasedIdea {
     isPaid: boolean;
     createdAt: string;
     category: {
-        id: string;
-        name: string;
+      id: string;
+      name: string;
     };
     author: {
       id: string;
@@ -72,11 +77,13 @@ export interface IPurchasedIdeaDetails {
   upvotes: number;
   downvotes: number;
   votesCount: number;
-  currentUserVote: number | null;
+  currentUserVote: 1 | -1 | null;
   comments: IComment[];
   commentsMeta: ICommentsMeta;
   category: ICategory;
   author: IUser;
   createdAt: string;
   updatedAt: string;
+  watchListCount: number;
+  isWatchlisted: boolean;
 }

@@ -10,8 +10,12 @@ export interface Idea {
   upvotes: number;
   downvotes: number;
   votesCount: number;
-  currentUserVote: string | null;
+  currentUserVote: 1 | -1 | null;
   commentsCount: number;
+  watchListCount: number;
+  isWatchlisted: boolean;
+  hasPurchased: boolean;
+  isOwner: boolean;
   createdAt: string;
   category: {
     id: string;

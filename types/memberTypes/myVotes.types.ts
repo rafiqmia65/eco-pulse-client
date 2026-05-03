@@ -1,4 +1,5 @@
 import { ICategory } from "./myAllIdeas.types";
+import { IIdea } from "@/types/public/home.types";
 
 export interface IVotedIdeaAuthor {
   id: string;
@@ -51,7 +52,7 @@ export interface IVotesCounts {
 }
 
 export interface IVotesResponse {
-  data: IVote[];
+  data: IIdea[];
   meta: {
     page: number;
     limit: number;

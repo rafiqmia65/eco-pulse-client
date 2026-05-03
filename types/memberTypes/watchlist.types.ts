@@ -17,9 +17,18 @@ export interface IWatchListIdea {
   image: string | null;
   price: number | null;
   isPaid: boolean;
+
+  upvotes: number;
+  downvotes: number;
   votesCount: number;
+  currentUserVote: 1 | -1 | null;
+
   commentsCount: number;
   watchListCount: number;
+  isWatchlisted: boolean;
+  hasPurchased: boolean;
+  isOwner: boolean;
+
   category: ICategory;
   author: IWatchListAuthor;
   createdAt: string;
