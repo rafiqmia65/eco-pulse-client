@@ -43,7 +43,9 @@ export default function NavbarClient({
 
         {/* RIGHT */}
         <div className="flex items-center gap-3">
-          <ModeToggle />
+          <div className="md:hidden">
+            <ModeToggle />
+          </div>
 
           {/* Mobile menu button */}
           <button

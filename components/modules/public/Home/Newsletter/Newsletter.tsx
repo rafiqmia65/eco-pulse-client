@@ -38,9 +38,9 @@ const Newsletter = () => {
 
   return (
     <Section>
-      <div className="max-w-5xl mx-auto px-4">
+      <div className=" mx-auto">
         {/* CARD */}
-        <div className="rounded-3xl border border-border bg-card shadow-lg p-10 md:p-14 text-center">
+        <div className="border border-border bg-card shadow-lg p-10 md:p-14 text-center">
           {/* ICON + TITLE */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-6 text-center md:text-left">
             <div className="w-16 h-16 rounded-2xl bg-primary/10 border flex items-center justify-center">
