@@ -10,15 +10,17 @@ import { DashboardSidebar } from "./DashboardSidebar";
 import { AuthUser } from "@/types/auth.types";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
+import { useAppStore } from "@/store";
 
 interface DashboardNavbarProps {
   user: AuthUser;
 }
 
 export const DashboardNavbar = ({ user }: DashboardNavbarProps) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const isSidebarOpen = useAppStore((state) => state.isSidebarOpen);
+  const setSidebarOpen = useAppStore((state) => state.setSidebarOpen);
 
-  const closeMenu = () => setIsMobileMenuOpen(false);
+  const closeMenu = () => setSidebarOpen(false);
 
   return (
     <>
@@ -31,7 +33,7 @@ export const DashboardNavbar = ({ user }: DashboardNavbarProps) => {
               variant="ghost"
               size="icon"
               className="md:hidden"
-              onClick={() => setIsMobileMenuOpen(true)}
+              onClick={() => setSidebarOpen(true)}
             >
               <Menu className="w-5 h-5" />
             </Button>
@@ -54,7 +56,7 @@ export const DashboardNavbar = ({ user }: DashboardNavbarProps) => {
       </header>
 
       {/* Mobile Sidebar */}
-      {isMobileMenuOpen && (
+      {isSidebarOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           {/* Backdrop */}
           <div

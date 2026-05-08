@@ -45,8 +45,17 @@ const AdminIdeaActions = ({
   variant = "dropdown",
   className,
 }: AdminIdeaActionsProps) => {
-  const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+
+  const handleOpenRejectModal = () => {
+    setFeedback(""); // Reset feedback when opening
+    setIsRejectModalOpen(true);
+  };
+  
+  const handleCloseRejectModal = () => {
+    setIsRejectModalOpen(false);
+  };
 
   const { mutate: approve, isPending: isApproving } = useApproveIdeaAdmin();
   const { mutate: reject, isPending: isRejecting } = useRejectIdeaAdmin();
@@ -61,7 +70,7 @@ const AdminIdeaActions = ({
       { id: ideaId, feedback },
       {
         onSuccess: () => {
-          setRejectModalOpen(false);
+          handleCloseRejectModal();
           setFeedback("");
         },
       },
@@ -116,7 +125,7 @@ const AdminIdeaActions = ({
           variant={variant === "sidebar" ? "destructive" : "ghost"}
           size={variant === "sidebar" ? "default" : "icon"}
           disabled={isPending}
-          onClick={() => setRejectModalOpen(true)}
+          onClick={handleOpenRejectModal}
           className={cn(
             "transition-all",
             variant === "sidebar"
@@ -147,7 +156,7 @@ const AdminIdeaActions = ({
   );
 
   const RejectModal = (
-    <Dialog open={rejectModalOpen} onOpenChange={setRejectModalOpen}>
+    <Dialog open={isRejectModalOpen} onOpenChange={(open) => !open && handleCloseRejectModal()}>
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle>Reject Idea</DialogTitle>
@@ -171,7 +180,7 @@ const AdminIdeaActions = ({
         <DialogFooter>
           <Button
             variant="outline"
-            onClick={() => setRejectModalOpen(false)}
+            onClick={handleCloseRejectModal}
             disabled={isRejecting}
           >
             Cancel
@@ -265,7 +274,7 @@ const AdminIdeaActions = ({
                 disabled={isPending}
                 onClick={(e) => {
                   e.preventDefault();
-                  setRejectModalOpen(true);
+                  handleOpenRejectModal();
                 }}
                 className="gap-2 cursor-pointer rounded-lg text-rose-600 focus:text-rose-600"
               >

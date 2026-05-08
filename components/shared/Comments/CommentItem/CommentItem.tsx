@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IComment } from "@/types/public/ideaDetails.types";
 import CommentActions from "../CommentActions/CommentActions";
 import { MessageCircle } from "lucide-react";
@@ -11,6 +12,7 @@ import CommentHeader from "./CommentHeader";
 import CommentEditForm from "./CommentEditForm";
 import DeleteCommentDialog from "./DeleteCommentDialog";
 import ReplyItem from "./ReplyItem";
+import { useAppStore } from "@/store";
 
 interface Props {
   ideaId: string;
@@ -32,7 +34,11 @@ export default function CommentItem({
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState("");
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  const activeModal = useAppStore((state) => state.activeModal);
+  const modalData = useAppStore((state) => state.modalData);
+  const openModal = useAppStore((state) => state.openModal);
+  const closeModal = useAppStore((state) => state.closeModal);
 
   const updateComment = useUpdateComment(ideaId);
   const deleteComment = useDeleteComment(ideaId);
@@ -57,16 +63,20 @@ export default function CommentItem({
   };
 
   const handleDeleteClick = (id: string) => {
-    setDeleteId(id);
+    openModal("deleteComment", { id });
   };
 
   const confirmDelete = () => {
-    if (deleteId) {
-      deleteComment.mutate(deleteId, {
-        onSuccess: () => setDeleteId(null),
+    if (modalData?.id) {
+      deleteComment.mutate(modalData.id, {
+        onSuccess: () => closeModal(),
       });
     }
   };
+
+  const isDeleteDialogOpen = 
+    activeModal === "deleteComment" && 
+    (modalData?.id === comment.id || comment.replies?.some((r: any) => r.id === modalData?.id));
 
   // deleted visibility logic
   const canViewDeleted = isOwner || isAdmin;
@@ -153,8 +163,8 @@ export default function CommentItem({
 
       {/* DELETE CONFIRMATION DIALOG */}
       <DeleteCommentDialog
-        isOpen={!!deleteId}
-        onClose={() => setDeleteId(null)}
+        isOpen={!!isDeleteDialogOpen}
+        onClose={closeModal}
         onConfirm={confirmDelete}
         isPending={deleteComment.isPending}
       />

@@ -15,11 +15,9 @@ const AdminCategories = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [status, setStatus] = useState("all");
 
-  // Modal State
+  // Modal State via useState
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [categoryToEdit, setCategoryToEdit] = useState<IAdminCategory | null>(
-    null,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<IAdminCategory | null>(null);
 
   // Fetch data (React Query)
   const { data: response, isLoading } = useAdminCategories({
@@ -44,12 +42,12 @@ const AdminCategories = () => {
   };
 
   const handleCreate = () => {
-    setCategoryToEdit(null);
+    setSelectedCategory(null);
     setIsModalOpen(true);
   };
 
   const handleEdit = (category: IAdminCategory) => {
-    setCategoryToEdit(category);
+    setSelectedCategory(category);
     setIsModalOpen(true);
   };
 
@@ -107,7 +105,7 @@ const AdminCategories = () => {
       <CategoryModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        category={categoryToEdit}
+        category={selectedCategory}
       />
     </div>
   );

@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getDashboardNav } from "@/constants/dashboardNav";
 import LogOutButton from "@/components/shared/LogOutButton/LogOutButton";
+import { useAppStore } from "@/store";
 
 interface DashboardSidebarProps {
   user: AuthUser;
@@ -29,6 +30,7 @@ export const DashboardSidebar = ({
 }: DashboardSidebarProps) => {
   const pathname = usePathname();
   const sections = getDashboardNav(user.role);
+  const setSidebarOpen = useAppStore((state) => state.setSidebarOpen);
 
   return (
     <aside className={cn("flex flex-col bg-background", className)}>
@@ -55,6 +57,7 @@ export const DashboardSidebar = ({
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => setSidebarOpen(false)}
                     className={cn(
                       "flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 group relative",
                       isActive
@@ -109,7 +112,11 @@ export const DashboardSidebar = ({
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/my-profile" className="cursor-pointer">
+                  <Link 
+                    href="/dashboard/my-profile" 
+                    className="cursor-pointer"
+                    onClick={() => setSidebarOpen(false)}
+                  >
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </Link>
@@ -118,6 +125,7 @@ export const DashboardSidebar = ({
                   <Link
                     href="/dashboard/change-password"
                     className="cursor-pointer"
+                    onClick={() => setSidebarOpen(false)}
                   >
                     <Settings className="mr-2 h-4 w-4" />
                     Settings

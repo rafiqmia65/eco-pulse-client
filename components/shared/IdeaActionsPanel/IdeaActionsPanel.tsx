@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
@@ -10,9 +9,13 @@ import IdeaVoteActions from "./IdeaVoteActions/IdeaVoteActions";
 import IdeaWatchListButton from "./IdeaWatchListButton/IdeaWatchListButton";
 import { getAccessMeta } from "./getAccessMeta/getAccessMeta";
 import PurchaseModal from "../../modules/public/IdeaDetails/IdeaContent/PurchaseModal/PurchaseModal";
+import { useAppStore } from "@/store";
 
 export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
-  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const activeModal = useAppStore((state) => state.activeModal);
+  const openModal = useAppStore((state) => state.openModal);
+  const closeModal = useAppStore((state) => state.closeModal);
+
   const isOwnerAdmin = isOwnerOrAdmin(idea.accessLevel);
   const purchaseDisabled = !canPurchase(idea.accessLevel) || isOwnerAdmin;
 
@@ -61,7 +64,7 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
                 toast.error("Please login first to purchase");
                 return;
               }
-              setIsPurchaseModalOpen(true);
+              openModal("purchase");
             }}
             disabled={purchaseDisabled}
             className={`w-full py-3 rounded-xl flex items-center justify-center gap-2 transition
@@ -83,8 +86,8 @@ export default function IdeaActionsPanel({ idea }: { idea: IIdeaAccessData }) {
 
       <PurchaseModal
         idea={idea}
-        isOpen={isPurchaseModalOpen}
-        onClose={() => setIsPurchaseModalOpen(false)}
+        isOpen={activeModal === "purchase"}
+        onClose={closeModal}
       />
     </div>
   );

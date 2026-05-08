@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { MoreVertical, Edit, Trash2, ExternalLink, Send, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
@@ -29,6 +29,7 @@ import Link from "next/link";
 import { useIdeaManagement } from "@/hooks/useIdeaManagement";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useAppStore } from "@/store";
 
 interface IdeaActionButtonsProps {
   idea: {
@@ -46,7 +47,17 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
 }) => {
   const router = useRouter();
   const { submitMutation, deleteMutation } = useIdeaManagement();
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const activeModal = useAppStore((state) => state.activeModal);
+  const modalData = useAppStore((state) => state.modalData);
+  const openModal = useAppStore((state) => state.openModal);
+  const closeModal = useAppStore((state) => state.closeModal);
+
+  const isDeleteDialogOpen = activeModal === "deleteIdea" && modalData?.ideaId === idea.id;
+
+  const handleDeleteClick = () => {
+    openModal("deleteIdea", { ideaId: idea.id });
+  };
 
   const isSubmitting = submitMutation.isPending;
   const isDeleting = deleteMutation.isPending;
@@ -70,7 +81,7 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
     deleteMutation.mutate(idea.id, {
       onSuccess: () => {
         toast.success("Idea deleted successfully");
-        setDeleteDialogOpen(false);
+        closeModal();
         if (redirectAfterDelete) router.push(redirectAfterDelete);
       },
       onError: (error: any) => {
@@ -85,7 +96,7 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
 
   /** Shared AlertDialog */
   const DeleteConfirmDialog = (
-    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+    <AlertDialog open={isDeleteDialogOpen} onOpenChange={(open) => !open && closeModal()}>
       <AlertDialogContent className="sm:max-w-sm">
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Idea</AlertDialogTitle>
@@ -145,7 +156,7 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
             </Button>
             <Button
               variant="destructive"
-              onClick={() => setDeleteDialogOpen(true)}
+              onClick={handleDeleteClick}
               disabled={isDeleting}
             >
               {isDeleting ? (
@@ -266,7 +277,7 @@ export const IdeaActionButtons: React.FC<IdeaActionButtonsProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               className="gap-2 cursor-pointer text-red-600 focus:text-red-600 rounded-lg"
-              onClick={() => setDeleteDialogOpen(true)}
+              onClick={handleDeleteClick}
               disabled={isDeleting}
             >
               {isDeleting ? (

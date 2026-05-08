@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Menu } from "lucide-react";
 import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
 import DesktopNav from "./DesktopNav/DesktopNav";
 import MobileSidebar from "./MobileSidebar/MobileSidebar";
 import { AuthUser } from "@/types/auth.types";
+import { useAppStore } from "@/store";
 
 export default function NavbarClient({
   user,
@@ -15,22 +16,24 @@ export default function NavbarClient({
   user: AuthUser | null;
   navLinks: { href: string; label: string }[];
 }) {
-  const [open, setOpen] = useState(false);
+  // Use Zustand store for global mobile menu state (Select separately to avoid infinite render loops)
+  const isMobileMenuOpen = useAppStore((state) => state.isMobileMenuOpen);
+  const setMobileMenuOpen = useAppStore((state) => state.setMobileMenuOpen);
 
-  // lock scroll
+  // lock scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "auto";
-  }, [open]);
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "auto";
+  }, [isMobileMenuOpen]);
 
   // auto close on desktop resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) setOpen(false);
+      if (window.innerWidth >= 768 && isMobileMenuOpen) setMobileMenuOpen(false);
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isMobileMenuOpen, setMobileMenuOpen]);
 
   return (
     <header className="sticky top-0 z-50 border-b bg-muted/50 backdrop-blur-md">
@@ -49,7 +52,7 @@ export default function NavbarClient({
 
           {/* Mobile menu button */}
           <button
-            onClick={() => setOpen(true)}
+            onClick={() => setMobileMenuOpen(true)}
             className="md:hidden p-2 rounded-md hover:bg-muted transition"
           >
             <Menu size={24} />
@@ -58,8 +61,8 @@ export default function NavbarClient({
       </div>
       {/* Mobile Sidebar */}
       <MobileSidebar
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isMobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
         user={user}
         navLinks={navLinks}
       />
