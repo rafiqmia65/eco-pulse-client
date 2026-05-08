@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import MyIdeasHeader from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasHeader/MyIdeasHeader";
 import MyIdeasFilters from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasFilters/MyIdeasFilters";
 import MyIdeasTable from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasTable/MyIdeasTable";
-import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 
 import { useDebounce } from "@/hooks/useDebounce";
 import { useMyIdeas } from "@/app/(DashboardLayout)/dashboard/_actions";
 import { IIdeaCounts } from "@/types/memberTypes/myAllIdeas.types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 const MyAllIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,9 +59,8 @@ const MyAllIdeas = () => {
       <MyIdeasTable ideas={ideas} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
-        <AppPagination
-          page={page}
-          totalPages={meta.totalPages}
+        <Pagination
+          meta={{ page, totalPages: meta.totalPages }}
           onPageChange={setPage}
         />
       )}

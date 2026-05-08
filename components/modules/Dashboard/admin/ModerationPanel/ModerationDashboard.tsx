@@ -175,9 +175,10 @@ const ModerationDashboard = () => {
 
           {/* Pagination */}
           {meta && meta.totalPages > 1 && (
-            <div className="flex items-center justify-center pt-4">
-              <Pagination meta={meta} onPageChange={(p) => setPage(p)} />
-            </div>
+            <Pagination
+              meta={{ page: meta.page, totalPages: meta.totalPages }}
+              onPageChange={setPage}
+            />
           )}
         </div>
       )}

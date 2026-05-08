@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import MyVotesHeader from "./MyVotesHeader/MyVotesHeader";
 import MyVotesFilters from "./MyVotesFilters/MyVotesFilters";
 import MyVotesGrid from "./MyVotesGrid/MyVotesGrid";
-import AppPagination from "@/components/shared/reusableComponents/AppPagination";
+
 import { useMyVotes } from "@/app/(DashboardLayout)/dashboard/my-votes-ideas/_actions";
 import { useDebounce } from "@/hooks/useDebounce";
 import { IVotesCounts } from "@/types/memberTypes/myVotes.types";
 import { IIdea } from "@/types/public/home.types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 const MyVotesIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,13 +70,10 @@ const MyVotesIdeas = () => {
       <MyVotesGrid votes={votes} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
-        <div className="flex justify-center pt-6">
-          <AppPagination
-            page={page}
-            totalPages={meta.totalPages}
-            onPageChange={setPage}
-          />
-        </div>
+        <Pagination
+          meta={{ page: meta.page, totalPages: meta.totalPages }}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );

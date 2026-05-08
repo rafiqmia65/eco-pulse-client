@@ -2,12 +2,12 @@
 
 import React, { useState } from "react";
 import { useMyPaymentHistory } from "@/app/(DashboardLayout)/dashboard/my-payments/_actions";
-import { 
-  CreditCard, 
+import {
+  CreditCard,
   TrendingUp,
   History,
   CheckCircle2,
-  Clock
+  Clock,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import StatsCard from "./StatsCard/StatsCard";
@@ -18,9 +18,9 @@ import Pagination from "@/components/shared/Pagination/Pagination";
 const MyPayments = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
-  
+
   const { data: response, isLoading } = useMyPaymentHistory(page, limit);
-  
+
   const payments = response?.data?.list || [];
   const stats = response?.data?.stats;
   const meta = response?.meta;
@@ -92,15 +92,10 @@ const MyPayments = () => {
 
       {/* Pagination */}
       {meta && meta.totalPages > 1 && (
-        <div className="mt-6 flex justify-center">
-          <Pagination 
-            meta={{
-              page: meta.page,
-              totalPages: meta.totalPages
-            }}
-            onPageChange={(p) => setPage(p)}
-          />
-        </div>
+        <Pagination
+          meta={{ page: meta.page, totalPages: meta.totalPages }}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );

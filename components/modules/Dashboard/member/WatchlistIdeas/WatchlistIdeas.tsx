@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import WatchlistHeader from "./WatchlistHeader/WatchlistHeader";
 import WatchlistFilters from "./WatchlistFilters/WatchlistFilters";
 import WatchlistGrid from "./WatchlistGrid/WatchlistGrid";
-import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 import { useMyWatchList } from "@/app/(DashboardLayout)/dashboard/watchlist-ideas/_actions";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
   IWatchListIdea,
   IWatchListMeta,
 } from "@/types/memberTypes/watchlist.types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 const WatchlistIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -70,13 +70,10 @@ const WatchlistIdeas = () => {
       <WatchlistGrid ideas={ideas} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
-        <div className="flex justify-center">
-          <AppPagination
-            page={page}
-            totalPages={meta.totalPages}
-            onPageChange={setPage}
-          />
-        </div>
+        <Pagination
+          meta={{ page: meta.page, totalPages: meta.totalPages }}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );

@@ -9,6 +9,7 @@ import { IIdeaAccessData } from "@/types/public/ideaDetails.types";
 import IdeaHero from "./IdeaHero/IdeaHero";
 import IdeaContent from "./IdeaContent/IdeaContent";
 import CommentsSection from "@/components/shared/Comments/CommentsSection";
+import RelatedIdeas from "./RelatedIdeas/RelatedIdeas";
 
 import { RoleType } from "@/constants/roles";
 import Section from "@/components/shared/reusableComponents/Section";
@@ -87,6 +88,8 @@ export default function IdeaDetails({
         currentUserId={currentUserId}
         currentUserRole={currentUserRole}
       />
+
+      <RelatedIdeas categoryId={idea.category.id} currentIdeaId={idea.id} />
     </div>
   );
 }

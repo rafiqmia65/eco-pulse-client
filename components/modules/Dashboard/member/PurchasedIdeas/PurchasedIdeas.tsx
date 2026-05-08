@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import PurchasedIdeasHeader from "./PurchasedIdeasHeader/PurchasedIdeasHeader";
 import PurchasedIdeasFilters from "./PurchasedIdeasFilters/PurchasedIdeasFilters";
 import PurchasedIdeasTable from "./PurchasedIdeasTable/PurchasedIdeasTable";
-import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 
 import { useDebounce } from "@/hooks/useDebounce";
 import { usePurchasedIdeas } from "@/app/(DashboardLayout)/dashboard/purchased-ideas/_actions";
 import { IPurchasedIdeaCounts } from "@/types/memberTypes/purchasedIdeas.types";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 const PurchasedIdeas = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -62,9 +62,8 @@ const PurchasedIdeas = () => {
       <PurchasedIdeasTable purchases={purchases} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
-        <AppPagination
-          page={page}
-          totalPages={meta.totalPages}
+        <Pagination
+          meta={{ page, totalPages: meta.totalPages }}
           onPageChange={setPage}
         />
       )}

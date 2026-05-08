@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import { AdminUsersHeader } from "@/components/modules/Dashboard/admin/AdminUsers/AdminUsersHeader/AdminUsersHeader";
 import { AdminUsersFilters } from "@/components/modules/Dashboard/admin/AdminUsers/AdminUsersFilters/AdminUsersFilters";
 import { AdminUsersTable } from "@/components/modules/Dashboard/admin/AdminUsers/AdminUsersTable/AdminUsersTable";
-import AppPagination from "@/components/shared/reusableComponents/AppPagination";
 import { useAdminUsers } from "@/app/(DashboardLayout)/admin/users/_actions";
 import { useDebounce } from "@/hooks/useDebounce";
 import { RoleType } from "@/constants/roles";
 import { UserStatus } from "@/constants/userStatus";
 import { Skeleton } from "@/components/ui/skeleton";
 import Heading from "@/components/shared/reusableComponents/Heading";
+import Pagination from "@/components/shared/Pagination/Pagination";
 
 const AdminUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -97,11 +97,12 @@ const AdminUsers = () => {
 
           <AdminUsersTable users={users} page={page} limit={limit} />
 
-          <AppPagination
-            page={page}
-            totalPages={meta.totalPages}
-            onPageChange={setPage}
-          />
+          {meta && meta.totalPages > 1 && (
+            <Pagination
+              meta={{ page, totalPages: meta.totalPages }}
+              onPageChange={setPage}
+            />
+          )}
         </>
       )}
     </div>

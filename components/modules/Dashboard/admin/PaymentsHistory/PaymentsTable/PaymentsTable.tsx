@@ -324,9 +324,10 @@ const PaymentsTable: React.FC<PaymentsTableProps> = ({
 
       {/* Pagination */}
       {meta && meta.totalPages > 1 && (
-        <div className="mt-4">
-          <Pagination meta={meta} onPageChange={onPageChange} />
-        </div>
+        <Pagination
+          meta={{ page: meta.page, totalPages: meta.totalPages }}
+          onPageChange={onPageChange}
+        />
       )}
     </div>
   );
