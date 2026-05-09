@@ -66,10 +66,10 @@ export default function IdeaWatchListButton({
       className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl border transition
         ${
           isInWatchList
-            ? "bg-accent text-foreground border-border"
+            ? "bg-primary text-background border-border"
             : "hover:bg-muted text-foreground"
         }
-        ${disabled ? "opacity-50 cursor-not-allowed" : ""}
+        ${disabled ? "bg-muted/50 text-muted-foreground cursor-not-allowed" : ""}
       `}
     >
       <Bookmark size={16} />

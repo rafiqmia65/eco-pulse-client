@@ -11,11 +11,22 @@ import {
   type MemberDashboardSlice,
 } from "./slices/memberDashboardSlice";
 
+import {
+  createPublicIdeasSlice,
+  type PublicIdeasSlice,
+} from "./slices/publicIdeasSlice";
+import {
+  createPublicIdeaDetailsSlice,
+  type PublicIdeaDetailsSlice,
+} from "./slices/publicIdeaDetailsSlice";
+
 // Combine all slice interfaces into a single AppState
 export type AppState = UISlice &
   AuthSlice &
   AdminDashboardSlice &
-  MemberDashboardSlice;
+  MemberDashboardSlice &
+  PublicIdeasSlice &
+  PublicIdeaDetailsSlice;
 
 // Create the unified store
 export const useAppStore = create<AppState>()(
@@ -26,6 +37,8 @@ export const useAppStore = create<AppState>()(
         ...createAuthSlice(...a),
         ...createAdminDashboardSlice(...a),
         ...createMemberDashboardSlice(...a),
+        ...createPublicIdeasSlice(...a),
+        ...createPublicIdeaDetailsSlice(...a),
         // Spread more slices here
       }),
       {

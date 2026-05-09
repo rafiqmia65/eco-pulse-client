@@ -80,9 +80,9 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
           className={`rounded-xl px-3 py-2 flex justify-between border transition
           ${
             isUpvoted
-              ? "bg-muted text-foreground border-border"
+              ? "bg-primary text-background border-border"
               : voteDisabled
-                ? "bg-muted opacity-60"
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                 : "bg-card hover:bg-muted"
           }`}
         >
@@ -95,9 +95,9 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
           className={`rounded-xl px-3 py-2 flex justify-between border transition
           ${
             isDownvoted
-              ? "bg-muted text-foreground border-border"
+              ? "bg-primary text-background border-border"
               : voteDisabled
-                ? "bg-muted opacity-60"
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                 : "bg-card hover:bg-muted"
           }`}
         >
@@ -120,9 +120,9 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
           className={`w-full py-2 rounded-xl border flex items-center justify-center gap-2 transition
           ${
             isUpvoted
-              ? "bg-muted text-foreground border-border"
+              ? "bg-primary text-background border-border"
               : voteDisabled
-                ? "bg-muted text-muted-foreground cursor-not-allowed"
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                 : "hover:bg-muted"
           }`}
         >
@@ -136,9 +136,9 @@ export default function IdeaVoteActions({ idea }: { idea: IIdeaAccessData }) {
           className={`w-full py-2 rounded-xl border flex items-center justify-center gap-2 transition
           ${
             isDownvoted
-              ? "bg-muted text-foreground border-border"
+              ? "bg-primary text-background border-border"
               : voteDisabled
-                ? "bg-muted text-muted-foreground cursor-not-allowed"
+                ? "bg-muted/50 text-muted-foreground cursor-not-allowed"
                 : "hover:bg-muted"
           }`}
         >

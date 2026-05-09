@@ -14,6 +14,8 @@ import RelatedIdeas from "./RelatedIdeas/RelatedIdeas";
 import { RoleType } from "@/constants/roles";
 import Section from "@/components/shared/reusableComponents/Section";
 
+import { useAppStore } from "@/store";
+
 export default function IdeaDetails({
   idea,
   currentUserId,
@@ -23,12 +25,14 @@ export default function IdeaDetails({
   currentUserId?: string;
   currentUserRole?: RoleType;
 }) {
+  const { isConfettiActive, setIsConfettiActive } = useAppStore();
   const searchParams = useSearchParams();
   const isSuccess = searchParams.get("success") === "true";
   const isCanceled = searchParams.get("canceled") === "true";
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && !isConfettiActive) {
+      setIsConfettiActive(true);
       // Trigger Confetti
       const duration = 3 * 1000;
       const animationEnd = Date.now() + duration;
@@ -41,6 +45,7 @@ export default function IdeaDetails({
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
+          setIsConfettiActive(false);
           return clearInterval(interval);
         }
 
@@ -69,7 +74,7 @@ export default function IdeaDetails({
         description: "The purchase process was not completed.",
       });
     }
-  }, [isSuccess, isCanceled]);
+  }, [isSuccess, isCanceled, isConfettiActive, setIsConfettiActive]);
 
   if (!idea) return <p className="p-10 text-center">Idea not found</p>;
 
