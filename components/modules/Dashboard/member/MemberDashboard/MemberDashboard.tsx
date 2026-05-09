@@ -11,6 +11,7 @@ import { ActivityCharts } from "./dashboardContent/ActivityCharts";
 import { EngagementOverview } from "./dashboardContent/EngagementOverview";
 import { BestIdeaCard } from "./dashboardContent/BestIdeaCard";
 import { RecentPurchasesTable } from "./dashboardContent/RecentPurchasesTable";
+import SmartRecommendations from "./SmartRecommendations";
 
 /**
  * MemberDashboard Module
@@ -94,6 +95,8 @@ export default function MemberDashboard() {
           <BestIdeaCard bestIdea={stats.bestIdea} />
         </div>
       </section>
+      {/* SMART RECOMMENDATIONS */}
+      <SmartRecommendations />
 
       {/* Activity Section */}
       <section className="space-y-6">

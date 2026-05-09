@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useForm, useStore } from "@tanstack/react-form";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
+import AIConsultantModal from "../../IdeasCreate/AIConsultantModal";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -34,6 +35,7 @@ const slugify = (text: string) =>
 export default function EditIdeaForm({ idea }: { idea: IIdeaDetailsByOwner }) {
   const router = useRouter();
   const { updateMutation } = useIdeaManagement();
+
   const { data: categories } = useCategories();
 
   const [preview, setPreview] = useState<string | null>(idea.image || null);
@@ -126,6 +128,19 @@ export default function EditIdeaForm({ idea }: { idea: IIdeaDetailsByOwner }) {
     }
   };
 
+  const handleAIApply = (
+    data: import("@/types/ai.types").IAIGeneratedContent & {
+      categoryId?: string;
+    },
+  ) => {
+    form.setFieldValue("title", data.title);
+    form.setFieldValue("problem", data.problem);
+    form.setFieldValue("solution", data.solution);
+    form.setFieldValue("description", data.description);
+    if (data.categoryId) form.setFieldValue("categoryId", data.categoryId);
+    setAutoSlug(true);
+  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -157,9 +172,13 @@ export default function EditIdeaForm({ idea }: { idea: IIdeaDetailsByOwner }) {
 
           {/* RIGHT: HEADER */}
           <div className="flex-1 text-center md:text-left space-y-2">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <Upload className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-semibold">Edit your idea</h2>
+            <div className="flex flex-wrap items-center justify-center md:justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Upload className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-semibold">Edit your idea</h2>
+              </div>
+              {/* AI CONSULTANT */}
+              <AIConsultantModal onApply={handleAIApply} />
             </div>
 
             <p className="text-sm text-muted-foreground max-w-md">

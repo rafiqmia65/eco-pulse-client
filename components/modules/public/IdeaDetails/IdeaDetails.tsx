@@ -10,6 +10,9 @@ import IdeaHero from "./IdeaHero/IdeaHero";
 import IdeaContent from "./IdeaContent/IdeaContent";
 import CommentsSection from "@/components/shared/Comments/CommentsSection";
 import RelatedIdeas from "./RelatedIdeas/RelatedIdeas";
+import IdeaAnalysisPanel from "@/components/shared/IdeaAnalysis/IdeaAnalysisPanel";
+import SmartRecommendations from "@/components/shared/SmartRecommendations/SmartRecommendations";
+import { isOwnerOrAdmin } from "@/lib/access-utils";
 
 import { RoleType } from "@/constants/roles";
 import Section from "@/components/shared/reusableComponents/Section";
@@ -78,6 +81,8 @@ export default function IdeaDetails({
 
   if (!idea) return <p className="p-10 text-center">Idea not found</p>;
 
+  const showAnalysis = isOwnerOrAdmin(idea.accessLevel);
+
   return (
     <div className="relative">
       {/* HERO SECTION */}
@@ -88,11 +93,25 @@ export default function IdeaDetails({
         <IdeaContent idea={idea} />
       </Section>
 
+      {/* ANALYSIS PANEL */}
+      {showAnalysis && (
+        <Section className="py-0">
+          <IdeaAnalysisPanel ideaId={idea.id} isOwnerOrAdmin={showAnalysis} />
+        </Section>
+      )}
+
       <CommentsSection
         ideaId={idea.id}
         currentUserId={currentUserId}
         currentUserRole={currentUserRole}
       />
+
+      {/* AI SMART RECOMMENDATIONS — logged-in members only */}
+      {currentUserId && (
+        <Section className="border-t border-border/50">
+          <SmartRecommendations currentUserId={currentUserId} />
+        </Section>
+      )}
 
       <RelatedIdeas categoryId={idea.category.id} currentIdeaId={idea.id} />
     </div>

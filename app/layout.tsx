@@ -24,6 +24,8 @@ export const metadata: Metadata = {
     "Eco Pulse is a web application that helps users track their carbon footprint and make sustainable choices.",
 };
 
+import AIChatButton from "@/components/shared/AIChat/AIChatButton";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +40,10 @@ export default function RootLayout({
         <QueryProviders>
           <Toaster position="top-right" />
           <ThemeProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+            <TooltipProvider>
+              {children}
+              <AIChatButton />
+            </TooltipProvider>
           </ThemeProvider>
         </QueryProviders>
       </body>

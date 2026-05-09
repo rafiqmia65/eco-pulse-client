@@ -20,13 +20,16 @@ import {
   type PublicIdeaDetailsSlice,
 } from "./slices/publicIdeaDetailsSlice";
 
+import { createAISlice, type AISlice } from "./slices/aiSlice";
+
 // Combine all slice interfaces into a single AppState
 export type AppState = UISlice &
   AuthSlice &
   AdminDashboardSlice &
   MemberDashboardSlice &
   PublicIdeasSlice &
-  PublicIdeaDetailsSlice;
+  PublicIdeaDetailsSlice &
+  AISlice;
 
 // Create the unified store
 export const useAppStore = create<AppState>()(
@@ -39,7 +42,7 @@ export const useAppStore = create<AppState>()(
         ...createMemberDashboardSlice(...a),
         ...createPublicIdeasSlice(...a),
         ...createPublicIdeaDetailsSlice(...a),
-        // Spread more slices here
+        ...createAISlice(...a),
       }),
       {
         name: "eco-pulse-storage", // name of the item in local storage

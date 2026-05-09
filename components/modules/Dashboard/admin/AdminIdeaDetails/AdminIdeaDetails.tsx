@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import AdminIdeaActions from "../../../../shared/AdminIdeaActions/AdminIdeaActions";
 import { AuthUser } from "@/types/auth.types";
+import IdeaAnalysisPanel from "@/components/shared/IdeaAnalysis/IdeaAnalysisPanel";
 
 const AdminIdeaDetails = ({ user }: { user: AuthUser | null }) => {
   const { id } = useParams();
@@ -77,6 +78,11 @@ const AdminIdeaDetails = ({ user }: { user: AuthUser | null }) => {
             variant="sidebar"
           />
         </div>
+      </div>
+
+      {/* AI ANALYSIS PANEL */}
+      <div className="mt-6">
+        <IdeaAnalysisPanel ideaId={idea.id} isOwnerOrAdmin={true} />
       </div>
 
       <div className="mt-8">

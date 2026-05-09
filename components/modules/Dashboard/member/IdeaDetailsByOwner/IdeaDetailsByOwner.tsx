@@ -14,6 +14,7 @@ import { useMySingleIdea } from "@/app/(DashboardLayout)/dashboard/_actions";
 import StatsBar from "./StatsBar/StatsBar";
 import { AlertTriangle, MessageSquareWarning } from "lucide-react";
 import IdeaDetailContent from "./IdeaDetailContent/IdeaDetailContent";
+import IdeaAnalysisPanel from "@/components/shared/IdeaAnalysis/IdeaAnalysisPanel";
 
 interface Props {
   id: string;
@@ -54,6 +55,11 @@ export default function IdeaDetailsByOwner({
         <IdeaMeta idea={idea} />
         <StatsBar idea={idea} />
         <IdeaActions idea={idea} />
+      </div>
+
+      {/* AI ANALYSIS PANEL */}
+      <div className="mt-6">
+        <IdeaAnalysisPanel ideaId={idea.id} isOwnerOrAdmin={true} />
       </div>
 
       {idea.feedback && (

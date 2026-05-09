@@ -15,6 +15,7 @@ import { createIdeaSchema } from "@/zod/ideas.validation";
 
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
+import AIConsultantModal from "../AIConsultantModal";
 import {
   Select,
   SelectContent,
@@ -139,6 +140,22 @@ const IdeasCreateForm = () => {
     }
   };
 
+  const handleAIApply = (data: any) => {
+    form.setFieldValue("title", data.title);
+    form.setFieldValue("problem", data.problem);
+    form.setFieldValue("solution", data.solution);
+    form.setFieldValue("description", data.description);
+
+    if (data.slug) {
+      setAutoSlug(false);
+      form.setFieldValue("slug", data.slug);
+    }
+
+    if (data.categoryId) {
+      form.setFieldValue("categoryId", data.categoryId);
+    }
+  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -170,9 +187,12 @@ const IdeasCreateForm = () => {
 
           {/* RIGHT: HEADER */}
           <div className="flex-1 text-center md:text-left space-y-2">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <Upload className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-semibold">Add your best idea</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center justify-center md:justify-start gap-2">
+                <Upload className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-semibold">Add your best idea</h2>
+              </div>
+              <AIConsultantModal onApply={handleAIApply} />
             </div>
 
             <p className="text-sm text-muted-foreground max-w-md">
