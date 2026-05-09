@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import { useAdminPayments } from "@/app/(DashboardLayout)/admin/payments/_actions";
 import PaymentStatsCards from "./PaymentStatsCards/PaymentStatsCards";
 import RevenueChart from "./RevenueChart/RevenueChart";
@@ -8,87 +8,62 @@ import TopIdeas from "./TopIdeas/TopIdeas";
 import PaymentsTable from "./PaymentsTable/PaymentsTable";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useAppStore } from "@/store";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const PaymentsHistory = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  // Read values from URL
-  const status = searchParams.get("status") || "all";
-  const gateway = searchParams.get("gateway") || "all";
-  const page = Number(searchParams.get("page")) || 1;
-
-  // Local state (initial URL)
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("searchTerm") || "",
-  );
-  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
-
-  // Filter detect (URL based)
-  const hasFilter =
-    (searchParams.get("searchTerm") || "").trim() !== "" ||
-    status !== "all" ||
-    gateway !== "all";
+  const {
+    paymentSearch,
+    setPaymentSearch,
+    paymentStatus,
+    setPaymentStatus,
+    paymentGateway,
+    setPaymentGateway,
+    paymentPage,
+    setPaymentPage,
+    resetPaymentFilters,
+  } = useAppStore();
 
   // Debounce search
+  const debouncedSearch = useDebounce(paymentSearch, 500);
+
+  // Sync URL to Zustand on mount (optional but good for deep links)
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(searchTerm);
-    }, 500);
+    const urlSearch = searchParams.get("searchTerm");
+    const urlStatus = searchParams.get("status");
+    const urlGateway = searchParams.get("gateway");
+    const urlPage = searchParams.get("page");
 
-    return () => clearTimeout(handler);
-  }, [searchTerm]);
+    if (urlSearch) setPaymentSearch(urlSearch);
+    if (urlStatus) setPaymentStatus(urlStatus);
+    if (urlGateway) setPaymentGateway(urlGateway);
+    if (urlPage) setPaymentPage(Number(urlPage));
+  }, []);
 
-  // Update query params
-  const updateQuery = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      if (value && value !== "all") {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-
-      // reset page if filter changes
-      if (key !== "page") {
-        params.delete("page");
-      }
-
-      router.replace(`?${params.toString()}`, { scroll: false });
-    },
-    [router, searchParams],
-  );
-
-  // Sync debounced search to URL (NO LOOP ISSUE)
+  // Sync Zustand to URL
   useEffect(() => {
-    const currentUrlSearch = searchParams.get("searchTerm") || "";
-    // Only update URL if the debounced search actually differs from the URL
-    if (debouncedSearch !== currentUrlSearch) {
-      const params = new URLSearchParams(searchParams.toString());
-      if (debouncedSearch) {
-        params.set("searchTerm", debouncedSearch);
-      } else {
-        params.delete("searchTerm");
-      }
-      params.delete("page"); // Reset page on new search
-      router.replace(`?${params.toString()}`, { scroll: false });
-    }
-  }, [debouncedSearch, searchParams, router]);
+    const params = new URLSearchParams();
+    if (paymentSearch) params.set("searchTerm", paymentSearch);
+    if (paymentStatus !== "all") params.set("status", paymentStatus);
+    if (paymentGateway !== "all") params.set("gateway", paymentGateway);
+    if (paymentPage > 1) params.set("page", paymentPage.toString());
 
-  // Clear filters
-  const handleClearFilters = () => {
-    setSearchTerm("");
-    setDebouncedSearch("");
-    router.replace("?", { scroll: false });
-  };
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [paymentSearch, paymentStatus, paymentGateway, paymentPage, router]);
+
+  const hasFilter =
+    paymentSearch.trim() !== "" ||
+    paymentStatus !== "all" ||
+    paymentGateway !== "all";
 
   // Fetch data
   const { data: response, isLoading } = useAdminPayments({
     searchTerm: debouncedSearch,
-    status: status === "all" ? undefined : status,
-    gateway: gateway === "all" ? undefined : gateway,
-    page,
+    status: paymentStatus === "all" ? undefined : paymentStatus,
+    gateway: paymentGateway === "all" ? undefined : paymentGateway,
+    page: paymentPage,
     limit: 10,
   });
 
@@ -154,12 +129,16 @@ const PaymentsHistory = () => {
           <PaymentsTable
             payments={payments}
             meta={meta}
-            onPageChange={(p) => updateQuery("page", p.toString())}
-            onSearch={setSearchTerm}
-            onStatusChange={(s) => updateQuery("status", s)}
-            onGatewayChange={(g) => updateQuery("gateway", g)}
-            onClearFilters={handleClearFilters}
-            filters={{ searchTerm, status, gateway }}
+            onPageChange={setPaymentPage}
+            onSearch={setPaymentSearch}
+            onStatusChange={setPaymentStatus}
+            onGatewayChange={setPaymentGateway}
+            onClearFilters={resetPaymentFilters}
+            filters={{
+              searchTerm: paymentSearch,
+              status: paymentStatus,
+              gateway: paymentGateway,
+            }}
           />
         )}
       </div>

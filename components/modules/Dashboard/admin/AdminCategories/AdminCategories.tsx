@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAdminCategories } from "@/app/(DashboardLayout)/admin/categories/_actions";
@@ -9,46 +9,45 @@ import CategoryFilters from "./CategoryFilters/CategoryFilters";
 import CategoriesTable from "./CategoriesTable/CategoriesTable";
 import CategoryModal from "./CategoryModal/CategoryModal";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAppStore } from "@/store";
 
 const AdminCategories = () => {
-  // Filters State
-  const [searchTerm, setSearchTerm] = useState("");
-  const [status, setStatus] = useState("all");
-
-  // Modal State via useState
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<IAdminCategory | null>(null);
+  // Filters State from Zustand
+  const {
+    categorySearch,
+    setCategorySearch,
+    categoryStatus,
+    setCategoryStatus,
+    resetCategoryFilters,
+    openModal,
+    activeModal,
+    modalData,
+    closeModal,
+  } = useAppStore();
 
   // Fetch data (React Query)
   const { data: response, isLoading } = useAdminCategories({
-    status: status === "all" ? undefined : status,
+    status: categoryStatus === "all" ? undefined : categoryStatus,
   });
 
   // Client-side search filtering (since endpoint might not handle search)
   const filteredCategories = useMemo(() => {
     const allCategories = response?.data || [];
-    if (!searchTerm.trim()) return allCategories;
-    const lowerSearch = searchTerm.toLowerCase();
+    if (!categorySearch.trim()) return allCategories;
+    const lowerSearch = categorySearch.toLowerCase();
     return allCategories.filter((cat) =>
       cat.name.toLowerCase().includes(lowerSearch),
     );
-  }, [response?.data, searchTerm]);
+  }, [response?.data, categorySearch]);
 
-  const isFiltered = searchTerm.trim() !== "" || status !== "all";
-
-  const handleClearFilters = () => {
-    setSearchTerm("");
-    setStatus("all");
-  };
+  const isFiltered = categorySearch.trim() !== "" || categoryStatus !== "all";
 
   const handleCreate = () => {
-    setSelectedCategory(null);
-    setIsModalOpen(true);
+    openModal("categoryModal");
   };
 
   const handleEdit = (category: IAdminCategory) => {
-    setSelectedCategory(category);
-    setIsModalOpen(true);
+    openModal("categoryModal", category);
   };
 
   if (isLoading) {
@@ -82,11 +81,11 @@ const AdminCategories = () => {
       <div className="space-y-4">
         {/* Filters */}
         <CategoryFilters
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          status={status}
-          onStatusChange={setStatus}
-          onClear={handleClearFilters}
+          searchTerm={categorySearch}
+          onSearchChange={setCategorySearch}
+          status={categoryStatus}
+          onStatusChange={setCategoryStatus}
+          onClear={resetCategoryFilters}
           isFiltered={isFiltered}
         />
 
@@ -103,9 +102,9 @@ const AdminCategories = () => {
 
       {/* Create/Edit Modal */}
       <CategoryModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        category={selectedCategory}
+        isOpen={activeModal === "categoryModal"}
+        onClose={closeModal}
+        category={modalData}
       />
     </div>
   );

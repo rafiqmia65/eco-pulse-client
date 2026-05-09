@@ -20,14 +20,14 @@ import {
 import { role } from "@/constants/roles";
 import CustomButton from "@/components/shared/reusableComponents/CustomButton";
 import { UserDetailsModal } from "../UserDetailsModal/UserDetailsModal";
-import { useState } from "react";
+import { useAppStore } from "@/store";
 
 interface AdminUserActionsProps {
   user: IUser;
 }
 
 export const AdminUserActions = ({ user }: AdminUserActionsProps) => {
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const { openModal, activeModal, modalData, closeModal } = useAppStore();
   const { mutate: makeAdmin, isPending: isRoleUpdating } = useMakeAdmin();
   const { mutate: blockUser, isPending: isBlocking } = useBlockUser();
   const { mutate: unblockUser, isPending: isUnblocking } = useUnblockUser();
@@ -51,7 +51,7 @@ export const AdminUserActions = ({ user }: AdminUserActionsProps) => {
       <CustomButton
         variant="ghost"
         title="See Details"
-        onClick={() => setIsDetailsOpen(true)}
+        onClick={() => openModal("userDetails", user.id)}
       >
         <Eye className="h-4 w-4" />
         <span>See Details</span>
@@ -99,9 +99,9 @@ export const AdminUserActions = ({ user }: AdminUserActionsProps) => {
       </DropdownMenu>
 
       <UserDetailsModal
-        userId={user.id}
-        isOpen={isDetailsOpen}
-        onClose={() => setIsDetailsOpen(false)}
+        userId={modalData}
+        isOpen={activeModal === "userDetails"}
+        onClose={closeModal}
       />
     </div>
   );

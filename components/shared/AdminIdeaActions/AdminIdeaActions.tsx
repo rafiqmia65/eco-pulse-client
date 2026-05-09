@@ -31,6 +31,7 @@ import {
   useApproveIdeaAdmin,
   useRejectIdeaAdmin,
 } from "@/app/(DashboardLayout)/admin/ideas/[id]/_actions";
+import { useAppStore } from "@/store";
 
 interface AdminIdeaActionsProps {
   ideaId: string;
@@ -45,16 +46,16 @@ const AdminIdeaActions = ({
   variant = "dropdown",
   className,
 }: AdminIdeaActionsProps) => {
+  const { openModal, activeModal, closeModal, modalData } = useAppStore();
   const [feedback, setFeedback] = useState("");
-  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const handleOpenRejectModal = () => {
     setFeedback(""); // Reset feedback when opening
-    setIsRejectModalOpen(true);
+    openModal("rejectIdea", ideaId);
   };
-  
+
   const handleCloseRejectModal = () => {
-    setIsRejectModalOpen(false);
+    closeModal();
   };
 
   const { mutate: approve, isPending: isApproving } = useApproveIdeaAdmin();
@@ -80,6 +81,7 @@ const AdminIdeaActions = ({
   const isPending = isApproving || isRejecting;
 
   const ApproveButton = (
+    // ... no changes to ApproveButton ...
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
@@ -119,6 +121,7 @@ const AdminIdeaActions = ({
   );
 
   const RejectButton = (
+    // ... no changes to RejectButton ...
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
@@ -156,7 +159,10 @@ const AdminIdeaActions = ({
   );
 
   const RejectModal = (
-    <Dialog open={isRejectModalOpen} onOpenChange={(open) => !open && handleCloseRejectModal()}>
+    <Dialog
+      open={activeModal === "rejectIdea" && modalData === ideaId}
+      onOpenChange={(open) => !open && handleCloseRejectModal()}
+    >
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
           <DialogTitle>Reject Idea</DialogTitle>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { AdminUsersHeader } from "@/components/modules/Dashboard/admin/AdminUsers/AdminUsersHeader/AdminUsersHeader";
 import { AdminUsersFilters } from "@/components/modules/Dashboard/admin/AdminUsers/AdminUsersFilters/AdminUsersFilters";
 import { AdminUsersTable } from "@/components/modules/Dashboard/admin/AdminUsers/AdminUsersTable/AdminUsersTable";
@@ -11,30 +11,32 @@ import { UserStatus } from "@/constants/userStatus";
 import { Skeleton } from "@/components/ui/skeleton";
 import Heading from "@/components/shared/reusableComponents/Heading";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { useAppStore } from "@/store";
 
 const AdminUsers = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [role, setRole] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
-  const [page, setPage] = useState(1);
+  const {
+    userSearch,
+    setUserSearch,
+    userRole,
+    setUserRole,
+    userStatus,
+    setUserStatus,
+    userPage,
+    setUserPage,
+    resetUserFilters,
+  } = useAppStore();
+
   const limit = 10;
 
-  const debouncedSearch = useDebounce(searchTerm, 500);
+  const debouncedSearch = useDebounce(userSearch, 500);
 
   const { data, isLoading, isError } = useAdminUsers({
     searchTerm: debouncedSearch || undefined,
-    role: (role as RoleType) || undefined,
-    status: (status as UserStatus) || undefined,
-    page,
+    role: (userRole as RoleType) || undefined,
+    status: (userStatus as UserStatus) || undefined,
+    page: userPage,
     limit,
   });
-
-  const handleClearFilters = () => {
-    setSearchTerm("");
-    setRole("");
-    setStatus("");
-    setPage(1);
-  };
 
   const users = data?.data?.users || [];
   const stats = data?.data?.stats || {
@@ -77,30 +79,21 @@ const AdminUsers = () => {
           <AdminUsersHeader stats={stats} />
 
           <AdminUsersFilters
-            searchTerm={searchTerm}
-            onSearchChange={(val) => {
-              setSearchTerm(val);
-              setPage(1);
-            }}
-            selectedRole={role}
-            onRoleChange={(val) => {
-              setRole(val);
-              setPage(1);
-            }}
-            selectedStatus={status}
-            onStatusChange={(val) => {
-              setStatus(val);
-              setPage(1);
-            }}
-            onClear={handleClearFilters}
+            searchTerm={userSearch}
+            onSearchChange={setUserSearch}
+            selectedRole={userRole}
+            onRoleChange={setUserRole}
+            selectedStatus={userStatus}
+            onStatusChange={setUserStatus}
+            onClear={resetUserFilters}
           />
 
-          <AdminUsersTable users={users} page={page} limit={limit} />
+          <AdminUsersTable users={users} page={userPage} limit={limit} />
 
           {meta && meta.totalPages > 1 && (
             <Pagination
-              meta={{ page, totalPages: meta.totalPages }}
-              onPageChange={setPage}
+              meta={{ page: userPage, totalPages: meta.totalPages }}
+              onPageChange={setUserPage}
             />
           )}
         </>

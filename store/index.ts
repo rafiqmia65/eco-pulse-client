@@ -2,9 +2,13 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { createUISlice, type UISlice } from "./slices/uiSlice";
 import { AuthSlice, createAuthSlice } from "./slices/authSlice";
+import {
+  createDashboardSlice,
+  type DashboardSlice,
+} from "./slices/dashboardSlice";
 
 // Combine all slice interfaces into a single AppState
-export type AppState = UISlice & AuthSlice; // Add more slices here as you create them
+export type AppState = UISlice & AuthSlice & DashboardSlice; // Add more slices here as you create them
 
 // Create the unified store
 export const useAppStore = create<AppState>()(
@@ -13,6 +17,7 @@ export const useAppStore = create<AppState>()(
       (...a) => ({
         ...createUISlice(...a),
         ...createAuthSlice(...a),
+        ...createDashboardSlice(...a),
         // Spread more slices here
       }),
       {

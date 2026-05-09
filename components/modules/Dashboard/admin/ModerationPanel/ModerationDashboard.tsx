@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useAdminAllIdeas } from "@/app/(DashboardLayout)/admin/all-ideas/_actions";
 import { ShieldCheck, RefreshCcw, FileText } from "lucide-react";
 import ModerationStats from "./ModerationStats/ModerationStats";
@@ -13,42 +13,24 @@ import { useDebounce } from "@/hooks/useDebounce";
 
 import { IIdeaStatus } from "@/types/adminTypes/adminIdeas.types";
 import IdeaModerationTable from "./IdeaModerationTable/IdeaModerationTable";
+import { useAppStore } from "@/store";
 
 const ModerationDashboard = () => {
-  const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState<IIdeaStatus | "">("");
-  const [categoryFilter, setCategoryFilter] = useState("");
-  const [isPaidFilter, setIsPaidFilter] = useState("");
-  const debouncedSearch = useDebounce(searchTerm, 500);
+  const {
+    ideaSearch,
+    setIdeaSearch,
+    ideaStatus,
+    setIdeaStatus,
+    ideaCategory,
+    setIdeaCategory,
+    ideaIsPaid,
+    setIdeaIsPaid,
+    ideaPage,
+    setIdeaPage,
+    resetIdeaFilters,
+  } = useAppStore();
 
-  const handleSearchChange = (val: string) => {
-    setSearchTerm(val);
-    setPage(1);
-  };
-
-  const handleStatusChange = (status: string) => {
-    setStatusFilter(status as IIdeaStatus | "");
-    setPage(1);
-  };
-
-  const handleCategoryChange = (val: string) => {
-    setCategoryFilter(val);
-    setPage(1);
-  };
-
-  const handleIsPaidChange = (val: string) => {
-    setIsPaidFilter(val);
-    setPage(1);
-  };
-
-  const handleClearFilters = () => {
-    setSearchTerm("");
-    setStatusFilter("");
-    setCategoryFilter("");
-    setIsPaidFilter("");
-    setPage(1);
-  };
+  const debouncedSearch = useDebounce(ideaSearch, 500);
 
   const {
     data: response,
@@ -57,15 +39,15 @@ const ModerationDashboard = () => {
     refetch,
     isFetching,
   } = useAdminAllIdeas({
-    page,
+    page: ideaPage,
     limit: 10,
     searchTerm: debouncedSearch,
-    status: statusFilter || undefined,
-    categoryId: categoryFilter || undefined,
+    status: (ideaStatus as IIdeaStatus) || undefined,
+    categoryId: ideaCategory || undefined,
     isPaid:
-      isPaidFilter === "true"
+      ideaIsPaid === "true"
         ? true
-        : isPaidFilter === "false"
+        : ideaIsPaid === "false"
           ? false
           : undefined,
   });
@@ -132,8 +114,8 @@ const ModerationDashboard = () => {
       ) : (
         <ModerationStats
           counts={counts}
-          currentFilter={statusFilter}
-          onFilterChange={handleStatusChange}
+          currentFilter={ideaStatus}
+          onFilterChange={setIdeaStatus}
         />
       )}
 
@@ -152,15 +134,15 @@ const ModerationDashboard = () => {
           )}
         </div>
         <IdeaFilters
-          searchTerm={searchTerm}
-          onSearchChange={handleSearchChange}
-          status={statusFilter}
-          onStatusChange={handleStatusChange}
-          categoryId={categoryFilter}
-          onCategoryChange={handleCategoryChange}
-          isPaid={isPaidFilter}
-          onIsPaidChange={handleIsPaidChange}
-          onClear={handleClearFilters}
+          searchTerm={ideaSearch}
+          onSearchChange={setIdeaSearch}
+          status={ideaStatus}
+          onStatusChange={setIdeaStatus}
+          categoryId={ideaCategory}
+          onCategoryChange={setIdeaCategory}
+          isPaid={ideaIsPaid}
+          onIsPaidChange={setIdeaIsPaid}
+          onClear={resetIdeaFilters}
         />
       </div>
 
@@ -176,8 +158,8 @@ const ModerationDashboard = () => {
           {/* Pagination */}
           {meta && meta.totalPages > 1 && (
             <Pagination
-              meta={{ page: meta.page, totalPages: meta.totalPages }}
-              onPageChange={setPage}
+              meta={{ page: ideaPage, totalPages: meta.totalPages }}
+              onPageChange={setIdeaPage}
             />
           )}
         </div>
