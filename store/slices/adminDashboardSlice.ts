@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 import { AppState } from "../index";
 
-export interface DashboardSlice {
+export interface AdminDashboardSlice {
   // Category Filters
   categorySearch: string;
   categoryStatus: string;
@@ -45,24 +45,24 @@ export interface DashboardSlice {
   resetPaymentFilters: () => void;
 }
 
-export const createDashboardSlice: StateCreator<
+export const createAdminDashboardSlice: StateCreator<
   AppState,
   [["zustand/devtools", never], ["zustand/persist", unknown]],
   [],
-  DashboardSlice
+  AdminDashboardSlice
 > = (set) => ({
   // Category Initial State
   categorySearch: "",
   categoryStatus: "all",
   setCategorySearch: (search) =>
-    set({ categorySearch: search }, false, "dashboard/setCategorySearch"),
+    set({ categorySearch: search }, false, "admin/setCategorySearch"),
   setCategoryStatus: (status) =>
-    set({ categoryStatus: status }, false, "dashboard/setCategoryStatus"),
+    set({ categoryStatus: status }, false, "admin/setCategoryStatus"),
   resetCategoryFilters: () =>
     set(
       { categorySearch: "", categoryStatus: "all" },
       false,
-      "dashboard/resetCategoryFilters"
+      "admin/resetCategoryFilters"
     ),
 
   // User Initial State
@@ -71,18 +71,18 @@ export const createDashboardSlice: StateCreator<
   userStatus: "",
   userPage: 1,
   setUserSearch: (search) =>
-    set({ userSearch: search, userPage: 1 }, false, "dashboard/setUserSearch"),
+    set({ userSearch: search, userPage: 1 }, false, "admin/setUserSearch"),
   setUserRole: (role) =>
-    set({ userRole: role, userPage: 1 }, false, "dashboard/setUserRole"),
+    set({ userRole: role, userPage: 1 }, false, "admin/setUserRole"),
   setUserStatus: (status) =>
-    set({ userStatus: status, userPage: 1 }, false, "dashboard/setUserStatus"),
+    set({ userStatus: status, userPage: 1 }, false, "admin/setUserStatus"),
   setUserPage: (page) =>
-    set({ userPage: page }, false, "dashboard/setUserPage"),
+    set({ userPage: page }, false, "admin/setUserPage"),
   resetUserFilters: () =>
     set(
       { userSearch: "", userRole: "", userStatus: "", userPage: 1 },
       false,
-      "dashboard/resetUserFilters"
+      "admin/resetUserFilters"
     ),
 
   // Idea Initial State
@@ -92,19 +92,19 @@ export const createDashboardSlice: StateCreator<
   ideaIsPaid: "",
   ideaPage: 1,
   setIdeaSearch: (search) =>
-    set({ ideaSearch: search, ideaPage: 1 }, false, "dashboard/setIdeaSearch"),
+    set({ ideaSearch: search, ideaPage: 1 }, false, "admin/setIdeaSearch"),
   setIdeaStatus: (status) =>
-    set({ ideaStatus: status, ideaPage: 1 }, false, "dashboard/setIdeaStatus"),
+    set({ ideaStatus: status, ideaPage: 1 }, false, "admin/setIdeaStatus"),
   setIdeaCategory: (category) =>
     set(
       { ideaCategory: category, ideaPage: 1 },
       false,
-      "dashboard/setIdeaCategory"
+      "admin/setIdeaCategory"
     ),
   setIdeaIsPaid: (isPaid) =>
-    set({ ideaIsPaid: isPaid, ideaPage: 1 }, false, "dashboard/setIdeaIsPaid"),
+    set({ ideaIsPaid: isPaid, ideaPage: 1 }, false, "admin/setIdeaIsPaid"),
   setIdeaPage: (page) =>
-    set({ ideaPage: page }, false, "dashboard/setIdeaPage"),
+    set({ ideaPage: page }, false, "admin/setIdeaPage"),
   resetIdeaFilters: () =>
     set(
       {
@@ -115,7 +115,7 @@ export const createDashboardSlice: StateCreator<
         ideaPage: 1,
       },
       false,
-      "dashboard/resetIdeaFilters"
+      "admin/resetIdeaFilters"
     ),
 
   // Payment Initial State
@@ -127,22 +127,22 @@ export const createDashboardSlice: StateCreator<
     set(
       { paymentSearch: search, paymentPage: 1 },
       false,
-      "dashboard/setPaymentSearch"
+      "admin/setPaymentSearch"
     ),
   setPaymentStatus: (status) =>
     set(
       { paymentStatus: status, paymentPage: 1 },
       false,
-      "dashboard/setPaymentStatus"
+      "admin/setPaymentStatus"
     ),
   setPaymentGateway: (gateway) =>
     set(
       { paymentGateway: gateway, paymentPage: 1 },
       false,
-      "dashboard/setPaymentGateway"
+      "admin/setPaymentGateway"
     ),
   setPaymentPage: (page) =>
-    set({ paymentPage: page }, false, "dashboard/setPaymentPage"),
+    set({ paymentPage: page }, false, "admin/setPaymentPage"),
   resetPaymentFilters: () =>
     set(
       {
@@ -152,6 +152,6 @@ export const createDashboardSlice: StateCreator<
         paymentPage: 1,
       },
       false,
-      "dashboard/resetPaymentFilters"
+      "admin/resetPaymentFilters"
     ),
 });

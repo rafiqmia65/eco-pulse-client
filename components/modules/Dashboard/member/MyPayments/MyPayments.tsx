@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useMyPaymentHistory } from "@/app/(DashboardLayout)/dashboard/my-payments/_actions";
 import {
   CreditCard,
@@ -14,12 +14,13 @@ import StatsCard from "./StatsCard/StatsCard";
 import PaymentsTable from "./PaymentsTable/PaymentsTable";
 import PaymentsSkeleton from "./PaymentsSkeleton/PaymentsSkeleton";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { useAppStore } from "@/store";
 
 const MyPayments = () => {
-  const [page, setPage] = useState(1);
+  const { myPaymentsPage, setMyPaymentsPage } = useAppStore();
   const limit = 10;
 
-  const { data: response, isLoading } = useMyPaymentHistory(page, limit);
+  const { data: response, isLoading } = useMyPaymentHistory(myPaymentsPage, limit);
 
   const payments = response?.data?.list || [];
   const stats = response?.data?.stats;
@@ -94,7 +95,7 @@ const MyPayments = () => {
       {meta && meta.totalPages > 1 && (
         <Pagination
           meta={{ page: meta.page, totalPages: meta.totalPages }}
-          onPageChange={setPage}
+          onPageChange={setMyPaymentsPage}
         />
       )}
     </div>

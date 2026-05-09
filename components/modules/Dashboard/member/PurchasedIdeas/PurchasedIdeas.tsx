@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import PurchasedIdeasHeader from "./PurchasedIdeasHeader/PurchasedIdeasHeader";
 import PurchasedIdeasFilters from "./PurchasedIdeasFilters/PurchasedIdeasFilters";
 import PurchasedIdeasTable from "./PurchasedIdeasTable/PurchasedIdeasTable";
@@ -9,28 +9,31 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { usePurchasedIdeas } from "@/app/(DashboardLayout)/dashboard/purchased-ideas/_actions";
 import { IPurchasedIdeaCounts } from "@/types/memberTypes/purchasedIdeas.types";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { useAppStore } from "@/store";
 
 const PurchasedIdeas = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearch = useDebounce(searchTerm, 500);
-  const [sortBy, setSortBy] = useState("all");
-  const [categoryId, setCategoryId] = useState("all");
-  const [page, setPage] = useState(1);
+  const {
+    purchasedSearch,
+    setPurchasedSearch,
+    purchasedSortBy,
+    setPurchasedSortBy,
+    purchasedCategory,
+    setPurchasedCategory,
+    purchasedPage,
+    setPurchasedPage,
+    resetPurchasedFilters,
+  } = useAppStore();
+
+  const debouncedSearch = useDebounce(purchasedSearch, 500);
 
   const { data: response, isLoading } = usePurchasedIdeas({
     searchTerm: debouncedSearch || undefined,
-    sortBy: sortBy === "all" ? undefined : sortBy,
-    "idea.categoryId": categoryId === "all" ? undefined : categoryId,
-    page: String(page),
+    sortBy: purchasedSortBy === "all" ? undefined : purchasedSortBy,
+    "idea.categoryId":
+      purchasedCategory === "all" ? undefined : purchasedCategory,
+    page: String(purchasedPage),
     limit: "10",
   });
-
-  const handleClear = () => {
-    setSearchTerm("");
-    setSortBy("all");
-    setCategoryId("all");
-    setPage(1);
-  };
 
   const purchases = response?.data || [];
   const meta = response?.meta;
@@ -50,21 +53,21 @@ const PurchasedIdeas = () => {
       <PurchasedIdeasHeader counts={counts} />
 
       <PurchasedIdeasFilters
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        onClear={handleClear}
+        searchTerm={purchasedSearch}
+        setSearchTerm={setPurchasedSearch}
+        sortBy={purchasedSortBy}
+        setSortBy={setPurchasedSortBy}
+        categoryId={purchasedCategory}
+        setCategoryId={setPurchasedCategory}
+        onClear={resetPurchasedFilters}
       />
 
       <PurchasedIdeasTable purchases={purchases} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
         <Pagination
-          meta={{ page, totalPages: meta.totalPages }}
-          onPageChange={setPage}
+          meta={{ page: purchasedPage, totalPages: meta.totalPages }}
+          onPageChange={setPurchasedPage}
         />
       )}
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import MyVotesHeader from "./MyVotesHeader/MyVotesHeader";
 import MyVotesFilters from "./MyVotesFilters/MyVotesFilters";
 import MyVotesGrid from "./MyVotesGrid/MyVotesGrid";
@@ -10,35 +10,27 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { IVotesCounts } from "@/types/memberTypes/myVotes.types";
 import { IIdea } from "@/types/public/home.types";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { useAppStore } from "@/store";
 
 const MyVotesIdeas = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearch = useDebounce(searchTerm, 500);
-  const [categoryId, setCategoryId] = useState("all");
-  const [page, setPage] = useState(1);
+  const {
+    votedSearch,
+    setVotedSearch,
+    votedCategory,
+    setVotedCategory,
+    votedPage,
+    setVotedPage,
+    resetVotedFilters,
+  } = useAppStore();
+
+  const debouncedSearch = useDebounce(votedSearch, 500);
 
   const { data: response, isLoading } = useMyVotes({
     searchTerm: debouncedSearch || undefined,
-    "idea.categoryId": categoryId === "all" ? undefined : categoryId,
-    page: String(page),
+    "idea.categoryId": votedCategory === "all" ? undefined : votedCategory,
+    page: String(votedPage),
     limit: "9",
   });
-
-  const handleSearch = (val: string) => {
-    setSearchTerm(val);
-    setPage(1);
-  };
-
-  const handleCategoryChange = (val: string) => {
-    setCategoryId(val);
-    setPage(1);
-  };
-
-  const handleClear = () => {
-    setSearchTerm("");
-    setCategoryId("all");
-    setPage(1);
-  };
 
   const votes = (response?.data ?? []) as IIdea[];
   const meta = response?.meta;
@@ -60,19 +52,19 @@ const MyVotesIdeas = () => {
       <MyVotesHeader counts={counts} />
 
       <MyVotesFilters
-        searchTerm={searchTerm}
-        setSearchTerm={handleSearch}
-        categoryId={categoryId}
-        setCategoryId={handleCategoryChange}
-        onClear={handleClear}
+        searchTerm={votedSearch}
+        setSearchTerm={setVotedSearch}
+        categoryId={votedCategory}
+        setCategoryId={setVotedCategory}
+        onClear={resetVotedFilters}
       />
 
       <MyVotesGrid votes={votes} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
         <Pagination
-          meta={{ page: meta.page, totalPages: meta.totalPages }}
-          onPageChange={setPage}
+          meta={{ page: votedPage, totalPages: meta.totalPages }}
+          onPageChange={setVotedPage}
         />
       )}
     </div>

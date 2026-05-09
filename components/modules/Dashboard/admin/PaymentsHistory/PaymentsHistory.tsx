@@ -40,7 +40,13 @@ const PaymentsHistory = () => {
     if (urlStatus) setPaymentStatus(urlStatus);
     if (urlGateway) setPaymentGateway(urlGateway);
     if (urlPage) setPaymentPage(Number(urlPage));
-  }, []);
+  }, [
+    searchParams,
+    setPaymentSearch,
+    setPaymentStatus,
+    setPaymentGateway,
+    setPaymentPage,
+  ]);
 
   // Sync Zustand to URL
   useEffect(() => {

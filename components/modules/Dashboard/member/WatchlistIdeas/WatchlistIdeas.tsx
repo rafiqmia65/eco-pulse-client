@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import WatchlistHeader from "./WatchlistHeader/WatchlistHeader";
 import WatchlistFilters from "./WatchlistFilters/WatchlistFilters";
 import WatchlistGrid from "./WatchlistGrid/WatchlistGrid";
@@ -11,35 +11,27 @@ import {
   IWatchListMeta,
 } from "@/types/memberTypes/watchlist.types";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { useAppStore } from "@/store";
 
 const WatchlistIdeas = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearch = useDebounce(searchTerm, 500);
-  const [categoryId, setCategoryId] = useState("all");
-  const [page, setPage] = useState(1);
+  const {
+    watchlistSearch,
+    setWatchlistSearch,
+    watchlistCategory,
+    setWatchlistCategory,
+    watchlistPage,
+    setWatchlistPage,
+    resetWatchlistFilters,
+  } = useAppStore();
+
+  const debouncedSearch = useDebounce(watchlistSearch, 500);
 
   const { data: response, isLoading } = useMyWatchList({
     search: debouncedSearch || undefined,
-    categoryId: categoryId === "all" ? undefined : categoryId,
-    page: String(page),
+    categoryId: watchlistCategory === "all" ? undefined : watchlistCategory,
+    page: String(watchlistPage),
     limit: "9", // 3x3 grid looks better than 10
   });
-
-  const handleSearch = (val: string) => {
-    setSearchTerm(val);
-    setPage(1);
-  };
-
-  const handleCategoryChange = (val: string) => {
-    setCategoryId(val);
-    setPage(1);
-  };
-
-  const handleClear = () => {
-    setSearchTerm("");
-    setCategoryId("all");
-    setPage(1);
-  };
 
   const ideas = (response?.data ?? []) as IWatchListIdea[];
   const meta = response?.meta as IWatchListMeta | undefined;
@@ -60,19 +52,19 @@ const WatchlistIdeas = () => {
       <WatchlistHeader meta={meta} />
 
       <WatchlistFilters
-        searchTerm={searchTerm}
-        setSearchTerm={handleSearch}
-        categoryId={categoryId}
-        setCategoryId={handleCategoryChange}
-        onClear={handleClear}
+        searchTerm={watchlistSearch}
+        setSearchTerm={setWatchlistSearch}
+        categoryId={watchlistCategory}
+        setCategoryId={setWatchlistCategory}
+        onClear={resetWatchlistFilters}
       />
 
       <WatchlistGrid ideas={ideas} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
         <Pagination
-          meta={{ page: meta.page, totalPages: meta.totalPages }}
-          onPageChange={setPage}
+          meta={{ page: watchlistPage, totalPages: meta.totalPages }}
+          onPageChange={setWatchlistPage}
         />
       )}
     </div>

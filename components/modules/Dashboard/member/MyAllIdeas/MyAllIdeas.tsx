@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import MyIdeasHeader from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasHeader/MyIdeasHeader";
 import MyIdeasFilters from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasFilters/MyIdeasFilters";
 import MyIdeasTable from "@/components/modules/Dashboard/member/MyAllIdeas/MyIdeasTable/MyIdeasTable";
@@ -9,28 +9,30 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useMyIdeas } from "@/app/(DashboardLayout)/dashboard/_actions";
 import { IIdeaCounts } from "@/types/memberTypes/myAllIdeas.types";
 import Pagination from "@/components/shared/Pagination/Pagination";
+import { useAppStore } from "@/store";
 
 const MyAllIdeas = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearch = useDebounce(searchTerm, 500);
-  const [status, setStatus] = useState("all");
-  const [categoryId, setCategoryId] = useState("all");
-  const [page, setPage] = useState(1);
+  const {
+    myIdeasSearch,
+    setMyIdeasSearch,
+    myIdeasStatus,
+    setMyIdeasStatus,
+    myIdeasCategory,
+    setMyIdeasCategory,
+    myIdeasPage,
+    setMyIdeasPage,
+    resetMyIdeasFilters,
+  } = useAppStore();
+
+  const debouncedSearch = useDebounce(myIdeasSearch, 500);
 
   const { data: response, isLoading } = useMyIdeas({
     searchTerm: debouncedSearch || undefined,
-    status: status === "all" ? undefined : status,
-    categoryId: categoryId === "all" ? undefined : categoryId,
-    page,
+    status: myIdeasStatus === "all" ? undefined : myIdeasStatus,
+    categoryId: myIdeasCategory === "all" ? undefined : myIdeasCategory,
+    page: myIdeasPage,
     limit: 10,
   });
-
-  const handleClear = () => {
-    setSearchTerm("");
-    setStatus("all");
-    setCategoryId("all");
-    setPage(1);
-  };
 
   const ideas = response?.data || [];
   const meta = response?.meta;
@@ -47,21 +49,21 @@ const MyAllIdeas = () => {
       <MyIdeasHeader counts={counts} />
 
       <MyIdeasFilters
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        status={status}
-        setStatus={setStatus}
-        categoryId={categoryId}
-        setCategoryId={setCategoryId}
-        onClear={handleClear}
+        searchTerm={myIdeasSearch}
+        setSearchTerm={setMyIdeasSearch}
+        status={myIdeasStatus}
+        setStatus={setMyIdeasStatus}
+        categoryId={myIdeasCategory}
+        setCategoryId={setMyIdeasCategory}
+        onClear={resetMyIdeasFilters}
       />
 
       <MyIdeasTable ideas={ideas} isLoading={isLoading} />
 
       {meta && meta.totalPages > 1 && (
         <Pagination
-          meta={{ page, totalPages: meta.totalPages }}
-          onPageChange={setPage}
+          meta={{ page: myIdeasPage, totalPages: meta.totalPages }}
+          onPageChange={setMyIdeasPage}
         />
       )}
     </div>
