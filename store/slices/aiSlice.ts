@@ -5,7 +5,6 @@ import {
   IAIConversation,
   IAIMessage,
   IAIRecommendation,
-  IAIGeneratedContent,
 } from "@/types/ai.types";
 import {
   getAIRecommendationsAction,
@@ -14,7 +13,6 @@ import {
   getAIConversationsAction,
   getAIConversationMessagesAction,
 } from "@/services/ai/ai.actions";
-import { toast } from "sonner";
 import { handleAIError } from "@/lib/ai-utils";
 
 export interface AISlice {

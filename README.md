@@ -14,30 +14,30 @@
 
 ---
 
-## 📖 Table of Contents
+<div align="center">
 
-- [Overview](#-overview)
-- [Live Demo](#-live-demo)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [Available Scripts](#-available-scripts)
-- [Pages & Routes](#-pages--routes)
-- [User Roles](#-user-roles)
-- [Admin Dashboard](#-admin-dashboard)
-- [Member Dashboard](#-member-dashboard)
-- [Contributing](#-contributing)
-- [License](#-license)
+### 🧭 Navigation Guide
 
----
+| 🚀 **Project Overview**              | 🏗 **Development**                      | 📊 **Dashboards**                     |
+| :----------------------------------- | :-------------------------------------- | :------------------------------------ |
+| [🌍 Overview](#-overview)            | [🛠 Tech Stack](#-tech-stack)           | [👥 User Roles](#-user-roles)         |
+| [🚀 Project Links](#-project-links)  | [📁 Structure](#-project-structure)     | [🛡 Admin Panel](#-admin-dashboard)   |
+| [🔐 Demo Logins](#-demo-credentials) | [⚙️ Getting Started](#-getting-started) | [💡 Member Panel](#-member-dashboard) |
+| [✨ Core Features](#-features)       | [📜 Scripts](#-available-scripts)       | [🗺 Routes](#-pages--routes)          |
+
+</div>
+
+<br/>
 
 ## 🌍 Overview
 
-**EcoPulse** is a community-driven web platform designed for environmental enthusiasts to share, discuss, and vote on eco-friendly ideas. The application provides a full-featured experience for both regular members and administrators, with dedicated dashboards, rich content editing, and powerful idea management tools.
+**EcoPulse** is a cutting-edge, community-driven platform designed for environmental innovators. It provides a robust ecosystem for sharing, discussing, and monetizing sustainable ideas. Leveraging **Google Gemini AI**, EcoPulse helps users transform simple concepts into professional-grade proposals and provides deep data insights into environmental impact.
 
-The client is built with **Next.js 16 App Router**, leveraging **server components**, **TanStack Query** for data fetching, and **shadcn/ui** for a polished, accessible UI.
+Built with a focus on **Visual Excellence** and **High Performance**, the application features:
+
+- **AI-Powered Workflows**: Automated content generation and smart recommendations.
+- **Advanced Architecture**: Next.js 16 (App Router) with Server Components and Streaming.
+- **Premium Design System**: A sleek, modern UI with support for both vibrant light and high-contrast dark modes.
 
 ---
 
@@ -49,53 +49,55 @@ The client is built with **Next.js 16 App Router**, leveraging **server componen
 
 ---
 
+## 🔐 Demo Credentials
+
+To explore the platform's role-based features instantly, use the following credentials:
+
+| Role       | Email             | Password    |
+| ---------- | ----------------- | ----------- |
+| **Admin**  | `admin@gmail.com` | `Admin1234` |
+| **Member** | `user@gmail.com`  | `User1234`  |
+
+---
+
 ## ✨ Features
 
-### General
-- 🌐 Public idea discovery feed with filtering and search
-- 📝 Rich text editor (Tiptap) for idea submission with formatting, images, tables, and more
-- 🔐 JWT-based authentication with protected routes
-- 🌙 Light/Dark theme toggle
-- 📱 Fully responsive design across all screen sizes
-- ⚡ Optimistic updates and real-time cache invalidation via TanStack Query
+### 🧠 AI-Powered Intelligence (Real API - Gemini)
 
-### Member Features
-- Submit new eco-friendly ideas with rich content
-- Vote (upvote/downvote) on community ideas
-- Add ideas to a personal watchlist
-- Purchase premium/full-access ideas
-- View payment history
-- Manage own profile and account settings
+- **AI Eco Consultant**: Transforms a basic topic into a fully fleshed-out idea proposal (Title, Problem, Solution, Slug).
+- **AI Smart Recommendations**: Dynamically suggests ideas based on user voting history and watchlists.
+- **EcoPulse AI Chat Assistant**: A context-aware floating chatbot providing instant sustainability advice.
+- **AI Data Analyzer**: Professional impact scoring and sentiment analysis for all community ideas.
 
-### Admin Features
-- Comprehensive admin dashboard with analytics
-- User management — view, promote to admin, block, unblock
-- Idea moderation — approve, reject with feedback
-- Category management
-- Payment oversight
+### ⚡ Advanced Engineering
+
+- **Next.js 16 (App Router)**: Utilizing server components and suspense for optimized performance.
+- **Optimistic UI**: Real-time feedback for votes and engagement actions.
+- **Zustand State Management**: Modular state architecture with persistence for AI and Dashboard features.
+- **TanStack Query (v5)**: Advanced data fetching, caching, and background synchronization.
+
+### 🎨 Design & UX
+
+- **Monochromatic Premium Theme**: A sophisticated design language using HSL-tailored colors.
+- **Dynamic Animations**: Smooth transitions powered by Framer Motion.
+- **Fully Responsive**: Seamless experience across mobile, tablet, and desktop devices.
+- **Skeleton Loaders**: Polished loading states for every data-heavy component.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Category | Technology |
-|---|---|
-| **Framework** | [Next.js 16](https://nextjs.org/) (App Router) |
-| **Language** | [TypeScript 5](https://www.typescriptlang.org/) |
-| **UI Library** | [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/) |
-| **Styling** | [Tailwind CSS 4](https://tailwindcss.com/) |
-| **State / Data Fetching** | [TanStack Query 5](https://tanstack.com/query) |
-| **Forms** | [TanStack Form](https://tanstack.com/form) + [Zod](https://zod.dev/) |
-| **Rich Text Editor** | [Tiptap](https://tiptap.dev/) |
-| **HTTP Client** | [Axios](https://axios-http.com/) |
-| **Animations** | [Framer Motion](https://www.framer.com/motion/) |
-| **Charts** | [Recharts](https://recharts.org/) |
-| **Icons** | [Lucide React](https://lucide.dev/) |
-| **Notifications** | [Sonner](https://sonner.emilkowal.ski/) |
-| **Date Utilities** | [date-fns](https://date-fns.org/) |
-| **Theming** | [next-themes](https://github.com/pacocoursey/next-themes) |
-| **Auth** | JWT via [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) |
-| **Env Validation** | [@t3-oss/env-nextjs](https://env.t3.gg/) |
+| Category          | Technology                                                                          |
+| ----------------- | ----------------------------------------------------------------------------------- |
+| **Framework**     | [Next.js 16](https://nextjs.org/) (App Router)                                      |
+| **Language**      | [TypeScript 5](https://www.typescriptlang.org/)                                     |
+| **AI SDK**        | [Google Generative AI (Gemini)](https://ai.google.dev/)                             |
+| **Styling**       | [Tailwind CSS 4](https://tailwindcss.com/)                                          |
+| **State**         | [Zustand 5](https://github.com/pmndrs/zustand)                                      |
+| **Data Fetching** | [TanStack Query 5](https://tanstack.com/query)                                      |
+| **Form Logic**    | [TanStack Form](https://tanstack.com/form) + [Zod](https://zod.dev/)                |
+| **UI Components** | [shadcn/ui](https://ui.shadcn.com/)                                                 |
+| **Visuals**       | [Framer Motion](https://www.framer.com/motion/) + [Recharts](https://recharts.org/) |
 
 ---
 
@@ -103,48 +105,17 @@ The client is built with **Next.js 16 App Router**, leveraging **server componen
 
 ```
 eco-pulse-client/
-├── app/                          # Next.js App Router
-│   ├── (PublicLayout)/           # Public-facing pages
-│   │   ├── (Auth)/
-│   │   │   ├── login/            # Login page
-│   │   │   └── register/         # Registration page
-│   │   ├── ideas/                # Browse all ideas
-│   │   ├── about/                # About page
-│   │   └── blog/                 # Blog page
-│   ├── (DashboardLayout)/        # Authenticated dashboard
-│   │   ├── admin/                # Admin-only pages
-│   │   │   ├── users/            # User management
-│   │   │   ├── all-ideas/        # Idea moderation
-│   │   │   ├── categories/       # Category management
-│   │   │   └── payments/         # Payment overview
-│   │   └── dashboard/            # Member dashboard
-│   │       ├── my-ideas/         # Member's own ideas
-│   │       ├── ideas/            # Browse ideas (dashboard)
-│   │       ├── ideas-create/     # Create new idea
-│   │       ├── idea-details/     # Idea detail view
-│   │       ├── purchased-ideas/  # Purchased content
-│   │       ├── watchlist-ideas/  # Saved/watchlisted ideas
-│   │       ├── my-votes-ideas/   # Voted ideas
-│   │       └── my-payments/      # Payment history
-│   └── (commonLayout)/           # Shared layout pages
+├── app/                          # Next.js App Router (16.2.2)
 ├── components/
-│   ├── modules/                  # Feature-specific components
-│   │   └── Dashboard/
-│   │       ├── admin/            # Admin dashboard components
-│   │       └── member/           # Member dashboard components
-│   ├── shared/                   # Reusable shared components
-│   └── ui/                       # shadcn/ui primitives
-├── services/                     # API service layer (Axios)
-│   └── admin/                    # Admin-specific services
-├── types/                        # Global TypeScript types
-│   ├── api.types.ts              # Base API response types
-│   └── adminTypes/               # Admin module types
-├── constants/                    # App-wide constants
-├── hooks/                        # Custom React hooks
-├── lib/                          # Utility libraries (axios config, etc.)
-├── providers/                    # Context providers (QueryClient, Theme)
-├── zod/                          # Zod validation schemas
-└── public/                       # Static assets
+│   ├── modules/                  # Feature-specific modules (Dashboard, Auth)
+│   ├── shared/                   # Global components (AI Chat, Navbar, Footer)
+│   └── ui/                       # shadcn/ui base primitives
+├── store/                        # Zustand global state management
+├── services/                     # Server actions and API service layer
+├── hooks/                        # Custom React hooks (AI, UI, Auth)
+├── lib/                          # Utils (Axios, AI error handling)
+├── zod/                          # Validation schemas
+└── env.ts                        # T3-style Environment validation
 ```
 
 ---
@@ -153,62 +124,48 @@ eco-pulse-client/
 
 ### Prerequisites
 
-Ensure you have the following installed:
-
 - **Node.js** >= 18.x
-- **pnpm** >= 8.x (recommended) or npm/yarn
+- **pnpm** >= 8.x
 
 ### Installation
 
 1. **Clone the repository:**
 
-```bash
-git clone https://github.com/rafiqmia65/eco-pulse-client.git
-cd eco-pulse-client
-```
+   ```bash
+   git clone https://github.com/rafiqmia65/eco-pulse-client.git
+   cd eco-pulse-client
+   ```
 
 2. **Install dependencies:**
 
-```bash
-pnpm install
-# or
-npm install
-```
+   ```bash
+   pnpm install
+   ```
 
 3. **Set up environment variables:**
 
-```bash
-cp .env.example .env.local
-```
-
-Fill in your environment variables (see [Environment Variables](#-environment-variables)).
+   ```bash
+   cp .env.example .env.local
+   ```
 
 4. **Run the development server:**
-
-```bash
-pnpm dev
-# or
-npm run dev
-```
-
-5. **Open your browser:**
-
-Navigate to [http://localhost:3000](http://localhost:3000)
+   ```bash
+   pnpm dev
+   ```
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env.local` file in the project root. Use `.env.example` as a reference:
+Create a `.env.local` file in the project root. The project uses `@t3-oss/env-nextjs` for strict runtime validation.
 
 ```env
-# API Configuration
-NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+# Server Side
+FRONTEND_URL=http://localhost:3000
+BACKEND_URL=http://localhost:5000
 
-# Authentication
-NEXT_PUBLIC_JWT_SECRET=your_jwt_secret_key
-
-# Cloudinary (for image uploads)
+# Client Side (Public)
+NEXT_PUBLIC_BACKEND_API_URL=http://localhost:5000/api/v1
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
 NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 ```
@@ -219,12 +176,12 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 
 ## 📜 Available Scripts
 
-| Script | Description |
-|---|---|
-| `pnpm dev` | Start the development server with hot reload |
-| `pnpm build` | Create an optimized production build |
-| `pnpm start` | Start the production server |
-| `pnpm lint` | Run ESLint for code quality checks |
+| Script       | Description                                  |
+| ------------ | -------------------------------------------- |
+| `pnpm dev`   | Start the development server with hot reload |
+| `pnpm build` | Create an optimized production build         |
+| `pnpm start` | Start the production server                  |
+| `pnpm lint`  | Run ESLint for code quality checks           |
 
 ---
 
@@ -232,47 +189,47 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 
 ### Public Routes
 
-| Route | Description |
-|---|---|
-| `/` | Homepage — featured ideas and hero section |
-| `/ideas` | Browse all community ideas |
-| `/about` | About EcoPulse |
-| `/blog` | Blog articles |
-| `/login` | User login |
-| `/register` | User registration |
+| Route       | Description                                |
+| ----------- | ------------------------------------------ |
+| `/`         | Homepage — featured ideas and hero section |
+| `/ideas`    | Browse all community ideas                 |
+| `/about`    | About EcoPulse                             |
+| `/blog`     | Blog articles                              |
+| `/login`    | User login                                 |
+| `/register` | User registration                          |
 
 ### Member Dashboard Routes (Protected)
 
-| Route | Description |
-|---|---|
-| `/dashboard` | Member overview |
-| `/dashboard/ideas` | Browse ideas within dashboard |
-| `/dashboard/my-ideas` | Manage your own submitted ideas |
-| `/dashboard/ideas-create` | Submit a new idea |
-| `/dashboard/idea-details/:id` | View full idea details |
-| `/dashboard/purchased-ideas` | Ideas you have purchased |
-| `/dashboard/watchlist-ideas` | Your watchlisted ideas |
-| `/dashboard/my-votes-ideas` | Ideas you have voted on |
-| `/dashboard/my-payments` | Your payment history |
+| Route                         | Description                     |
+| ----------------------------- | ------------------------------- |
+| `/dashboard`                  | Member overview                 |
+| `/dashboard/ideas`            | Browse ideas within dashboard   |
+| `/dashboard/my-ideas`         | Manage your own submitted ideas |
+| `/dashboard/ideas-create`     | Submit a new idea               |
+| `/dashboard/idea-details/:id` | View full idea details          |
+| `/dashboard/purchased-ideas`  | Ideas you have purchased        |
+| `/dashboard/watchlist-ideas`  | Your watchlisted ideas          |
+| `/dashboard/my-votes-ideas`   | Ideas you have voted on         |
+| `/dashboard/my-payments`      | Your payment history            |
 
 ### Admin Dashboard Routes (Admin Only)
 
-| Route | Description |
-|---|---|
-| `/admin` | Admin overview & analytics |
-| `/admin/users` | User management (view, block, promote) |
-| `/admin/all-ideas` | Moderate all submitted ideas |
-| `/admin/categories` | Manage idea categories |
-| `/admin/payments` | View all platform payments |
+| Route               | Description                            |
+| ------------------- | -------------------------------------- |
+| `/admin`            | Admin overview & analytics             |
+| `/admin/users`      | User management (view, block, promote) |
+| `/admin/all-ideas`  | Moderate all submitted ideas           |
+| `/admin/categories` | Manage idea categories                 |
+| `/admin/payments`   | View all platform payments             |
 
 ---
 
 ## 👥 User Roles
 
-| Role | Description |
-|---|---|
-| **MEMBER** | Default role for all registered users. Can submit, vote, purchase, and manage ideas. |
-| **ADMIN** | Full platform access including user moderation, idea approval/rejection, and category management. |
+| Role       | Description                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| **MEMBER** | Default role for all registered users. Can submit, vote, purchase, and manage ideas.              |
+| **ADMIN**  | Full platform access including user moderation, idea approval/rejection, and category management. |
 
 ---
 
@@ -281,6 +238,7 @@ NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_upload_preset
 The admin dashboard provides full control over the EcoPulse platform:
 
 ### User Management (`/admin/users`)
+
 - View all registered users with stats (total, active, blocked, admins, members)
 - Search and filter by name/email, role, and status
 - **Make Admin** — promote a member to admin
@@ -289,12 +247,14 @@ The admin dashboard provides full control over the EcoPulse platform:
 - **See Details** — view full user profile in a modal
 
 ### Idea Moderation (`/admin/all-ideas`)
+
 - Review all submitted ideas
 - **Approve** ideas to publish them to the platform
 - **Reject** ideas with written feedback
 - Monitor idea statuses: Draft, Pending, Approved, Rejected
 
 ### Category Management (`/admin/categories`)
+
 - Create, update, and delete idea categories
 
 ---
@@ -302,16 +262,19 @@ The admin dashboard provides full control over the EcoPulse platform:
 ## 💡 Member Dashboard
 
 ### My Ideas
+
 - View all submitted ideas with statuses
 - Edit or delete draft ideas
 - Track approval status
 
 ### Create Idea
+
 - Rich text editor (Tiptap) with formatting, image upload, tables, and task lists
 - Set idea visibility (Free/Paid)
 - Assign categories
 
 ### Watchlist & Votes
+
 - Track ideas you've saved or voted on
 
 ---
