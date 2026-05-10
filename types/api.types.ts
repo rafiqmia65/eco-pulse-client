@@ -6,6 +6,7 @@ export interface ApiMeta {
 }
 
 export type ApiResponse<T> = {
+  statusCode?: number;
   httpStatusCode: number;
   success: boolean;
   message: string;

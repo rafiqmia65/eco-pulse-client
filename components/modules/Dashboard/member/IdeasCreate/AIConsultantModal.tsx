@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { generateAIContentAction } from "@/services/ai/ai.actions";
 import { IAIGeneratedContent } from "@/types/ai.types";
 import { toast } from "sonner";
+import { handleAIError } from "@/lib/ai-utils";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -49,7 +50,7 @@ export default function AIConsultantModal({ onApply }: AIConsultantModalProps) {
       setResult(res.data);
       toast.success("AI Content Generated!");
     } else {
-      toast.error(res.message || "AI failed to generate content");
+      handleAIError(res);
     }
 
     setIsGenerating(false);
