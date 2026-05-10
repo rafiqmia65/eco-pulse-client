@@ -14,7 +14,6 @@ export default function DesktopNav({
   navLinks: { href: string; label: string }[];
 }) {
   const pathname = usePathname();
-  const getInitial = (name?: string) => name?.charAt(0).toUpperCase() || "U";
 
   return (
     <div className="hidden md:flex flex-1 items-center justify-between ml-10">
