@@ -6,6 +6,7 @@ import BrandLogo from "@/components/shared/BrandLogo/BrandLogo";
 import { ModeToggle } from "../ModeToggle/ModeToggle";
 import DesktopNav from "./DesktopNav/DesktopNav";
 import MobileSidebar from "./MobileSidebar/MobileSidebar";
+import AuthSection from "./AuthSection";
 import { AuthUser } from "@/types/auth.types";
 import { useAppStore } from "@/store";
 
@@ -46,8 +47,9 @@ export default function NavbarClient({
 
         {/* RIGHT */}
         <div className="flex items-center gap-3">
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
             <ModeToggle />
+            <AuthSection user={user} isMobile={true} />
           </div>
 
           {/* Mobile menu button */}

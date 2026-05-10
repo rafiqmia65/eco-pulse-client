@@ -58,7 +58,7 @@ export default function MobileSidebar({
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 left-0 z-70 h-screen w-[85%] max-w-sm bg-background text-foreground shadow-2xl flex flex-col border-r border-border/40"
+            className="fixed top-0 left-0 z-70 h-dvh w-[85%] max-w-sm bg-background text-foreground shadow-2xl flex flex-col border-r border-border/40"
           >
             {/* HEADER */}
             <div className="flex items-center justify-between px-6 py-5 border-b bg-background/80 backdrop-blur-md sticky top-0 z-10">
@@ -179,10 +179,10 @@ export default function MobileSidebar({
             </nav>
 
             {/* AUTH SECTION (Bottom) */}
-            <div className="border-t px-6 py-6 bg-background/80 backdrop-blur-md">
+            <div className="border-t px-6 py-6 bg-background/80 backdrop-blur-md mt-auto">
               {user ? (
                 <div className="flex flex-col gap-3">
-                  <LogOutButton className="w-full justify-center bg-destructive/5 hover:bg-destructive/10 text-destructive border-destructive/20" />
+                  <LogOutButton className="w-full justify-center bg-destructive/10 hover:bg-destructive/20 text-destructive border-destructive/20 py-6" />
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
