@@ -131,9 +131,10 @@ export default function IdeasGrid() {
       {/* FLOATING BUTTON (MOBILE) */}
       <CustomButton
         onClick={() => setIsFilterSidebarOpen(true)}
-        className="fixed bottom-6 right-6 z-50 lg:hidden p-4 rounded-full shadow-lg"
+        className="fixed top-20 right-6 z-50 lg:hidden p-4 rounded-full shadow-lg"
       >
         <Filter size={20} />
+        <span>Filters</span>
       </CustomButton>
 
       {/* OVERLAY */}

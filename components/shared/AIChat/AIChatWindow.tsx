@@ -56,7 +56,7 @@ export default function AIChatWindow({ onClose }: { onClose: () => void }) {
   };
 
   return (
-    <div className="bg-card border border-border rounded-2xl shadow-2xl w-[350px] sm:w-[400px] h-[500px] flex flex-col overflow-hidden">
+    <div className="bg-card border border-border rounded-2xl shadow-2xl w-[min(95vw,350px)] sm:w-100 h-auto max-h-[calc(100vh-5rem)] sm:h-125 flex flex-col overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-border bg-muted/50 flex justify-between items-center">
         <div className="flex items-center gap-2">

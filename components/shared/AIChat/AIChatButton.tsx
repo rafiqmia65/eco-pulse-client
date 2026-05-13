@@ -10,14 +10,14 @@ export default function AIChatButton() {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-4 right-4 z-50 md:bottom-6 md:right-6">
         <AnimatePresence>
           {isOpen && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
-              className="mb-4"
+              className="mb-4 max-w-[95vw]"
             >
               <AIChatWindow onClose={() => setIsOpen(false)} />
             </motion.div>
