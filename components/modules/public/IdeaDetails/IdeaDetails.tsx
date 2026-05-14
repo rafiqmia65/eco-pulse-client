@@ -106,14 +106,14 @@ export default function IdeaDetails({
         currentUserRole={currentUserRole}
       />
 
+      <RelatedIdeas categoryId={idea.category.id} currentIdeaId={idea.id} />
+
       {/* AI SMART RECOMMENDATIONS — logged-in members only */}
       {currentUserId && (
         <Section className="border-t border-border/50">
           <SmartRecommendations currentUserId={currentUserId} />
         </Section>
       )}
-
-      <RelatedIdeas categoryId={idea.category.id} currentIdeaId={idea.id} />
     </div>
   );
 }

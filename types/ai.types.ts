@@ -47,3 +47,10 @@ export interface IAIConversation {
   updatedAt: string;
   messages?: IAIMessage[];
 }
+
+export interface IAIPrediction {
+  score: number;
+  reasoning: string;
+  marketPotential: "High" | "Medium" | "Low";
+  sustainabilityImpact: "High" | "Medium" | "Low";
+}

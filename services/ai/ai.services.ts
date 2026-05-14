@@ -8,6 +8,7 @@ import {
   IAIConversation,
   IAIGeneratedContent,
   IAIMessage,
+  IAIPrediction,
   IAIRecommendation,
 } from "@/types/ai.types";
 import { ApiResponse } from "@/types/api.types";
@@ -137,6 +138,31 @@ export async function getAIConversationMessagesAction(
       error?.response?.data || {
         success: false,
         message: "Failed to fetch messages",
+      }
+    );
+  }
+}
+
+/**
+ * Predict idea success score
+ */
+export async function predictIdeaScoreAction(payload: {
+  title: string;
+  problem: string;
+  solution: string;
+  categoryName: string;
+}): Promise<ApiResponse<IAIPrediction>> {
+  try {
+    const res = await httpClient.post<IAIPrediction>(
+      "/api/v1/ai/predict-score",
+      payload,
+    );
+    return res;
+  } catch (error: any) {
+    return (
+      error?.response?.data || {
+        success: false,
+        message: "Failed to predict idea score",
       }
     );
   }

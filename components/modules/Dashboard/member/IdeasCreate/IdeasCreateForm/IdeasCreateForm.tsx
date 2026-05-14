@@ -16,6 +16,7 @@ import { createIdeaSchema } from "@/zod/ideas.validation";
 import AppField from "@/components/shared/form/AppField";
 import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import AIConsultantModal from "../AIConsultantModal";
+import AIPredictScoreModal from "../AIPredictScoreModal";
 import {
   Select,
   SelectContent,
@@ -111,8 +112,15 @@ const IdeasCreateForm = () => {
     },
   });
 
-  // slug auto generate
+  // form values for AI Prediction and Slug
   const titleValue = useStore(form.store, (s) => s.values.title);
+  const problemValue = useStore(form.store, (s) => s.values.problem);
+  const solutionValue = useStore(form.store, (s) => s.values.solution);
+  const categoryIdValue = useStore(form.store, (s) => s.values.categoryId);
+
+  const categoryName =
+    categories?.data?.find((c: any) => c.id === categoryIdValue)?.name || "";
+
   const setFieldValue = form.setFieldValue;
 
   useEffect(() => {
@@ -192,7 +200,15 @@ const IdeasCreateForm = () => {
                 <Upload className="w-5 h-5 text-primary" />
                 <h2 className="text-xl font-semibold">Add your best idea</h2>
               </div>
-              <AIConsultantModal onApply={handleAIApply} />
+              <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
+                <AIConsultantModal onApply={handleAIApply} />
+                <AIPredictScoreModal
+                  title={titleValue}
+                  problem={problemValue}
+                  solution={solutionValue}
+                  categoryName={categoryName}
+                />
+              </div>
             </div>
 
             <p className="text-sm text-muted-foreground max-w-md">
