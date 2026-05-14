@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Bot, Loader2, Sparkles, History, X } from "lucide-react";
+import { Send, Bot, Loader2, Sparkles, History, X, PlusCircle } from "lucide-react";
 import { useAppStore } from "@/store";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageRole } from "@/types/ai.types";
@@ -86,11 +86,11 @@ export default function AIChatWindow({ onClose }: { onClose: () => void }) {
           <Button
             variant="ghost"
             size="sm"
-            className="h-8 w-8 p-0"
+            className="h-8 px-2 gap-1.5 text-primary hover:bg-primary/10"
             onClick={startNewChat}
-            title="New Chat"
           >
-            <Sparkles size={18} />
+            <PlusCircle size={16} />
+            <span className="text-xs font-semibold">New Chat</span>
           </Button>
           <Button
             variant="ghost"

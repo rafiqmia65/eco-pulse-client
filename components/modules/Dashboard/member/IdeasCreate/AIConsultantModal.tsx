@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { Sparkles, Loader2, Wand2, Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { generateAIContentAction } from "@/services/ai/ai.actions";
+
 import { IAIGeneratedContent } from "@/types/ai.types";
 import { toast } from "sonner";
 import { handleAIError } from "@/lib/ai-utils";
@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/hooks/useCategories";
+import { generateAIContentAction } from "@/services/ai/ai.services";
 
 interface AIConsultantModalProps {
   onApply: (data: IAIGeneratedContent & { categoryId?: string }) => void;
