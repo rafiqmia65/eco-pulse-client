@@ -10,6 +10,7 @@ import {
   ShoppingBag,
   ThumbsUp,
   Bookmark,
+  Sparkles,
 } from "lucide-react";
 
 import { role } from "@/constants/roles";
@@ -42,6 +43,7 @@ export const getDashboardNav = (userRole: string): NavSection[] => {
     { title: "All Ideas", href: "/admin/all-ideas", icon: Lightbulb },
     { title: "Categories", href: "/admin/categories", icon: Tags },
     { title: "Payments", href: "/admin/payments", icon: CreditCard },
+    { title: "AI Analytics", href: "/admin/ai-analytics", icon: Sparkles },
   ];
 
   const memberLinks: NavItem[] = [

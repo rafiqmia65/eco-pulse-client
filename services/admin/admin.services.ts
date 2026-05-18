@@ -1,7 +1,14 @@
 "use server";
 
 import { httpClient } from "@/lib/axios/httpClient";
-import { IAdminStatsData, IAdminStatsResponse } from "@/types/adminTypes/adminStats.types";
+import {
+  IAdminStatsData,
+  IAdminStatsResponse,
+} from "@/types/adminTypes/adminStats.types";
+import {
+  IAdminAIStatsData,
+  IAdminAIStatsResponse,
+} from "@/types/adminTypes/adminAIStats.types";
 import {
   IAdminIdeaListResponse,
   IAdminIdeaFilters,
@@ -15,6 +22,13 @@ import { IAdminPaymentsResponse } from "@/types/adminTypes/adminPayments.types";
  */
 export const getAdminStats = async (): Promise<IAdminStatsResponse> => {
   return await httpClient.get<IAdminStatsData>("/api/v1/admin/stats");
+};
+
+/**
+ * Fetch admin AI analytics statistics
+ */
+export const getAdminAIStats = async (): Promise<IAdminAIStatsResponse> => {
+  return await httpClient.get<IAdminAIStatsData>("/api/v1/ai/admin/stats");
 };
 
 /**
@@ -56,7 +70,9 @@ export const approveIdeaAdmin = async (id: string) => {
  * Reject an idea with feedback
  */
 export const rejectIdeaAdmin = async (id: string, feedback: string) => {
-  return await httpClient.patch(`/api/v1/admin/ideas/reject/${id}`, { feedback });
+  return await httpClient.patch(`/api/v1/admin/ideas/reject/${id}`, {
+    feedback,
+  });
 };
 
 /**
